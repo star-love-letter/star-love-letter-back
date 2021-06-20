@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.conststar.wall.mapper.MapperUser">
+
+    <select id="getUser" resultType="PojoUser">
+        select *
+        from user
+        where email = #{email}
+          and password = password(#{password});
+    </select>
+
+    <update id="updateLastTime" parameterType="PojoUser">
+        update user
+        set last_time=now()
+        where email = #{email}
+          and password = #{password};
+    </update>
+
+    <select id="verifyUser" parameterType="PojoUser" resultType="_boolean">
+        select count(id)
+        from user
+        where email = #{email}
+          and password = password(#{password});
+    </select>
+
+    <insert id="addUser">
+        insert into user (email, password, name, last_time, create_time)
+        values (#{email}, password(#{password}), #{name}, now(), now());
+    </insert>
+</mapper>
