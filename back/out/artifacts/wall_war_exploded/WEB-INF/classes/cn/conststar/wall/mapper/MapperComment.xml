@@ -8,17 +8,17 @@
 <!--    <cache/>-->
     <!--获取帖子分页评论列表-->
     <select id="getCommentsLimit" resultType="PojoComment">
-        select * from biaobai.comment where p_id=#{pId} order by create_time DESC limit #{startIndex},#{pageSize};
+        select * from `comment` where table_id=#{tableId} order by create_time DESC limit #{startIndex},#{pageSize};
     </select>
 
     <!--获取帖子评论总数量-->
     <select id="getCount" parameterType="_int" resultType="_int">
-        select count(1) from biaobai.comment where p_id=#{Pid};
+        select count(1) from `comment` where table_id=#{tableId};
     </select>
 
     <!--添加帖子评论-->
     <insert id="addComment" parameterType="PojoComment">
-        insert into biaobai.comment (p_id,name,create_time,content)
-        value (#{pId},#{name},now(),#{content});
+        insert into `comment` (table_id,name,create_time,content)
+        value (#{tableId},#{name},now(),#{content});
     </insert>
 </mapper>
