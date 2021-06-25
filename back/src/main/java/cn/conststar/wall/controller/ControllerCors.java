@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
-@RequestMapping("/api/core")
-public class ControllerCore {
+@RequestMapping("/api/cors")
+public class ControllerCors {
 
     @RequestMapping("/*")
     public String all(HttpServletRequest request, HttpServletResponse response) {
