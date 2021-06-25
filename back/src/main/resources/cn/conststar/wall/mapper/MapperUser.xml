@@ -23,7 +23,7 @@
         select count(id)
         from user
         where email = #{email}
-          and password = password(#{password});
+          and password = #{password};
     </select>
 
     <insert id="addUser">

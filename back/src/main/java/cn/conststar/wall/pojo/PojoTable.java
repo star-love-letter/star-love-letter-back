@@ -11,7 +11,7 @@ import java.util.Objects;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PojoPost implements Serializable {
+public class PojoTable implements Serializable {
     private int id;
 
     private String sender;
@@ -23,6 +23,6 @@ public class PojoPost implements Serializable {
     private Date createTime;
     private String content;
 
-    private int thumbsUp;       //点赞数量
+    private int supportCount;       //点赞数量
     private int commentCount;   //评论数量
 }

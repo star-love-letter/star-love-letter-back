@@ -13,7 +13,8 @@ import java.util.Objects;
 @AllArgsConstructor
 public class PojoComment implements Serializable {
     private int id;
-    private int pId;
+    private int tableId;
+    private int userId;
 
     private String name;
     private Date createTime;

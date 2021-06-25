@@ -33,7 +33,7 @@ public class ServiceUser implements MapperUser {
     public PojoUser getUser(String email, String password) throws Exception {
         PojoUser user = mapperUser.getUser(email, password);
         if (user == null)
-            throw new ExceptionMain("请检查账号和密码");
+            throw new ExceptionMain("请检查账号和密码", ExceptionMain.NOT_LOGIN);
         return user;
     }
 
@@ -44,7 +44,13 @@ public class ServiceUser implements MapperUser {
 
     @Override
     public boolean verifyUser(PojoUser pojoUser) throws Exception {
-        return mapperUser.verifyUser(pojoUser);
+        if (pojoUser == null)
+            throw new ExceptionMain("用户未登录", ExceptionMain.NOT_LOGIN);
+        boolean b = mapperUser.verifyUser(pojoUser);
+        if (!b)
+            throw new ExceptionMain("用户登录已失效", ExceptionMain.NOT_LOGIN);
+
+        return b;
     }
 
     @Override

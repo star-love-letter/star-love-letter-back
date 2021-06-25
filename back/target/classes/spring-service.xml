@@ -11,8 +11,8 @@
     <context:component-scan base-package="cn.conststar.wall.service"/>
 
     <!--注入到IOC容器中-->
-    <bean id="servicePost" class="cn.conststar.wall.service.ServicePost">
-        <property name="mapperPost" ref="mapperPost"/>
+    <bean id="serviceTable" class="cn.conststar.wall.service.ServiceTable">
+        <property name="mapperTable" ref="mapperTable"/>
     </bean>
     <bean id="serviceComment" class="cn.conststar.wall.service.ServiceComment">
         <property name="mapperComment" ref="mapperComment"/>

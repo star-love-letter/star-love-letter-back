@@ -1,6 +1,5 @@
 package cn.conststar.wall.controller;
 
-import cn.conststar.wall.exception.ExceptionMain;
 import cn.conststar.wall.pojo.PojoComment;
 import cn.conststar.wall.service.ServiceComment;
 import com.alibaba.fastjson.JSON;
@@ -24,76 +23,45 @@ public class ControllerComment {
 
     //获取帖子分页评论列表
     @GetMapping("/pageList")
-    public String getPageList(@RequestParam("pId") int pId,
+    public String getPageList(@RequestParam("tableId") int tableId,
                               @RequestParam("pageIndex") int pageIndex,
-                              @RequestParam("pageSize") int pageSize) {
+                              @RequestParam("pageSize") int pageSize) throws Exception {
 
         JSONObject jsonObject = new JSONObject();
-        try {
-            List<PojoComment> comments = serviceComment.getCommentsPage(pId, pageIndex, pageSize);
+        List<PojoComment> comments = serviceComment.getCommentsPage(tableId, pageIndex, pageSize);
 
-            JSONArray listJson = (JSONArray) JSON.toJSON(comments);
-            jsonObject.put("list", listJson);
-            jsonObject.put("msg", "获取成功");
-            jsonObject.put("code", 0);
-        } catch (ExceptionMain ex) {
-            jsonObject.put("msg", ex.getMessage());
-            jsonObject.put("Exception", ex.toString());
-            jsonObject.put("code", ex.getCode());
-        } catch (Exception ex) {
-            jsonObject.put("msg", ex.getMessage());
-            jsonObject.put("Exception", ex.toString());
-            jsonObject.put("code", -1);
-        } finally {
-            return jsonObject.toJSONString();
-        }
+        JSONArray listJson = (JSONArray) JSON.toJSON(comments);
+        jsonObject.put("list", listJson);
+        jsonObject.put("msg", "获取成功");
+        jsonObject.put("code", 0);
+        return jsonObject.toJSONString();
     }
 
     //获取帖子评论总数
     @GetMapping("/count")
-    public String getCount(@RequestParam("pId") int pId) {
+    public String getCount(@RequestParam("tableId") int tableId) throws Exception {
         JSONObject jsonObject = new JSONObject();
-        try {
-            int count = serviceComment.getCount(pId);
+        int count = serviceComment.getCount(tableId);
 
-            jsonObject.put("count", count);
-            jsonObject.put("code", 0);
-            jsonObject.put("msg", "获取成功");
-        } catch (ExceptionMain ex) {
-            jsonObject.put("msg", ex.getMessage());
-            jsonObject.put("Exception", ex.toString());
-            jsonObject.put("code", ex.getCode());
-        } catch (Exception ex) {
-            jsonObject.put("msg", ex.getMessage());
-            jsonObject.put("Exception", ex.toString());
-            jsonObject.put("code", -1);
-        } finally {
-            return jsonObject.toJSONString();
-        }
+        jsonObject.put("count", count);
+        jsonObject.put("code", 0);
+        jsonObject.put("msg", "获取成功");
+
+        return jsonObject.toJSONString();
     }
 
     //发布评论
     @PostMapping("/add")
-    public String post(@RequestParam("pId") int pId,
+    public String post(@RequestParam("tableId") int tableId,
                        @RequestParam("name") String name,
-                       @RequestParam("content") String content) {
+                       @RequestParam("content") String content) throws Exception {
         JSONObject jsonObject = new JSONObject();
-        try {
-            serviceComment.addComment(pId, name, content);
 
-            jsonObject.put("code", 0);
-            jsonObject.put("msg", "发布成功");
+        serviceComment.addComment(tableId, name, content);
 
-        } catch (ExceptionMain ex) {
-            jsonObject.put("msg", ex.getMessage());
-            jsonObject.put("Exception", ex.toString());
-            jsonObject.put("code", ex.getCode());
-        } catch (Exception ex) {
-            jsonObject.put("msg", ex.getMessage());
-            jsonObject.put("Exception", ex.toString());
-            jsonObject.put("code", -1);
-        } finally {
-            return jsonObject.toJSONString();
-        }
+        jsonObject.put("code", 0);
+        jsonObject.put("msg", "发布成功");
+
+        return jsonObject.toJSONString();
     }
 }

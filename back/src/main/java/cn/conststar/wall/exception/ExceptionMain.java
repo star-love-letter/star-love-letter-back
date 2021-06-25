@@ -4,10 +4,13 @@ import org.apache.log4j.Logger;
 
 public class ExceptionMain extends Exception {
 
-    //默认异常
+    //默认错误
     public static final int DEFAULT = 100;
 
-    //致命
+    //没有登录账号
+    public static final int NOT_LOGIN = 101;
+
+    //致命错误
     public static final int DEADLY = 200;
 
 
