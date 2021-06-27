@@ -4,6 +4,7 @@ import cn.conststar.wall.exception.ExceptionMain;
 import com.alibaba.fastjson.JSONObject;
 
 import javax.servlet.*;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class FilterMain implements Filter {
@@ -18,7 +19,19 @@ public class FilterMain implements Filter {
         response.setCharacterEncoding("UTF-8");
 
         try {
-            chain.doFilter(request, response);
+            //开发环境
+            HttpServletResponse res = (HttpServletResponse) response;
+            res.setHeader("Pragma", "No-cache");
+            res.setHeader("Cache-Control", "no-cache");
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, HEAD, DELETE, PUT");
+            res.setHeader("Access-Control-Max-Age", "3600");
+            res.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Authorization, Accept, Origin, User-Agent, Content-Range, Content-Disposition, Content-Description");
+            res.setDateHeader("Expires", -10);
+            chain.doFilter(request, res);
+
+
+//            chain.doFilter(request, response);
         } catch (Exception ex) {
             JSONObject jsonObject = new JSONObject();
             Throwable cause = ex.getCause();

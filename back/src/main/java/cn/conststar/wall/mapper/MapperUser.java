@@ -15,4 +15,7 @@ public interface MapperUser {
 
     //添加用户
     int addUser(@Param("email") String email, @Param("password") String password, @Param("name") String name) throws Exception;
+
+    //检查用户是否存在
+    boolean findUser(@Param("email") String email);
 }

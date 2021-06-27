@@ -119,7 +119,7 @@ public class ControllerTable {
                       @RequestParam("recipient") String recipient,
                       @RequestParam("recipientSex") int recipientSex,
                       @RequestParam("content") String content,
-                      Model model, HttpSession session) throws Exception {
+                      HttpSession session) throws Exception {
         JSONObject jsonObject = new JSONObject();
 
         PojoUser user = (PojoUser) session.getAttribute("user");
@@ -135,7 +135,7 @@ public class ControllerTable {
     //点赞
     @PutMapping("/support")
     public String putSupport(@RequestParam("tableId") int tableId,
-                             Model model, HttpSession session) throws Exception {
+                             HttpSession session) throws Exception {
         JSONObject jsonObject = new JSONObject();
 
         PojoUser user = (PojoUser) session.getAttribute("user");
@@ -152,7 +152,7 @@ public class ControllerTable {
     //点赞
     @DeleteMapping("/support")
     public String deleteSupport(@RequestParam("tableId") int tableId,
-                                Model model, HttpSession session) throws Exception {
+                                HttpSession session) throws Exception {
         JSONObject jsonObject = new JSONObject();
 
         PojoUser user = (PojoUser) session.getAttribute("user");

@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/user")
@@ -54,10 +55,16 @@ public class ControllerUser {
     @PostMapping("/add")
     public String add(@RequestParam("email") String email,
                       @RequestParam("password") String password,
-                      @RequestParam("name") String name) throws Exception {
+                      @RequestParam("name") String name,
+                      @RequestParam("imageCode") String imageCode,
+                      @RequestParam("emailCode") String emailCode,
+                      HttpSession session) throws Exception {
         JSONObject jsonObject = new JSONObject();
 
+        serviceUser.isVerifyImage(imageCode, session);
+        serviceUser.isVerifyEmail(email, emailCode, session);
         serviceUser.addUser(email, password, name);
+        serviceUser.removePojoVerifyCode(session);
 
         jsonObject.put("code", 0);
         jsonObject.put("msg", "注册成功");
@@ -67,10 +74,10 @@ public class ControllerUser {
 
     //获取用户信息
     @GetMapping("/user")
-    public String getUser(HttpSession session) {
+    public String getUser(HttpSession session) throws Exception {
         JSONObject jsonObject = new JSONObject();
-
-        PojoUser user = (PojoUser)session.getAttribute("user");
+        PojoUser user = (PojoUser) session.getAttribute("user");
+        serviceUser.verifyUser(user);
 
         jsonObject.put("user", user);
         jsonObject.put("code", 0);
@@ -79,4 +86,30 @@ public class ControllerUser {
         return jsonObject.toJSONString();
     }
 
+    //获取图形验证码
+    @GetMapping("/verifyImage")
+    public String getVerifyImage(HttpSession session) throws IOException {
+        JSONObject jsonObject = new JSONObject();
+
+        String verifyImage = serviceUser.getVerifyImage(session);
+
+        jsonObject.put("image", verifyImage);
+        jsonObject.put("code", 0);
+        jsonObject.put("msg", "获取成功");
+
+        return jsonObject.toJSONString();
+    }
+
+    //获取短信验证码
+    @GetMapping("/verifyEmail")
+    public String getVerifyEmail(@RequestParam("email") String email,
+                                 HttpSession session) throws Exception {
+        JSONObject jsonObject = new JSONObject();
+
+        serviceUser.getVerifyEmail(email, session);
+
+        jsonObject.put("code", 0);
+        jsonObject.put("msg", "获取成功");
+        return jsonObject.toJSONString();
+    }
 }

@@ -1,6 +1,6 @@
 # 星愿墙开发手册
 
-版本 1.1.0
+版本 1.1.1
 
 by 赵国庆
 
@@ -9,6 +9,16 @@ by 赵国庆
 ## 项目内容
 
 ### 更新日志
+
+#### 1.1.1
+
+添加了图形验证码
+
+添加了邮箱验证码
+
+
+
+
 
 #### 1.1.0
 
@@ -208,11 +218,13 @@ params:{
 
 ##### 调用参数
 
-| 参数     | 值类型 | 说明     |
-| -------- | ------ | -------- |
-| email    | string | 邮箱     |
-| password | string | 密码     |
-| name     | string | 用户名称 |
+| 参数      | 值类型 | 说明                          |
+| --------- | ------ | ----------------------------- |
+| email     | string | 邮箱                          |
+| password  | string | 密码                          |
+| name      | string | 用户名称                      |
+| imageCode | string | [图片验证码](#获取图片验证码) |
+| emailCode | string | [短信验证码](#获取短信验证码) |
 
 
 
@@ -282,6 +294,85 @@ method:get;
 | email      | string | 邮箱                  |
 
 
+
+### 获取图片验证码
+
+#### 示例
+
+get: http://localhost:8080/api/user/verifyImage
+
+
+
+##### 成功返回内容示范
+
+```json
+{"msg":"获取成功","image":"data:image/png;base64,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","code":0}
+```
+
+
+
+#### 调用方式
+
+```
+url: /api/user/verifyImage;
+method:get;
+```
+
+
+
+##### 调用参数
+
+无
+
+
+
+##### 返回内容
+
+| 参数  | 值类型 | 说明              |
+| ----- | ------ | ----------------- |
+| image | string | 图片验证码 base64 |
+
+
+
+### 获取短信验证码
+
+#### 示例
+
+get: http://localhost:8080/api/user/verifyEmail?email=1164442003@qq.com
+
+
+
+##### 成功返回内容示范
+
+```java
+{"msg":"获取成功","code":0}
+```
+
+
+
+#### 调用方式
+
+```
+url: /api/user/verifyEmail;
+method:get;
+params:{
+    email:xxxx
+}
+```
+
+
+
+##### 调用参数
+
+| 参数  | 值类型 | 说明             |
+| ----- | ------ | ---------------- |
+| email | string | 获取验证码的邮箱 |
+
+
+
+##### 返回内容
+
+无额外内容
 
 
 

@@ -7,13 +7,13 @@
 
     <select id="getUser" resultType="PojoUser">
         select *
-        from user
+        from `user`
         where email = #{email}
           and password = password(#{password});
     </select>
 
     <update id="updateLastTime" parameterType="PojoUser">
-        update user
+        update `user`
         set last_time=now()
         where email = #{email}
           and password = #{password};
@@ -21,13 +21,19 @@
 
     <select id="verifyUser" parameterType="PojoUser" resultType="_boolean">
         select count(id)
-        from user
+        from `user`
         where email = #{email}
           and password = #{password};
     </select>
 
     <insert id="addUser">
-        insert into user (email, password, name, last_time, create_time)
+        insert into `user` (email, password, name, last_time, create_time)
         values (#{email}, password(#{password}), #{name}, now(), now());
     </insert>
+
+    <select id="findUser" parameterType="PojoUser" resultType="_boolean">
+        select count(id)
+        from `user`
+        where email = #{email};
+    </select>
 </mapper>
