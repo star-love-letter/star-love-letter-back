@@ -1,7 +1,11 @@
 package cn.conststar.wall.controller;
 
 import cn.conststar.wall.pojo.PojoComment;
+import cn.conststar.wall.pojo.PojoUserPublic;
+import cn.conststar.wall.pojo.PojoUser;
 import cn.conststar.wall.service.ServiceComment;
+import cn.conststar.wall.service.ServiceUser;
+import cn.conststar.wall.utils.UtilsMain;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -10,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -20,6 +25,12 @@ public class ControllerComment {
     @Autowired
     @Qualifier("serviceComment")
     private ServiceComment serviceComment;
+
+
+    @Autowired
+    @Qualifier("serviceUser")
+    private ServiceUser serviceUser;
+
 
     //获取帖子分页评论列表
     @GetMapping("/pageList")
@@ -54,13 +65,41 @@ public class ControllerComment {
     @PostMapping("/add")
     public String post(@RequestParam("tableId") int tableId,
                        @RequestParam("name") String name,
-                       @RequestParam("content") String content) throws Exception {
+                       @RequestParam("anonymous") boolean anonymous,
+                       @RequestParam("content") String content,
+                       @RequestParam("images") String images,
+                       HttpSession session) throws Exception {
         JSONObject jsonObject = new JSONObject();
 
-        serviceComment.addComment(tableId, name, content);
+        PojoUser user = (PojoUser) session.getAttribute("user");
+        serviceUser.verifyUser(user);
+
+        List<String> imageList = JSONArray.parseArray(images).toJavaList(String.class);
+        UtilsMain.addImages(imageList);
+        if (imageList.isEmpty())
+            images = null;
+
+        serviceComment.addComment(tableId, user.getId(), name, anonymous, content, images);
 
         jsonObject.put("code", 0);
         jsonObject.put("msg", "发布成功");
+
+        return jsonObject.toJSONString();
+    }
+
+    //获取评论的用户信息 （评论必须是非匿名的）
+    @GetMapping("/user")
+    public String getUser(@RequestParam("commentId") int commentId,
+                          HttpSession session) throws Exception {
+        JSONObject jsonObject = new JSONObject();
+
+
+        PojoUserPublic userPublic = serviceComment.getUser(commentId);
+
+        jsonObject.put("userPublic", userPublic);
+        jsonObject.put("code", 0);
+        jsonObject.put("msg", "获取成功");
+
 
         return jsonObject.toJSONString();
     }

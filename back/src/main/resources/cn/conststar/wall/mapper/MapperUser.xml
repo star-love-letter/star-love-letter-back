@@ -12,6 +12,13 @@
           and password = password(#{password});
     </select>
 
+
+    <select id="getUserPublic" resultType="PojoUserPublic">
+        select *
+        from `user`
+        where id = #{id};
+    </select>
+
     <update id="updateLastTime" parameterType="PojoUser">
         update `user`
         set last_time=now()

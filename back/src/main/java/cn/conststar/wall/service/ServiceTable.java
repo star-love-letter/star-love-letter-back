@@ -2,6 +2,7 @@ package cn.conststar.wall.service;
 
 import cn.conststar.wall.exception.ExceptionMain;
 import cn.conststar.wall.mapper.MapperTable;
+import cn.conststar.wall.pojo.PojoUserPublic;
 import cn.conststar.wall.pojo.PojoTable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,7 +20,7 @@ public class ServiceTable implements MapperTable {
     public List<PojoTable> getTablesPage(int pageIndex, int pageSize) throws Exception {
 
         int startIndex = (pageIndex - 1) * pageSize;
-        return this.getTablesLimit(pageIndex, pageSize);
+        return this.getTablesLimit(startIndex, pageSize);
     }
 
     @Override
@@ -48,12 +49,17 @@ public class ServiceTable implements MapperTable {
     }
 
     @Override
+    public PojoUserPublic getUser(int tableId) throws Exception {
+        return mapperTable.getUser(tableId);
+    }
+
+    @Override
     public PojoTable getTable(int id) throws Exception {
         return mapperTable.getTable(id);
     }
 
     @Override
-    public int addTable(int userId, String sender, int senderSex, String recipient, int recipientSex, String content) throws Exception {
+    public int addTable(int userId, boolean anonymous, String sender, int senderSex, String recipient, int recipientSex, String content, String images) throws Exception {
         if (sender.isEmpty() || recipient.isEmpty())
             throw new ExceptionMain("名称不能为空");
 
@@ -67,12 +73,13 @@ public class ServiceTable implements MapperTable {
             throw new ExceptionMain("内容不得超过160个字符");
 
 
-        int line = mapperTable.addTable(userId, sender, senderSex, recipient, recipientSex, content);
+        int line = mapperTable.addTable(userId, anonymous, sender, senderSex, recipient, recipientSex, content, images);
         if (line != 1) {
             throw new ExceptionMain("数据库操作失败，数据库添加行数为" + line, ExceptionMain.DEADLY); //wait
         }
         return line;
     }
+
 
     @Override
     public void addSupport(int tableId, int userId) throws Exception {

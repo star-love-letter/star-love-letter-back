@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2021-06-25 14:11:13
+-- Generation Time: 2021-06-29 19:47:58
 -- 服务器版本： 5.6.50-log
 -- PHP Version: 5.6.40
 
@@ -40,9 +40,12 @@ CREATE TABLE IF NOT EXISTS `admin` (
 CREATE TABLE IF NOT EXISTS `comment` (
   `id` int(11) NOT NULL COMMENT '评论id',
   `table_id` int(11) DEFAULT NULL COMMENT '对应的帖子id',
-  `name` varchar(6) NOT NULL COMMENT '评论者姓名',
+  `user_id` int(11) DEFAULT NULL COMMENT '用户id',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `content` varchar(160) NOT NULL COMMENT '评论内容'
+  `content` varchar(160) NOT NULL COMMENT '评论内容',
+  `images` varchar(255) DEFAULT NULL COMMENT '图像列表',
+  `name` varchar(255) DEFAULT NULL COMMENT '匿名名称',
+  `anonymous` bit(1) NOT NULL COMMENT '是否为匿名'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -70,7 +73,9 @@ CREATE TABLE IF NOT EXISTS `table` (
   `recipient_sex` bit(2) NOT NULL COMMENT '被表白者性别',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `content` varchar(160) NOT NULL COMMENT '表白内容',
-  `user_id` int(11) DEFAULT NULL COMMENT '用户id'
+  `images` varchar(255) DEFAULT NULL COMMENT '图像列表',
+  `user_id` int(11) DEFAULT NULL COMMENT '用户id',
+  `anonymous` bit(1) NOT NULL COMMENT '是否为匿名'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -104,7 +109,8 @@ ALTER TABLE `admin`
 --
 ALTER TABLE `comment`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `comment_table_id` (`table_id`);
+  ADD KEY `table_id` (`table_id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `support`
@@ -161,7 +167,8 @@ ALTER TABLE `admin`
 -- 限制表 `comment`
 --
 ALTER TABLE `comment`
-  ADD CONSTRAINT `comment_table_id` FOREIGN KEY (`table_id`) REFERENCES `table` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `comment_table_id` FOREIGN KEY (`table_id`) REFERENCES `table` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `comment_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- 限制表 `support`

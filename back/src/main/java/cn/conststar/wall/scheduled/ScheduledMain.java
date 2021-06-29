@@ -1,6 +1,7 @@
 package cn.conststar.wall.scheduled;
 
 import cn.conststar.wall.utils.UtilsEmail;
+import cn.conststar.wall.utils.UtilsMain;
 import org.apache.log4j.Logger;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
@@ -13,7 +14,7 @@ public class ScheduledMain {
 
     private void clearTempFile() {
         logger.info("clearTempFile");
-        String path = System.getProperty("catalina.base") + "/temp";
+        String path = UtilsMain.getTempPath();
         System.out.println(path);
         long nowTime = System.currentTimeMillis();
 
@@ -24,8 +25,8 @@ public class ScheduledMain {
         File[] tempFiles = tempDirectory.listFiles();
         for (File file : tempFiles) {
             long fileTime = file.lastModified();
-            //删除1天前的文件
-            if (nowTime - fileTime > 1000 * 60 * 60 * 24)
+            //删除2天前的文件
+            if (nowTime - fileTime > 1000 * 60 * 60 * 24 * 2)
                 file.delete();
         }
     }

@@ -2,6 +2,7 @@ package cn.conststar.wall.service;
 
 import cn.conststar.wall.exception.ExceptionMain;
 import cn.conststar.wall.mapper.MapperUser;
+import cn.conststar.wall.pojo.PojoUserPublic;
 import cn.conststar.wall.pojo.PojoUser;
 import cn.conststar.wall.pojo.PojoVerifyCode;
 import cn.conststar.wall.utils.UtilsEmail;
@@ -41,6 +42,14 @@ public class ServiceUser implements MapperUser {
         PojoUser user = mapperUser.getUser(email, password);
         if (user == null)
             throw new ExceptionMain("请检查账号和密码", ExceptionMain.NOT_LOGIN);
+        return user;
+    }
+
+    @Override
+    public PojoUserPublic getUserPublic(int id) throws Exception {
+        PojoUserPublic user = mapperUser.getUserPublic(id);
+        if (user == null)
+            throw new ExceptionMain("没有此用户");
         return user;
     }
 

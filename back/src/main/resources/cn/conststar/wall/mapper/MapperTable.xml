@@ -8,12 +8,15 @@
 
     <sql id="selectTable">
         select a.id,
+               a.user_id,
                a.sender,
                a.sender_sex,
                a.recipient,
                a.recipient_sex,
                a.create_time,
+               a.anonymous,
                a.content,
+               a.images,
                COALESCE(b.ans, 0) as comment_count,
                COALESCE(c.ans, 0) as support_count
         from `table` a
@@ -54,8 +57,10 @@
 
     <!--取消点赞-->
     <delete id="removeSupport">
-        delete from `support`
-        where table_id=#{tableId} and user_id=#{userId};
+        delete
+        from `support`
+        where table_id = #{tableId}
+          and user_id = #{userId};
     </delete>
 
     <!--获取帖子总数量-->
@@ -75,7 +80,18 @@
 
     <!--发布表白-->
     <insert id="addTable">
-        insert into `table` (user_id, sender, sender_sex, recipient, recipient_sex, create_time, content)
-            value (#{userId},#{sender},#{senderSex},#{recipient},#{recipientSex},now(),#{content});
+        insert into `table` (user_id, anonymous, sender, sender_sex, recipient,
+                             recipient_sex, create_time, content, images)
+            value (#{userId},#{anonymous},#{sender},#{senderSex},#{recipient},#{recipientSex},now(),#{content},#{images});
     </insert>
+
+    <!--获取帖子的用户信息-->
+    <select id="getUser" resultType="PojoUserPublic">
+        select `user`.*
+        from `user`,
+             `table`
+        where `table`.user_id = `user`.id
+          and `table`.id = #{tableId}
+          and `anonymous` = 0;
+    </select>
 </mapper>

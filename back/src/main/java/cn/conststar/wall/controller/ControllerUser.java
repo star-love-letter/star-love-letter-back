@@ -1,13 +1,12 @@
 package cn.conststar.wall.controller;
 
-import cn.conststar.wall.exception.ExceptionMain;
+import cn.conststar.wall.pojo.PojoUserPublic;
 import cn.conststar.wall.pojo.PojoUser;
 import cn.conststar.wall.service.ServiceUser;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -110,6 +109,23 @@ public class ControllerUser {
 
         jsonObject.put("code", 0);
         jsonObject.put("msg", "获取成功");
+        return jsonObject.toJSONString();
+    }
+
+    //获取公开用户信息
+    @GetMapping("/userPublic")
+    public String getPublicUser(@RequestParam("id") int id,
+                                HttpSession session) throws Exception {
+        JSONObject jsonObject = new JSONObject();
+
+        PojoUser user = (PojoUser) session.getAttribute("user");
+        serviceUser.verifyUser(user);
+        PojoUserPublic userPublic = serviceUser.getUserPublic(id);
+
+        jsonObject.put("userPublic", userPublic);
+        jsonObject.put("code", 0);
+        jsonObject.put("msg", "获取成功");
+
         return jsonObject.toJSONString();
     }
 }

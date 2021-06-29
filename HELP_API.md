@@ -1,6 +1,6 @@
 # 星愿墙开发手册
 
-版本 1.1.1
+版本 1.1.2
 
 by 赵国庆
 
@@ -9,6 +9,18 @@ by 赵国庆
 ## 项目内容
 
 ### 更新日志
+
+#### 1.1.2
+
+添加了上传文件接口
+
+添加了获取用户公开信息接口
+
+更新了发布表白、发布评论接口
+
+
+
+
 
 #### 1.1.1
 
@@ -112,7 +124,7 @@ password = xxxx
 ```
 url: /api/user/login;
 method:post;
-params:{
+data:{
     email:xxxx,
     password:xxxx
 }
@@ -207,7 +219,7 @@ post: http://localhost:8080/api/user/add
 ```
 url: /api/user/add;
 method:post;
-params:{
+data:{
     email:xxxx,
     password:xxxx,
     name:xxx
@@ -224,7 +236,7 @@ params:{
 | password  | string | 密码                          |
 | name      | string | 用户名称                      |
 | imageCode | string | [图片验证码](#获取图片验证码) |
-| emailCode | string | [短信验证码](#获取短信验证码) |
+| emailCode | string | [邮箱验证码](#获取邮箱验证码) |
 
 
 
@@ -295,6 +307,72 @@ method:get;
 
 
 
+### 获取用户公开信息
+
+#### 示例
+
+get: http://localhost:8080/api/user/userPublic
+
+
+
+##### 成功返回内容示范
+
+```json
+{
+    "msg": "获取成功",
+    "code": 0,
+    "userPublic": {
+        "createTime": 1624164392000,
+        "email": "1164442003@qq.com",
+        "id": 1,
+        "lastTime": 1624164392000,
+        "name": "12321"
+    }
+}
+```
+
+
+
+#### 调用方式
+
+```
+url: /api/user/userPublic;
+method:get;
+params:{
+    id:xxxx
+}
+```
+
+
+
+##### 调用参数
+
+| 参数 | 值类型 | 说明   |
+| ---- | ------ | ------ |
+| id   | int    | 用户id |
+
+
+
+##### 返回内容
+
+| 参数       | 值类型 | 说明     |
+| ---------- | ------ | -------- |
+| userPublic | object | 用户内容 |
+
+
+
+###### userPublic内容
+
+| 参数       | 值类型 | 说明                  |
+| ---------- | ------ | --------------------- |
+| id         | int    | 用户id                |
+| email      | string | 用户邮箱              |
+| createTime | long   | 注册账号的时间 时间戳 |
+| lastTime   | long   | 上次登录的时间 时间戳 |
+| name       | string | 用户名称              |
+
+###### 
+
 ### 获取图片验证码
 
 #### 示例
@@ -334,7 +412,7 @@ method:get;
 
 
 
-### 获取短信验证码
+### 获取邮箱验证码
 
 #### 示例
 
@@ -376,6 +454,101 @@ params:{
 
 
 
+## 文件操作
+
+
+
+### 上传图片
+
+#### 示例
+
+post: http://localhost:8080/api/file/image
+
+
+
+##### 参数示范 form-data
+
+```ini
+file = Cache_7b9745cb0eebc9cc.jpg
+```
+
+
+
+##### 成功返回内容示范
+
+```java
+{"msg":"上传成功","file":"5d8dffb031cf465bbc5edaca5378eccf.jpg","code":0}
+```
+
+
+
+#### 调用方式
+
+```
+url: /api/file/image;
+method:post;
+data:{
+    file:xxxx
+}
+```
+
+
+
+##### 调用参数
+
+| 参数 | 值类型 | 说明                                                |
+| ---- | ------ | --------------------------------------------------- |
+| file | file   | 上传的图片文件 支持[JPG, BMP, GIF, WBMP, PNG, JPEG] |
+
+
+
+##### 返回内容
+
+| 参数 | 值类型 | 说明           |
+| ---- | ------ | -------------- |
+| file | string | 已上传的文件id |
+
+
+
+### 下载图片
+
+#### 示例
+
+get: http://localhost:8080/api/file/image/5d8dffb031cf465bbc5edaca5378eccf.jpg
+
+
+
+##### 成功返回内容示范
+
+返回图片文件
+
+
+
+#### 调用方式
+
+```
+url: /api/file/image/{image};
+method:get;
+```
+
+
+
+##### 调用参数
+
+| 参数    | 值类型 | 说明               |
+| ------- | ------ | ------------------ |
+| {image} | url    | 已添加使用的文件id |
+
+
+
+##### 返回内容
+
+无
+
+
+
+
+
 ## 帖子内容
 
 
@@ -396,36 +569,40 @@ get: http://localhost:8080/api/table/pageList?pageIndex=1&pageSize=3
     "code": 0,
     "list": [
         {
+            "recipientSex": 1,
+            "supportCount": 0,
+            "createTime": 1621478736000,
+            "sender": "徐爽",
+            "recipient": "辛金达",
+            "anonymous": false,
+            "senderSex": 2,
+            "id": 85,
+            "content": "今天拉屎了吗",
+            "commentCount": 2
+        },
+        {
             "recipientSex": 2,
             "supportCount": 0,
-            "createTime": 1621819684000,
-            "sender": "人红尘",
-            "recipient": "任洪琛",
-            "senderSex": 0,
-            "id": 89,
-            "content": "好牛啊",
+            "createTime": 1621445278000,
+            "sender": "测试",
+            "recipient": "测试",
+            "anonymous": false,
+            "senderSex": 1,
+            "id": 84,
+            "content": "嘎",
             "commentCount": 0
         },
         {
-            "recipientSex": 2,
+            "recipientSex": 0,
+            "images": "[\"78b440903f1241e8a7f50d8c26f3ec07.jpg\"]",
             "supportCount": 0,
-            "createTime": 1621819650000,
-            "sender": "王钦宇",
-            "recipient": "段富强",
-            "senderSex": 1,
-            "id": 88,
-            "content": "xxx",
-            "commentCount": 3
-        },
-        {
-            "recipientSex": 1,
-            "supportCount": 0,
-            "createTime": 1621498594000,
-            "sender": "嘎嘎",
-            "recipient": "丫丫",
-            "senderSex": 1,
-            "id": 87,
-            "content": "爱你哦，臭宝",
+            "createTime": 1620781831000,
+            "sender": "赵国庆",
+            "recipient": "赵国庆庆",
+            "anonymous": false,
+            "senderSex": 2,
+            "id": 75,
+            "content": "好",
             "commentCount": 0
         }
     ]
@@ -477,8 +654,10 @@ params:{
 | recipientSex | int    | 被表白者 1为男性 2为女性 0为未知   |
 | createTime   | long   | 创建表白的时间 时间戳              |
 | content      | string | 表白内容                           |
+| anonymous    | bool   | 是否为匿名                         |
 | supportCount | int    | 点赞数量                           |
 | commentCount | int    | 评论数量                           |
+| images       | string | 帖子图片  [下载图片](#下载图片)    |
 
 
 
@@ -545,10 +724,12 @@ get: http://localhost:8080/api/table/table?id=1
     "code": 0,
     "table": {
         "recipientSex": 2,
+        "images": "[\"78b440903f1241e8a7f50d8c26f3ec07.jpg\"]",
         "supportCount": 2,
         "createTime": 1619418459000,
         "sender": "表白者",
         "recipient": "被表白者",
+        "anonymous": false,
         "senderSex": 1,
         "id": 1,
         "content": "表白内容",
@@ -591,15 +772,83 @@ params:{
 
 | 参数         | 值类型 | 说明                               |
 | ------------ | ------ | ---------------------------------- |
-| id           | int    | 表白帖子id表白帖子id               |
+| id           | int    | 表白帖子id                         |
 | sender       | string | 表白者                             |
 | senderSex    | int    | 表白者性别 1为男性 2为女性 0为未知 |
 | recipient    | string | 被表白者                           |
 | recipientSex | int    | 被表白者 1为男性 2为女性 0为未知   |
 | createTime   | long   | 创建表白的时间 时间戳              |
 | content      | string | 表白内容                           |
-| supportCount | int    | 点赞数量                           |
+| anonymous    | bool   | 是否为匿名                         |
+| supportCount | int    | 支持数量                           |
 | commentCount | int    | 评论数量                           |
+| images       | string | 帖子图片  [下载图片](#下载图片)    |
+
+
+
+### 获取帖子的用户信息 （帖子必须是非匿名的）
+
+#### 示范
+
+get: http://localhost:8080/api/table/user?tableId=1
+
+
+
+##### 成功返回内容示范
+
+```json
+{
+    "msg": "获取成功",
+    "code": 0,
+    "userPublic": {
+        "createTime": 1624164392000,
+        "email": "1164442003@qq.com",
+        "id": 1,
+        "lastTime": 1624164392000,
+        "name": "12321"
+    }
+}
+```
+
+
+
+#### 调用方式
+
+```
+url: /api/table/user;
+method:get;
+params:{
+    tableId:xxx
+}
+```
+
+
+
+##### 调用参数
+
+| 参数    | 值类型 | 说明   |
+| ------- | ------ | ------ |
+| tableId | int    | 帖子id |
+
+
+
+##### 返回内容
+
+| 参数       | 值类型 | 说明         |
+| ---------- | ------ | ------------ |
+| userPublic | object | 用户公开信息 |
+
+
+
+###### userPublic内容
+
+| 参数       | 值类型 | 说明                  |
+| ---------- | ------ | --------------------- |
+| id         | int    | 用户id                |
+| email      | string | 用户邮箱              |
+| lastTime   | long   | 上次登录的时间 时间戳 |
+| createTime | long   | 注册账号的时间 时间戳 |
+| name       | string | 用户名称              |
 
 
 
@@ -689,7 +938,7 @@ params:{
 | recipientSex | int    | 被表白者 1为男性 2为女性 0为未知   |
 | createTime   | long   | 创建表白的时间 时间戳              |
 | content      | string | 表白内容                           |
-| supportCount | int    | 点赞数量                           |
+| supportCount | int    | 支持数量                           |
 | commentCount | int    | 评论数量                           |
 
 
@@ -760,11 +1009,13 @@ senderSex = 1
 recipient = 被表白者
 recipientSex =2
 content = 表白内容
+anonymous = true
+images = ["5d8dffb031cf465bbc5edaca5378eccf.jpg"]
 ```
 
 
 
-#### 成功返回内容示范
+##### 成功返回内容示范
 
 ```json
 {"msg":"发布成功","code":0}
@@ -772,7 +1023,7 @@ content = 表白内容
 
 
 
-### 调用方式
+#### 调用方式
 
 ```
 url: /api/table/add;
@@ -782,13 +1033,15 @@ data:{
     "senderSex": xxx,
     "recipient": xxx,
     "recipientSex": xxx,
-    "content": xxx
+    "content": xxx,
+    "anonymous":xxx,
+    "images":["xxx","xxx"]
 }
 ```
 
 
 
-#### 调用参数
+##### 调用参数
 
 | 参数         | 值类型 | 说明                               |
 | ------------ | ------ | ---------------------------------- |
@@ -797,16 +1050,18 @@ data:{
 | recipient    | string | 被表白者                           |
 | recipientSex | int    | 被表白者 1为男性 2为女性 0为未知   |
 | content      | string | 表白内容                           |
+| anonymous    | bool   | 是否匿名                           |
+| images       | array  | 图片列表  [上传图片](#上传图片)    |
 
 
 
-#### 返回内容
+##### 返回内容
 
 无额外内容
 
 
 
-### 点赞
+### 支持（点赞）
 
 #### 示范
 
@@ -852,7 +1107,7 @@ data:{
 
 
 
-### 取消点赞
+### 取消支持（取消点赞）
 
 #### 示范
 
@@ -919,7 +1174,7 @@ get: http://localhost:8080/api/comment/pageList?pageIndex=1&pageSize=3&tableId=8
     "list": [
         {
             "createTime": 1621504182000,
-            "name": "任洪琛他爹",
+            "anonymous": false,
             "tableId": 86,
             "id": 33,
             "userId": 0,
@@ -927,7 +1182,8 @@ get: http://localhost:8080/api/comment/pageList?pageIndex=1&pageSize=3&tableId=8
         },
         {
             "createTime": 1621502882000,
-            "name": "任洪琛",
+            "images": "[\"78b440903f1241e8a7f50d8c26f3ec07.jpg\"]",
+            "anonymous": false,
             "tableId": 86,
             "id": 32,
             "userId": 0,
@@ -935,9 +1191,10 @@ get: http://localhost:8080/api/comment/pageList?pageIndex=1&pageSize=3&tableId=8
         },
         {
             "createTime": 1621497073000,
-            "name": "徐爽",
+            "anonymous": true,
             "tableId": 86,
             "id": 31,
+            "name":"匿名",
             "userId": 0,
             "content": "不会吧不会吧不会真的有人这么自恋吧？"
         }
@@ -979,16 +1236,84 @@ params:{
 
 
 
-###### comments列表
+###### list列表
+
+| 参数       | 值类型 | 说明                            |
+| ---------- | ------ | ------------------------------- |
+| id         | int    | 评论id                          |
+| tableId    | int    | 对应的帖子id                    |
+| userId     | int    | 对应的用户id                    |
+| name       | string | 匿名名称                        |
+| createTime | long   | 创建评论的时间 时间戳           |
+| content    | string | 评论内容                        |
+| anonymous  | bool   | 是否为匿名                      |
+| images     | string | 帖子图片  [下载图片](#下载图片) |
+
+
+
+### 获取评论的用户信息 （评论必须是非匿名的）
+
+#### 示范
+
+get: http://localhost:8080/api/comment/user?commentId=7
+
+
+
+##### 成功返回内容示范
+
+```json
+{
+    "msg": "获取成功",
+    "code": 0,
+    "userPublic": {
+        "createTime": 1624164392000,
+        "email": "1164442003@qq.com",
+        "id": 1,
+        "lastTime": 1624164392000,
+        "name": "12321"
+    }
+}
+```
+
+
+
+#### 调用方式
+
+```
+url: /api/comment/user;
+method:get;
+params:{
+    commentId:xxx
+}
+```
+
+
+
+##### 调用参数
+
+| 参数      | 值类型 | 说明   |
+| --------- | ------ | ------ |
+| commentId | int    | 评论id |
+
+
+
+##### 返回内容
+
+| 参数       | 值类型 | 说明         |
+| ---------- | ------ | ------------ |
+| userPublic | object | 用户公开信息 |
+
+
+
+###### userPublic内容
 
 | 参数       | 值类型 | 说明                  |
 | ---------- | ------ | --------------------- |
-| id         | int    | 评论id                |
-| tableId    | int    | 对应的帖子id          |
-| userId     | int    | 对应的用户id          |
-| name       | string | 发表评论者            |
-| createTime | long   | 创建评论的时间 时间戳 |
-| content    | string | 评论内容              |
+| id         | int    | 用户id                |
+| email      | string | 用户邮箱              |
+| lastTime   | long   | 上次登录的时间 时间戳 |
+| createTime | long   | 注册账号的时间 时间戳 |
+| name       | string | 用户名称              |
 
 
 
@@ -1059,8 +1384,10 @@ post: http://localhost:8080/api/comment/add
 
 ```ini
 tableId = 2
-name = 评论者
+name = 匿名名称
 content = 评论内容
+anonymous = true
+images = ["5d8dffb031cf465bbc5edaca5378eccf.jpg"]
 ```
 
 
@@ -1083,7 +1410,9 @@ method:post;
 data:{
     "tableId": xxx,
     "name": xxx,
-    "content": xxx
+    "content": xxx,
+    "anonymous":xxx
+    "images":["xxx","xxx"]
 }
 ```
 
@@ -1091,14 +1420,17 @@ data:{
 
 ##### 调用参数
 
-| 参数    | 值类型 | 说明         |
-| ------- | ------ | ------------ |
-| tableId | int    | 对应的帖子id |
-| name    | string | 评论者名     |
-| content | string | 评论内容     |
+| 参数      | 值类型 | 说明                            |
+| --------- | ------ | ------------------------------- |
+| tableId   | int    | 对应的帖子id                    |
+| name      | string | 匿名名称【仅在匿名下使用】      |
+| content   | string | 评论内容                        |
+| anonymous | bool   | 是否匿名                        |
+| images    | array  | 图片列表  [上传图片](#上传图片) |
 
 
 
 ##### 返回内容
 
 无额外内容
+

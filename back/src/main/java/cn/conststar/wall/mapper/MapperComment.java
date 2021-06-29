@@ -1,10 +1,10 @@
 package cn.conststar.wall.mapper;
 
 import cn.conststar.wall.pojo.PojoComment;
+import cn.conststar.wall.pojo.PojoUserPublic;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-import java.util.Map;
 
 public interface MapperComment {
 
@@ -13,10 +13,16 @@ public interface MapperComment {
                                        @Param("startIndex") int startIndex,
                                        @Param("pageSize") int pageSize) throws Exception;
 
+    //获取评论的用户信息 （评论必须是非匿名的）
+    PojoUserPublic getUser(@Param("commentId") int commentId) throws Exception;
+
     //添加帖子评论
     int addComment(@Param("tableId") int tableId,
+                   @Param("userId") int userId,
                    @Param("name") String name,
-                   @Param("content") String content) throws Exception;
+                   @Param("anonymous") boolean anonymous,
+                   @Param("content") String content,
+                   @Param("images") String images) throws Exception;
 
     //获取帖子评论总数量
     int getCount(@Param("tableId") int tableId) throws Exception;

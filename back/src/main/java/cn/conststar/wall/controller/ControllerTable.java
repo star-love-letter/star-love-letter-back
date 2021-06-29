@@ -1,26 +1,24 @@
 package cn.conststar.wall.controller;
 
-import cn.conststar.wall.exception.ExceptionMain;
+import cn.conststar.wall.pojo.PojoUserPublic;
 import cn.conststar.wall.pojo.PojoTable;
 import cn.conststar.wall.pojo.PojoUser;
 import cn.conststar.wall.service.ServiceTable;
 import cn.conststar.wall.service.ServiceUser;
+import cn.conststar.wall.utils.UtilsMain;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/table")
+@RequestMapping(value = "/api/table", produces = {"application/json;charset=UTF-8"})
 public class ControllerTable {
     private Logger logger = Logger.getLogger(ControllerTable.class);
 
@@ -118,13 +116,21 @@ public class ControllerTable {
                       @RequestParam("senderSex") int senderSex,
                       @RequestParam("recipient") String recipient,
                       @RequestParam("recipientSex") int recipientSex,
+                      @RequestParam("anonymous") boolean anonymous,
                       @RequestParam("content") String content,
+                      @RequestParam("images") String images,
                       HttpSession session) throws Exception {
         JSONObject jsonObject = new JSONObject();
 
         PojoUser user = (PojoUser) session.getAttribute("user");
         serviceUser.verifyUser(user);
-        serviceTable.addTable(user.getId(), sender, senderSex, recipient, recipientSex, content);
+
+        List<String> imageList = JSONArray.parseArray(images).toJavaList(String.class);
+        UtilsMain.addImages(imageList);
+        if (imageList.isEmpty())
+            images = null;
+
+        serviceTable.addTable(user.getId(), anonymous, sender, senderSex, recipient, recipientSex, content, images);
 
         jsonObject.put("code", 0);
         jsonObject.put("msg", "发布成功");
@@ -161,6 +167,22 @@ public class ControllerTable {
 
         jsonObject.put("code", 0);
         jsonObject.put("msg", "已取消点赞");
+
+
+        return jsonObject.toJSONString();
+    }
+
+    //获取帖子的用户信息 （帖子必须是非匿名的）
+    @GetMapping("/user")
+    public String getUser(@RequestParam("tableId") int tableId,
+                          HttpSession session) throws Exception {
+        JSONObject jsonObject = new JSONObject();
+
+        PojoUserPublic userPublic = serviceTable.getUser(tableId);
+
+        jsonObject.put("userPublic", userPublic);
+        jsonObject.put("code", 0);
+        jsonObject.put("msg", "获取成功");
 
 
         return jsonObject.toJSONString();

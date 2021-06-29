@@ -4,6 +4,7 @@ import cn.conststar.wall.exception.ExceptionMain;
 import com.alibaba.fastjson.JSONObject;
 
 import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
@@ -15,12 +16,14 @@ public class FilterMain implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
+        HttpServletResponse res = (HttpServletResponse) response;
+        HttpServletRequest req = (HttpServletRequest) request;
+
+        req.setCharacterEncoding("UTF-8");
+        res.setCharacterEncoding("UTF-8");
 
         try {
             //开发环境
-            HttpServletResponse res = (HttpServletResponse) response;
             res.setHeader("Pragma", "No-cache");
             res.setHeader("Cache-Control", "no-cache");
             res.setHeader("Access-Control-Allow-Origin", "*");
@@ -52,7 +55,8 @@ public class FilterMain implements Filter {
                 jsonObject.put("code", -2);
             }
 
-            response.getWriter().write(jsonObject.toJSONString());
+            res.setContentType("text/javascript; charset=utf-8");
+            res.getWriter().write(jsonObject.toJSONString());
         }
     }
 
