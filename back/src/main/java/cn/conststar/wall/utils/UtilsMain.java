@@ -3,13 +3,20 @@ package cn.conststar.wall.utils;
 import cn.conststar.wall.exception.ExceptionMain;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageWriter;
+import javax.imageio.plugins.jpeg.JPEGImageWriteParam;
+import javax.imageio.stream.FileImageOutputStream;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -80,8 +87,39 @@ public class UtilsMain {
 
     //图片格式转换
     public static void ConversionOut(InputStream input, File outFile) throws IOException {
+//        BufferedImage im = ImageIO.read(input);
+
+        // 清空原有图片的透明色
         BufferedImage im = ImageIO.read(input);
-        ImageIO.write(im, "jpg", outFile);
+        Image image = (Image) im;
+        ImageIcon imageIcon = new ImageIcon(image);
+        BufferedImage bufferedImage = new BufferedImage(imageIcon
+                .getIconWidth(), imageIcon.getIconHeight(),
+                BufferedImage.TYPE_INT_RGB);
+
+
+        Graphics2D g2D = (Graphics2D) bufferedImage.getGraphics();
+        g2D.drawImage(imageIcon.getImage(), 0, 0, imageIcon
+                .getImageObserver());
+
+
+        //设置白色
+        for (int x = 0; x < bufferedImage.getWidth(); x++) {
+            for (int y = 0; y < bufferedImage.getHeight(); y++) {
+                int rgb = bufferedImage.getRGB(x, y);
+                int a = (rgb & 0xff000000) >> 24;
+                int R = (rgb & 0x00ff0000) >> 16;
+                int G = (rgb & 0x0000ff00) >> 8;
+                int B = (rgb & 0xff);
+
+                if (R == 0 && G == 0 && B == 0) {
+                    bufferedImage.setRGB(x, y, -1); //set white
+                }
+            }
+        }
+
+        g2D.drawImage(bufferedImage, 0, 0, imageIcon.getImageObserver());
+        ImageIO.write(bufferedImage, "jpg", outFile);
     }
 
     //添加图片文件
