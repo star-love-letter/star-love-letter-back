@@ -48,10 +48,10 @@ public class ServiceTable implements MapperTable {
         return mapperTable.getSearchTablesLimit(keyword, startIndex, pageSize);
     }
 
-    @Override
-    public PojoUserPublic getUser(int tableId) throws Exception {
-        return mapperTable.getUser(tableId);
-    }
+//    @Override
+//    public PojoUserPublic getUser(int tableId) throws Exception {
+//        return mapperTable.getUser(tableId);
+//    }
 
     @Override
     public PojoTable getTable(int id) throws Exception {

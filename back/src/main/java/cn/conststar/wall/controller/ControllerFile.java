@@ -27,7 +27,7 @@ public class ControllerFile {
     @Qualifier("serviceUser")
     ServiceUser serviceUser;
 
-    @PostMapping("/image")
+    @PostMapping(value = "/image", produces = {"application/json;charset=UTF-8"})
     String uploadImage(@RequestParam("file") MultipartFile file,
                        HttpSession session) throws Exception {
         JSONObject jsonObject = new JSONObject();

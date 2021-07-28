@@ -17,8 +17,8 @@ public interface MapperTable {
                                          @Param("pageSize") int pageSize) throws Exception;
 
 
-    //获取帖子的用户信息 （帖子必须是非匿名的）
-    PojoUserPublic getUser(@Param("tableId") int tableId) throws Exception;
+//    //获取帖子的用户信息 （帖子必须是非匿名的）
+//    PojoUserPublic getUser(@Param("tableId") int tableId) throws Exception;
 
     //获取单个帖子内容
     PojoTable getTable(@Param("id") int id) throws Exception;

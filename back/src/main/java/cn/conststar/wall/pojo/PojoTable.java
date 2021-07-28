@@ -39,4 +39,7 @@ public class PojoTable implements Serializable {
 
     //图片列表
     private String images;
+
+    //对应的用户公开信息
+    private PojoUserPublic userPublic;
 }

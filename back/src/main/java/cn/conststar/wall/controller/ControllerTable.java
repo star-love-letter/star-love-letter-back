@@ -172,20 +172,20 @@ public class ControllerTable {
         return jsonObject.toJSONString();
     }
 
-    //获取帖子的用户信息 （帖子必须是非匿名的）
-    @GetMapping("/user")
-    public String getUser(@RequestParam("tableId") int tableId,
-                          HttpSession session) throws Exception {
-        JSONObject jsonObject = new JSONObject();
-
-        PojoUserPublic userPublic = serviceTable.getUser(tableId);
-
-        jsonObject.put("userPublic", userPublic);
-        jsonObject.put("code", 0);
-        jsonObject.put("msg", "获取成功");
-
-
-        return jsonObject.toJSONString();
-    }
+//    //获取帖子的用户信息 （帖子必须是非匿名的）
+//    @GetMapping("/user")
+//    public String getUser(@RequestParam("tableId") int tableId,
+//                          HttpSession session) throws Exception {
+//        JSONObject jsonObject = new JSONObject();
+//
+//        PojoUserPublic userPublic = serviceTable.getUser(tableId);
+//
+//        jsonObject.put("userPublic", userPublic);
+//        jsonObject.put("code", 0);
+//        jsonObject.put("msg", "获取成功");
+//
+//
+//        return jsonObject.toJSONString();
+//    }
 }
 

@@ -5,9 +5,12 @@
 
 <mapper namespace="cn.conststar.wall.mapper.MapperComment">
 
-    <!--    <cache/>-->
+    <resultMap id="PojoCommentMap" type="PojoComment">
+        <association property="userPublic" column="id" javaType="PojoUserPublic" select="getUser"/>
+    </resultMap>
+
     <!--获取帖子分页评论列表-->
-    <select id="getCommentsLimit" resultType="PojoComment">
+    <select id="getCommentsLimit" resultMap="PojoCommentMap">
         select *
         from `comment`
         where table_id = #{tableId}
@@ -33,7 +36,8 @@
         from `user`,
              `comment`
         where `comment`.user_id = `user`.id
-          and `comment`.id = #{commentId}
+          and `comment`.id = #{id}
           and `anonymous` = 0;
     </select>
+
 </mapper>

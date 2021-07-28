@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/comment")
+@RequestMapping(value = "/api/comment", produces = {"application/json;charset=UTF-8"})
 public class ControllerComment {
     private Logger logger = Logger.getLogger(ControllerComment.class);
 
@@ -87,20 +87,20 @@ public class ControllerComment {
         return jsonObject.toJSONString();
     }
 
-    //获取评论的用户信息 （评论必须是非匿名的）
-    @GetMapping("/user")
-    public String getUser(@RequestParam("commentId") int commentId,
-                          HttpSession session) throws Exception {
-        JSONObject jsonObject = new JSONObject();
-
-
-        PojoUserPublic userPublic = serviceComment.getUser(commentId);
-
-        jsonObject.put("userPublic", userPublic);
-        jsonObject.put("code", 0);
-        jsonObject.put("msg", "获取成功");
-
-
-        return jsonObject.toJSONString();
-    }
+//    //获取评论的用户信息 （评论必须是非匿名的）
+//    @GetMapping("/user")
+//    public String getUser(@RequestParam("commentId") int commentId,
+//                          HttpSession session) throws Exception {
+//        JSONObject jsonObject = new JSONObject();
+//
+//
+//        PojoUserPublic userPublic = serviceComment.getUser(commentId);
+//
+//        jsonObject.put("userPublic", userPublic);
+//        jsonObject.put("code", 0);
+//        jsonObject.put("msg", "获取成功");
+//
+//
+//        return jsonObject.toJSONString();
+//    }
 }

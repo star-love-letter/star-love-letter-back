@@ -4,7 +4,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="cn.conststar.wall.mapper.MapperTable">
-    <!--    <cache/>-->
+
+    <resultMap id="PojoTableMap" type="PojoTable">
+        <association property="userPublic" column="id" javaType="PojoUserPublic" select="getUser"/>
+    </resultMap>
 
     <sql id="selectTable">
         select a.id,
@@ -27,20 +30,20 @@
     </sql>
 
     <!--获取分页帖子-->
-    <select id="getTablesLimit" resultType="PojoTable">
+    <select id="getTablesLimit" resultMap="PojoTableMap">
         <include refid="selectTable"></include>
         order by a.create_time DESC limit #{startIndex}, #{pageSize};
     </select>
 
     <!--获取单个帖子内容-->
-    <select id="getTable" parameterType="_int" resultType="PojoTable">
+    <select id="getTable" parameterType="_int" resultMap="PojoTableMap">
         <include refid="selectTable"></include>
         where a.id = #{id}
         group by a.id;
     </select>
 
     <!--搜索帖子-->
-    <select id="getSearchTablesLimit" resultType="PojoTable">
+    <select id="getSearchTablesLimit" resultMap="PojoTableMap">
         <include refid="selectTable"></include>
         where a.sender like "%"#{keyword}"%"
         or a.recipient like "%"#{keyword}"%"

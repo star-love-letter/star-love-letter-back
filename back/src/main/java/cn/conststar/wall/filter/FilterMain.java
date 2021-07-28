@@ -55,7 +55,7 @@ public class FilterMain implements Filter {
                 jsonObject.put("code", -2);
             }
 
-            res.setContentType("text/javascript; charset=utf-8");
+            res.setContentType("application/json;charset=UTF-8");
             res.getWriter().write(jsonObject.toJSONString());
         }
     }

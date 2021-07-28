@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping(value = "/api/user", produces = {"application/json;charset=UTF-8"})
 public class ControllerUser {
 
     @Autowired

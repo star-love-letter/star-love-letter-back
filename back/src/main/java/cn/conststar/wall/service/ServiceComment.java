@@ -31,10 +31,10 @@ public class ServiceComment implements MapperComment {
         return mapperComment.getCommentsLimit(tableId, startIndex, pageSize);
     }
 
-    @Override
-    public PojoUserPublic getUser(int commenId) throws Exception {
-        return mapperComment.getUser(commenId);
-    }
+//    @Override
+//    public PojoUserPublic getUser(int commenId) throws Exception {
+//        return mapperComment.getUser(commenId);
+//    }
 
 
     @Override
