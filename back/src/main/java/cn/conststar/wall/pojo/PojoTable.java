@@ -15,10 +15,6 @@ import java.util.Objects;
 public class PojoTable implements Serializable {
     private int id;
 
-    //加密的密码
-    @JSONField(serialize = false)
-    private int userId;
-
     //是否为匿名
     private boolean anonymous;
 

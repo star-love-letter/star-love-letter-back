@@ -5,7 +5,8 @@
 
 <mapper namespace="cn.conststar.wall.mapper.MapperComment">
 
-    <resultMap id="PojoCommentMap" type="PojoComment">
+    <resultMap id="PojoCommentMap" type="PojoComment" autoMapping="true">
+        <id column ="id" property="id"/>
         <association property="userPublic" column="id" javaType="PojoUserPublic" select="getUser"/>
     </resultMap>
 

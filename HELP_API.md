@@ -1,6 +1,6 @@
 # 星愿墙开发手册
 
-版本 1.1.2
+版本 1.1.3
 
 by 赵国庆
 
@@ -9,6 +9,14 @@ by 赵国庆
 ## 项目内容
 
 ### 更新日志
+
+#### 1.1.3
+
+在获取帖子/评论中添加了用户公开信息
+
+删除了获取帖子/评论的用户信息接口
+
+
 
 #### 1.1.2
 
@@ -80,6 +88,8 @@ by 赵国庆
 
 
 
+
+
 ## 账号操作
 
 
@@ -95,7 +105,7 @@ post: http://localhost:8080/api/user/login
 ##### 参数示范 x-www-form-urlencoded
 
 ```ini
-email = 1164442003@qq.com
+email = admin@conststar.cn
 password = xxxx
 ```
 
@@ -112,7 +122,7 @@ password = xxxx
         "createTime": 1624164437000,
         "name": "赵国庆",
         "id": 2,
-        "email": "1164442003@qq.com"
+        "email": "admin@conststar.cn"
     }
 }
 ```
@@ -161,6 +171,8 @@ data:{
 
 
 
+
+
 ### 退出登录
 
 #### 示例
@@ -195,6 +207,8 @@ method:post;
 ##### 返回内容
 
 无额外内容
+
+
 
 
 
@@ -246,6 +260,8 @@ data:{
 
 
 
+
+
 ### 获取用户信息
 
 #### 示例
@@ -262,7 +278,7 @@ get: http://localhost:8080/api/user/user
     "code": 0,
     "user": {
         "createTime": 1624164437000,
-        "email": "1164442003@qq.com",
+        "email": "admin@conststar.cn",
         "id": 2,
         "lastTime": 1624608382000,
         "name": "赵国庆"
@@ -307,6 +323,8 @@ method:get;
 
 
 
+
+
 ### 获取用户公开信息
 
 #### 示例
@@ -323,7 +341,7 @@ get: http://localhost:8080/api/user/userPublic
     "code": 0,
     "userPublic": {
         "createTime": 1624164392000,
-        "email": "1164442003@qq.com",
+        "email": "admin@conststar.cn",
         "id": 1,
         "lastTime": 1624164392000,
         "name": "12321"
@@ -371,7 +389,9 @@ params:{
 | lastTime   | long   | 上次登录的时间 时间戳 |
 | name       | string | 用户名称              |
 
-###### 
+
+
+
 
 ### 获取图片验证码
 
@@ -412,11 +432,13 @@ method:get;
 
 
 
+
+
 ### 获取邮箱验证码
 
 #### 示例
 
-get: http://localhost:8080/api/user/verifyEmail?email=1164442003@qq.com
+get: http://localhost:8080/api/user/verifyEmail?email=admin@conststar.cn
 
 
 
@@ -451,6 +473,8 @@ params:{
 ##### 返回内容
 
 无额外内容
+
+
 
 
 
@@ -507,6 +531,8 @@ data:{
 | 参数 | 值类型 | 说明           |
 | ---- | ------ | -------------- |
 | file | string | 已上传的文件id |
+
+
 
 
 
@@ -570,40 +596,54 @@ get: http://localhost:8080/api/table/pageList?pageIndex=1&pageSize=3
     "list": [
         {
             "recipientSex": 1,
+            "images": "[\"78b440903f1241e8a7f50d8c26f3ec07.jpg\"]",
             "supportCount": 0,
-            "createTime": 1621478736000,
-            "sender": "徐爽",
+            "createTime": 1622093601000,
+            "sender": "马屹东",
             "recipient": "辛金达",
             "anonymous": false,
-            "senderSex": 2,
-            "id": 85,
-            "content": "今天拉屎了吗",
-            "commentCount": 2
+            "senderSex": 1,
+            "userPublic": {
+                "lastTime": 1624164392000,
+                "createTime": 1624164392000,
+                "name": "12321",
+                "id": 1,
+                "email": "admin@conststar.cn"
+            },
+            "id": 0,
+            "content": "哦不错呦",
+            "commentCount": 1
         },
         {
             "recipientSex": 2,
             "supportCount": 0,
-            "createTime": 1621445278000,
-            "sender": "测试",
-            "recipient": "测试",
+            "createTime": 1621819684000,
+            "sender": "人红尘",
+            "recipient": "任洪琛",
             "anonymous": false,
-            "senderSex": 1,
-            "id": 84,
-            "content": "嘎",
+            "senderSex": 0,
+            "userPublic": {
+                "lastTime": 1624164392000,
+                "createTime": 1624164392000,
+                "name": "12321",
+                "id": 1,
+                "email": "admin@conststar.cn"
+            },
+            "id": 0,
+            "content": "好牛啊",
             "commentCount": 0
         },
         {
-            "recipientSex": 0,
-            "images": "[\"78b440903f1241e8a7f50d8c26f3ec07.jpg\"]",
+            "recipientSex": 2,
             "supportCount": 0,
-            "createTime": 1620781831000,
-            "sender": "赵国庆",
-            "recipient": "赵国庆庆",
-            "anonymous": false,
-            "senderSex": 2,
-            "id": 75,
-            "content": "好",
-            "commentCount": 0
+            "createTime": 1621819650000,
+            "sender": "王钦宇",
+            "recipient": "段富强",
+            "anonymous": true,
+            "senderSex": 1,
+            "id": 0,
+            "content": "SB",
+            "commentCount": 3
         }
     ]
 }
@@ -658,6 +698,19 @@ params:{
 | supportCount | int    | 点赞数量                           |
 | commentCount | int    | 评论数量                           |
 | images       | string | 帖子图片  [下载图片](#下载图片)    |
+| userPublic   | object | 用户公开信息（非匿名）             |
+
+
+
+###### userPublic内容
+
+| 参数       | 值类型 | 说明                  |
+| ---------- | ------ | --------------------- |
+| id         | int    | 用户id                |
+| email      | string | 用户邮箱              |
+| lastTime   | long   | 上次登录的时间 时间戳 |
+| createTime | long   | 注册账号的时间 时间戳 |
+| name       | string | 用户名称              |
 
 
 
@@ -723,17 +776,24 @@ get: http://localhost:8080/api/table/table?id=1
     "msg": "获取成功",
     "code": 0,
     "table": {
-        "recipientSex": 2,
+        "recipientSex": 1,
         "images": "[\"78b440903f1241e8a7f50d8c26f3ec07.jpg\"]",
-        "supportCount": 2,
-        "createTime": 1619418459000,
-        "sender": "表白者",
-        "recipient": "被表白者",
+        "supportCount": 0,
+        "createTime": 1622093601000,
+        "sender": "马屹东",
+        "recipient": "辛金达",
         "anonymous": false,
         "senderSex": 1,
-        "id": 1,
-        "content": "表白内容",
-        "commentCount": 0
+        "userPublic": {
+            "lastTime": 1624164392000,
+            "createTime": 1624164392000,
+            "name": "12321",
+            "id": 1,
+            "email": "admin@conststar.cn"
+        },
+        "id": 0,
+        "content": "哦不错呦",
+        "commentCount": 1
     }
 }
 ```
@@ -783,64 +843,11 @@ params:{
 | supportCount | int    | 支持数量                           |
 | commentCount | int    | 评论数量                           |
 | images       | string | 帖子图片  [下载图片](#下载图片)    |
+| userPublic   | object | 用户公开信息（非匿名）             |
 
 
 
-### 获取帖子的用户信息 （帖子必须是非匿名的）
-
-#### 示范
-
-get: http://localhost:8080/api/table/user?tableId=1
-
-
-
-##### 成功返回内容示范
-
-```json
-{
-    "msg": "获取成功",
-    "code": 0,
-    "userPublic": {
-        "createTime": 1624164392000,
-        "email": "1164442003@qq.com",
-        "id": 1,
-        "lastTime": 1624164392000,
-        "name": "12321"
-    }
-}
-```
-
-
-
-#### 调用方式
-
-```
-url: /api/table/user;
-method:get;
-params:{
-    tableId:xxx
-}
-```
-
-
-
-##### 调用参数
-
-| 参数    | 值类型 | 说明   |
-| ------- | ------ | ------ |
-| tableId | int    | 帖子id |
-
-
-
-##### 返回内容
-
-| 参数       | 值类型 | 说明         |
-| ---------- | ------ | ------------ |
-| userPublic | object | 用户公开信息 |
-
-
-
-###### userPublic内容
+######  userPublic内容
 
 | 参数       | 值类型 | 说明                  |
 | ---------- | ------ | --------------------- |
@@ -849,6 +856,8 @@ params:{
 | lastTime   | long   | 上次登录的时间 时间戳 |
 | createTime | long   | 注册账号的时间 时间戳 |
 | name       | string | 用户名称              |
+
+
 
 
 
@@ -873,8 +882,16 @@ get: http://localhost:8080/api/table/searchList?pageIndex=1&pageSize=2&keyword=�
             "createTime": 1620781831000,
             "sender": "赵国庆",
             "recipient": "赵国庆庆",
+            "anonymous": false,
             "senderSex": 2,
-            "id": 75,
+            "userPublic": {
+                "lastTime": 1624164392000,
+                "createTime": 1624164392000,
+                "name": "12321",
+                "id": 1,
+                "email": "admin@conststar.cn"
+            },
+            "id": 0,
             "content": "好",
             "commentCount": 0
         },
@@ -884,8 +901,16 @@ get: http://localhost:8080/api/table/searchList?pageIndex=1&pageSize=2&keyword=�
             "createTime": 1619424609000,
             "sender": "赵国庆",
             "recipient": "赵国庆庆",
+            "anonymous": false,
             "senderSex": 2,
-            "id": 3,
+            "userPublic": {
+                "lastTime": 1624164392000,
+                "createTime": 1624164392000,
+                "name": "12321",
+                "id": 1,
+                "email": "admin@conststar.cn"
+            },
+            "id": 0,
             "content": "内容测试",
             "commentCount": 3
         }
@@ -940,6 +965,21 @@ params:{
 | content      | string | 表白内容                           |
 | supportCount | int    | 支持数量                           |
 | commentCount | int    | 评论数量                           |
+| userPublic   | object | 用户公开信息（非匿名）             |
+
+
+
+######  userPublic内容
+
+| 参数       | 值类型 | 说明                  |
+| ---------- | ------ | --------------------- |
+| id         | int    | 用户id                |
+| email      | string | 用户邮箱              |
+| lastTime   | long   | 上次登录的时间 时间戳 |
+| createTime | long   | 注册账号的时间 时间戳 |
+| name       | string | 用户名称              |
+
+
 
 
 
@@ -988,6 +1028,8 @@ params:{
 | 参数  | 值类型 | 说明       |
 | ----- | ------ | ---------- |
 | count | int    | 帖子总数量 |
+
+
 
 
 
@@ -1058,6 +1100,8 @@ data:{
 ##### 返回内容
 
 无额外内容
+
+
 
 
 
@@ -1174,28 +1218,40 @@ get: http://localhost:8080/api/comment/pageList?pageIndex=1&pageSize=3&tableId=8
     "list": [
         {
             "createTime": 1621504182000,
-            "anonymous": false,
+            "anonymous": true,
             "tableId": 86,
-            "id": 33,
-            "userId": 0,
+            "id": 0,
+            "userId": 1,
             "content": "臭傻*"
         },
         {
             "createTime": 1621502882000,
-            "images": "[\"78b440903f1241e8a7f50d8c26f3ec07.jpg\"]",
             "anonymous": false,
             "tableId": 86,
-            "id": 32,
-            "userId": 0,
+            "userPublic": {
+                "lastTime": 1624164392000,
+                "createTime": 1624164392000,
+                "name": "12321",
+                "id": 1,
+                "email": "admin@conststar.cn"
+            },
+            "id": 0,
+            "userId": 1,
             "content": "你kin你擦"
         },
         {
             "createTime": 1621497073000,
-            "anonymous": true,
+            "anonymous": false,
             "tableId": 86,
-            "id": 31,
-            "name":"匿名",
-            "userId": 0,
+            "userPublic": {
+                "lastTime": 1624164392000,
+                "createTime": 1624164392000,
+                "name": "12321",
+                "id": 1,
+                "email": "admin@conststar.cn"
+            },
+            "id": 0,
+            "userId": 1,
             "content": "不会吧不会吧不会真的有人这么自恋吧？"
         }
     ]
@@ -1248,64 +1304,11 @@ params:{
 | content    | string | 评论内容                        |
 | anonymous  | bool   | 是否为匿名                      |
 | images     | string | 帖子图片  [下载图片](#下载图片) |
+| userPublic | object | 用户公开信息（非匿名）          |
 
 
 
-### 获取评论的用户信息 （评论必须是非匿名的）
-
-#### 示范
-
-get: http://localhost:8080/api/comment/user?commentId=7
-
-
-
-##### 成功返回内容示范
-
-```json
-{
-    "msg": "获取成功",
-    "code": 0,
-    "userPublic": {
-        "createTime": 1624164392000,
-        "email": "1164442003@qq.com",
-        "id": 1,
-        "lastTime": 1624164392000,
-        "name": "12321"
-    }
-}
-```
-
-
-
-#### 调用方式
-
-```
-url: /api/comment/user;
-method:get;
-params:{
-    commentId:xxx
-}
-```
-
-
-
-##### 调用参数
-
-| 参数      | 值类型 | 说明   |
-| --------- | ------ | ------ |
-| commentId | int    | 评论id |
-
-
-
-##### 返回内容
-
-| 参数       | 值类型 | 说明         |
-| ---------- | ------ | ------------ |
-| userPublic | object | 用户公开信息 |
-
-
-
-###### userPublic内容
+######  userPublic内容
 
 | 参数       | 值类型 | 说明                  |
 | ---------- | ------ | --------------------- |
