@@ -11,3 +11,5 @@
 # 生成文件
 /target/
 /out/
+/src/main/resources/db.properties
+/src/main/resources/email.properties

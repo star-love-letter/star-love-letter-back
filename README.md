@@ -29,7 +29,7 @@
 
 2. 创建数据库，[数据库表结构](/wall.sql)
 
-3. 修改resources/db.properties 设置数据库
+3. 修改 [back/src/main/resources/db-template.properties](back/src/main/resources/db-template.properties) 设置数据库
 
 	```properties
 	# JDBC
@@ -37,12 +37,12 @@
 	# 数据库连接
 	url=jdbc:mysql://xxx.xxx.xxx.xxx:3306/xxxx?userSSL=false&useUnicode=true&characterEncoding=UTF-8
 	# 数据库账号
-	username=xxx
+	user=xxx
 	# 数据库密码
 	password=xxx
 	```
 	
-4. 修改resources/email.properties 设置邮箱SMTP
+4. 修改 [back/src/main/resources/email-template.properties](back/src/main/resources/email-template.properties) 设置邮箱SMTP
 
 	```properties
 	# 发送邮箱
