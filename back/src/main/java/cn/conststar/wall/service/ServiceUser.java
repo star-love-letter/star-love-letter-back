@@ -103,16 +103,21 @@ public class ServiceUser implements MapperUser {
 
     //验证码 多个页面的时候会出现问题
 
+    //设置验证码对象
+    public void setPojoVerifyCode(PojoVerifyCode pojoVerifyCode, HttpSession session) {
+        session.setAttribute("VerifyCode", pojoVerifyCode);
+    }
+
+    //获取验证码对象
     public PojoVerifyCode getPojoVerifyCode(HttpSession session) {
 
         Object verifyCode = session.getAttribute("VerifyCode");
-        if (verifyCode != null) {
-            return (PojoVerifyCode) verifyCode;
+        if (verifyCode == null) {
+            PojoVerifyCode pojoVerifyCode = new PojoVerifyCode();
+            setPojoVerifyCode(pojoVerifyCode, session);
+            return pojoVerifyCode;
         }
-
-        PojoVerifyCode pojoVerifyCode = new PojoVerifyCode();
-        session.setAttribute("VerifyCode", pojoVerifyCode);
-        return pojoVerifyCode;
+        return (PojoVerifyCode) verifyCode;
     }
 
     public void removePojoVerifyCode(HttpSession session) {
@@ -128,6 +133,8 @@ public class ServiceUser implements MapperUser {
         pojoVerifyCode.setImageCode(code);
         pojoVerifyCode.setImageCodeTime(System.currentTimeMillis());
         pojoVerifyCode.setImageCodeVerifyAns(0);
+
+        setPojoVerifyCode(pojoVerifyCode, session);
 
         String imgBase64 = Base64.getEncoder().encodeToString(out.toByteArray());
         return "data:image/png;base64," + imgBase64;
@@ -158,8 +165,13 @@ public class ServiceUser implements MapperUser {
         return true;
     }
 
-    public void getVerifyEmail(String email, HttpSession session) throws Exception {
+    public void getVerifyEmail(String email, String imageCode, HttpSession session) throws Exception {
         PojoVerifyCode pojoVerifyCode = getPojoVerifyCode(session);
+
+
+        if (!isVerifyImage(imageCode, session)) {
+            throw new ExceptionMain("图片验证码错误");
+        }
 
         Integer emailCodeAns = pojoVerifyCode.getEmailCodeAns();
         if (emailCodeAns > 5)
@@ -181,6 +193,8 @@ public class ServiceUser implements MapperUser {
         pojoVerifyCode.setEmailCodeTime(time);
         pojoVerifyCode.setEmailCodeVerifyAns(0);
 
+        setPojoVerifyCode(pojoVerifyCode, session);
+
     }
 
     public boolean isVerifyEmail(String email, String code, HttpSession session) throws Exception {
@@ -200,14 +214,14 @@ public class ServiceUser implements MapperUser {
         Long time = System.currentTimeMillis();
         //一小时后 邮箱验证码失效
         if (emailCodeTime + 1000 * 60 * 60 < time)
-            throw new ExceptionMain("短信验证码已失效");
+            throw new ExceptionMain("邮箱验证码已失效");
 
         pojoVerifyCode.setEmailCodeAns(emailCodeVerifyAns + 1);
         if (emailCodeVerifyAns > 5)
-            throw new ExceptionMain("短信验证码错误次数过多，请重新短信获取验证码");
+            throw new ExceptionMain("邮箱验证码错误次数过多，请重新邮箱获取验证码");
 
         if (!emailCode.equalsIgnoreCase(code))
-            throw new ExceptionMain("短信验证码有误");
+            throw new ExceptionMain("邮箱验证码有误");
 
         return true;
     }

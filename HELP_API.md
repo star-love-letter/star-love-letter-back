@@ -1,6 +1,6 @@
 # 星愿墙开发手册
 
-版本 1.1.3
+版本 1.1.5
 
 by 赵国庆
 
@@ -9,6 +9,20 @@ by 赵国庆
 ## 项目内容
 
 ### 更新日志
+
+#### 1.1.5
+
+发送邮箱前验证图片验证码
+
+注册账号添加了参数演示
+
+
+
+#### 1.1.4
+
+修复了注册演示参数有误
+
+
 
 #### 1.1.3
 
@@ -32,7 +46,7 @@ by 赵国庆
 
 #### 1.1.1
 
-添加了图形验证码
+添加了图片验证码
 
 添加了邮箱验证码
 
@@ -220,6 +234,18 @@ post: http://localhost:8080/api/user/add
 
 
 
+##### 参数示范 x-www-form-urlencoded
+
+```ini
+email = admin@conststar.cn
+password = 123123456
+name = 用户名称
+imageCode = zgq6
+emailCode = 6hhh
+```
+
+
+
 ##### 成功返回内容示范
 
 ```json
@@ -236,7 +262,9 @@ method:post;
 data:{
     email:xxxx,
     password:xxxx,
-    name:xxx
+    name:xxx,
+    imageCode:xxxx,
+    emailCode:xxxx
 }
 ```
 
@@ -438,7 +466,7 @@ method:get;
 
 #### 示例
 
-get: http://localhost:8080/api/user/verifyEmail?email=admin@conststar.cn
+get: http://localhost:8080/api/user/verifyEmail?email=admin@conststar.cn?imageCode=zgq6
 
 
 
@@ -456,6 +484,7 @@ get: http://localhost:8080/api/user/verifyEmail?email=admin@conststar.cn
 url: /api/user/verifyEmail;
 method:get;
 params:{
+	imageCode:xxxx,
     email:xxxx
 }
 ```
@@ -464,9 +493,10 @@ params:{
 
 ##### 调用参数
 
-| 参数  | 值类型 | 说明             |
-| ----- | ------ | ---------------- |
-| email | string | 获取验证码的邮箱 |
+| 参数      | 值类型 | 说明             |
+| --------- | ------ | ---------------- |
+| email     | string | 获取验证码的邮箱 |
+| imageCode | string | 图片验证码       |
 
 
 

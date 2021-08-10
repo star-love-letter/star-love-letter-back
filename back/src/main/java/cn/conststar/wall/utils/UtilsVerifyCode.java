@@ -144,7 +144,7 @@ public class UtilsVerifyCode {
         //绘制干扰线
         Random random = new Random();
         g2.setColor(getRandColor(160, 200));// 设置线条的颜色
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 10; i++) {
             int x = random.nextInt(w - 1);
             int y = random.nextInt(h - 1);
             int xl = random.nextInt(6) + 1;
@@ -153,7 +153,7 @@ public class UtilsVerifyCode {
         }
 
         // 添加噪点
-        float yawpRate = 0.05f;// 噪声率
+        float yawpRate = 0.02f;// 噪声率
         int area = (int) (yawpRate * w * h);
         for (int i = 0; i < area; i++) {
             int x = random.nextInt(w);

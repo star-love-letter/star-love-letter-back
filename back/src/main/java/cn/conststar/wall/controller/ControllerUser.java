@@ -85,7 +85,7 @@ public class ControllerUser {
         return jsonObject.toJSONString();
     }
 
-    //获取图形验证码
+    //获取图片验证码
     @GetMapping("/verifyImage")
     public String getVerifyImage(HttpSession session) throws IOException {
         JSONObject jsonObject = new JSONObject();
@@ -99,13 +99,14 @@ public class ControllerUser {
         return jsonObject.toJSONString();
     }
 
-    //获取短信验证码
+    //获取邮箱验证码
     @GetMapping("/verifyEmail")
     public String getVerifyEmail(@RequestParam("email") String email,
+                                 @RequestParam("imageCode") String imageCode,
                                  HttpSession session) throws Exception {
         JSONObject jsonObject = new JSONObject();
 
-        serviceUser.getVerifyEmail(email, session);
+        serviceUser.getVerifyEmail(email, imageCode, session);
 
         jsonObject.put("code", 0);
         jsonObject.put("msg", "获取成功");
