@@ -3,7 +3,6 @@ package cn.conststar.wall.controller;
 import cn.conststar.wall.pojo.PojoUserPublic;
 import cn.conststar.wall.pojo.PojoUser;
 import cn.conststar.wall.service.ServiceUser;
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,27 +22,24 @@ public class ControllerUser {
     //登录
     @PostMapping("/login")
     public String login(@RequestParam("email") String email,
-                        @RequestParam("password") String password,
-                        HttpSession session) throws Exception {
+                        @RequestParam("password") String password) throws Exception {
         JSONObject jsonObject = new JSONObject();
 
-        PojoUser user = serviceUser.login(email, password);
-        session.setAttribute("user", user);
+        String token = serviceUser.login(email, password);
 
-        JSONObject userJson = (JSONObject) JSON.toJSON(user);
-        jsonObject.put("user", userJson);
+        jsonObject.put("token", token);
         jsonObject.put("code", 0);
         jsonObject.put("msg", "登录成功");
-
 
         return jsonObject.toJSONString();
     }
 
     //退出登录
-    @PostMapping("/quit")
-    public String quit(HttpSession session) {
+    @PostMapping("/logout")
+    public String quit(@RequestHeader(value = "token", required = false) String token) throws Exception {
         JSONObject jsonObject = new JSONObject();
-        session.removeAttribute("user");
+
+        serviceUser.logout(token);
 
         jsonObject.put("code", 0);
         jsonObject.put("msg", "账号已退出");
@@ -73,10 +69,9 @@ public class ControllerUser {
 
     //获取用户信息
     @GetMapping("/user")
-    public String getUser(HttpSession session) throws Exception {
+    public String getUser(@RequestHeader(value = "token", required = false) String token) throws Exception {
         JSONObject jsonObject = new JSONObject();
-        PojoUser user = (PojoUser) session.getAttribute("user");
-        serviceUser.verifyUser(user);
+        PojoUser user = serviceUser.getUser(token);
 
         jsonObject.put("user", user);
         jsonObject.put("code", 0);
@@ -116,11 +111,10 @@ public class ControllerUser {
     //获取公开用户信息
     @GetMapping("/userPublic")
     public String getPublicUser(@RequestParam("id") int id,
-                                HttpSession session) throws Exception {
+                                @RequestHeader(value = "token", required = false) String token) throws Exception {
         JSONObject jsonObject = new JSONObject();
 
-        PojoUser user = (PojoUser) session.getAttribute("user");
-        serviceUser.verifyUser(user);
+        PojoUser user = serviceUser.getUser(token); //验证用户登录状态
         PojoUserPublic userPublic = serviceUser.getUserPublic(id);
 
         jsonObject.put("userPublic", userPublic);
@@ -129,4 +123,5 @@ public class ControllerUser {
 
         return jsonObject.toJSONString();
     }
+
 }

@@ -3,28 +3,47 @@ package cn.conststar.wall.utils;
 import cn.conststar.wall.exception.ExceptionMain;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.IIOImage;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import javax.imageio.ImageIO;
-import javax.imageio.ImageWriter;
-import javax.imageio.plugins.jpeg.JPEGImageWriteParam;
-import javax.imageio.stream.FileImageOutputStream;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.Iterator;
+import java.util.*;
 import java.util.List;
-import java.util.UUID;
 
 public class UtilsMain {
+
+    public static String _key;
+
+    static {
+        _key = UUID.randomUUID().toString() + new Random().nextLong();
+    }
+
     public static String getUUID() {
         return UUID.randomUUID().toString().replaceAll("-", "");
     }
 
+    public static String HMACSHA256(String data) throws Exception {
+        return HMACSHA256(data, _key);
+    }
+
+    public static String HMACSHA256(String data, String key) throws Exception {
+        Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
+        SecretKeySpec secret_key = new SecretKeySpec(key.getBytes("UTF-8"), "HmacSHA256");
+        sha256_HMAC.init(secret_key);
+
+        byte[] array = sha256_HMAC.doFinal(data.getBytes("UTF-8"));
+        StringBuilder sb = new StringBuilder();
+        for (byte item : array) {
+            sb.append(Integer.toHexString((item & 0xFF) | 0x100).substring(1, 3));
+        }
+        return sb.toString().toUpperCase();
+
+    }
 
     public static File getDataDirectory() {
         String path = getDataPath();

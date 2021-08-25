@@ -1,7 +1,6 @@
 package cn.conststar.wall.controller;
 
 import cn.conststar.wall.pojo.PojoComment;
-import cn.conststar.wall.pojo.PojoUserPublic;
 import cn.conststar.wall.pojo.PojoUser;
 import cn.conststar.wall.service.ServiceComment;
 import cn.conststar.wall.service.ServiceUser;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -68,11 +66,10 @@ public class ControllerComment {
                        @RequestParam("anonymous") boolean anonymous,
                        @RequestParam("content") String content,
                        @RequestParam("images") String images,
-                       HttpSession session) throws Exception {
+                       @RequestHeader(value = "token", required = false) String token) throws Exception {
         JSONObject jsonObject = new JSONObject();
 
-        PojoUser user = (PojoUser) session.getAttribute("user");
-        serviceUser.verifyUser(user);
+        PojoUser user = serviceUser.getUser(token); //验证用户登录状态
 
         List<String> imageList = JSONArray.parseArray(images).toJavaList(String.class);
         UtilsMain.addImages(imageList);
@@ -86,21 +83,4 @@ public class ControllerComment {
 
         return jsonObject.toJSONString();
     }
-
-//    //获取评论的用户信息 （评论必须是非匿名的）
-//    @GetMapping("/user")
-//    public String getUser(@RequestParam("commentId") int commentId,
-//                          HttpSession session) throws Exception {
-//        JSONObject jsonObject = new JSONObject();
-//
-//
-//        PojoUserPublic userPublic = serviceComment.getUser(commentId);
-//
-//        jsonObject.put("userPublic", userPublic);
-//        jsonObject.put("code", 0);
-//        jsonObject.put("msg", "获取成功");
-//
-//
-//        return jsonObject.toJSONString();
-//    }
 }

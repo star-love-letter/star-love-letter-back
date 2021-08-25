@@ -12,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.*;
 
 @RestController
@@ -29,12 +28,10 @@ public class ControllerFile {
 
     @PostMapping(value = "/image", produces = {"application/json;charset=UTF-8"})
     String uploadImage(@RequestParam("file") MultipartFile file,
-                       HttpSession session) throws Exception {
+                       @RequestHeader(value = "token", required = false) String token) throws Exception {
         JSONObject jsonObject = new JSONObject();
 
-        PojoUser user = (PojoUser) session.getAttribute("user");
-        serviceUser.verifyUser(user);
-
+        PojoUser user = serviceUser.getUser(token); //验证用户登录状态
         String fileName = serviceFile.uploadImage(file);
 
         jsonObject.put("file", fileName);
@@ -66,10 +63,10 @@ public class ControllerFile {
 //        response.setHeader("Content-Disposition",
 //                "attachment;fileName=" + URLEncoder.encode(image, "UTF-8"));
 
-        byte[] buff =new byte[1024];
-        int index=0;
+        byte[] buff = new byte[1024];
+        int index = 0;
         //执行 写出操作
-        while((index= input.read(buff))!= -1){
+        while ((index = input.read(buff)) != -1) {
             out.write(buff, 0, index);
             out.flush();
         }

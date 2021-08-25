@@ -2,7 +2,6 @@ package cn.conststar.wall.service;
 
 import cn.conststar.wall.exception.ExceptionMain;
 import cn.conststar.wall.mapper.MapperTable;
-import cn.conststar.wall.pojo.PojoUserPublic;
 import cn.conststar.wall.pojo.PojoTable;
 import lombok.AllArgsConstructor;
 import lombok.Data;

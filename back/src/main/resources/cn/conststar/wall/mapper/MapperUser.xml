@@ -8,29 +8,13 @@
     <select id="getUser" resultType="PojoUser">
         select *
         from `user`
-        where email = #{email}
-          and password = password(#{password});
+        where token = #{token};
     </select>
-
 
     <select id="getUserPublic" resultType="PojoUserPublic">
         select *
         from `user`
         where id = #{id};
-    </select>
-
-    <update id="updateLastTime" parameterType="PojoUser">
-        update `user`
-        set last_time=now()
-        where email = #{email}
-          and password = #{password};
-    </update>
-
-    <select id="verifyUser" parameterType="PojoUser" resultType="_boolean">
-        select count(id)
-        from `user`
-        where email = #{email}
-          and password = #{password};
     </select>
 
     <insert id="addUser">
@@ -43,4 +27,19 @@
         from `user`
         where email = #{email};
     </select>
+
+    <update id="login">
+        update `user`
+        set `last_time`=now(),
+            `token` = #{token}
+        where email = #{email}
+          and password = password(#{password});
+    </update>
+
+    <update id="logout">
+        update `user`
+        set `last_time`= now(),
+            token = null
+        where `token` = #{token};
+    </update>
 </mapper>

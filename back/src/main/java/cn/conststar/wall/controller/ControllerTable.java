@@ -1,6 +1,5 @@
 package cn.conststar.wall.controller;
 
-import cn.conststar.wall.pojo.PojoUserPublic;
 import cn.conststar.wall.pojo.PojoTable;
 import cn.conststar.wall.pojo.PojoUser;
 import cn.conststar.wall.service.ServiceTable;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -104,8 +102,8 @@ public class ControllerTable {
         int count = serviceTable.getSearchCount(keyword);
 
         jsonObject.put("count", count);
-        jsonObject.put("code", 0);
         jsonObject.put("msg", "获取成功");
+        jsonObject.put("code", 0);
 
         return jsonObject.toJSONString();
     }
@@ -119,11 +117,10 @@ public class ControllerTable {
                       @RequestParam("anonymous") boolean anonymous,
                       @RequestParam("content") String content,
                       @RequestParam("images") String images,
-                      HttpSession session) throws Exception {
+                      @RequestHeader(value = "token", required = false) String token) throws Exception {
         JSONObject jsonObject = new JSONObject();
 
-        PojoUser user = (PojoUser) session.getAttribute("user");
-        serviceUser.verifyUser(user);
+        PojoUser user = serviceUser.getUser(token); //验证用户登录状态
 
         List<String> imageList = JSONArray.parseArray(images).toJavaList(String.class);
         UtilsMain.addImages(imageList);
@@ -141,51 +138,33 @@ public class ControllerTable {
     //点赞
     @PutMapping("/support")
     public String putSupport(@RequestParam("tableId") int tableId,
-                             HttpSession session) throws Exception {
+                             @RequestHeader(value = "token", required = false) String token) throws Exception {
         JSONObject jsonObject = new JSONObject();
 
-        PojoUser user = (PojoUser) session.getAttribute("user");
-        serviceUser.verifyUser(user);
+        PojoUser user = serviceUser.getUser(token); //验证用户登录状态
         serviceTable.addSupport(tableId, user.getId());
 
-        jsonObject.put("code", 0);
         jsonObject.put("msg", "已点赞");
+        jsonObject.put("code", 0);
 
 
         return jsonObject.toJSONString();
     }
 
-    //点赞
+    //取消点赞
     @DeleteMapping("/support")
     public String deleteSupport(@RequestParam("tableId") int tableId,
-                                HttpSession session) throws Exception {
+                                @RequestHeader(value = "token", required = false) String token) throws Exception {
         JSONObject jsonObject = new JSONObject();
 
-        PojoUser user = (PojoUser) session.getAttribute("user");
-        serviceUser.verifyUser(user);
+        PojoUser user = serviceUser.getUser(token); //验证用户登录状态
         serviceTable.removeSupport(tableId, user.getId());
 
-        jsonObject.put("code", 0);
         jsonObject.put("msg", "已取消点赞");
+        jsonObject.put("code", 0);
 
 
         return jsonObject.toJSONString();
     }
-
-//    //获取帖子的用户信息 （帖子必须是非匿名的）
-//    @GetMapping("/user")
-//    public String getUser(@RequestParam("tableId") int tableId,
-//                          HttpSession session) throws Exception {
-//        JSONObject jsonObject = new JSONObject();
-//
-//        PojoUserPublic userPublic = serviceTable.getUser(tableId);
-//
-//        jsonObject.put("userPublic", userPublic);
-//        jsonObject.put("code", 0);
-//        jsonObject.put("msg", "获取成功");
-//
-//
-//        return jsonObject.toJSONString();
-//    }
 }
 

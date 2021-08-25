@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: 2021-06-29 19:47:58
+-- Generation Time: 2021-08-21 22:17:26
 -- 服务器版本： 5.6.50-log
 -- PHP Version: 5.6.40
 
@@ -91,7 +91,8 @@ CREATE TABLE IF NOT EXISTS `user` (
   `name` varchar(255) NOT NULL COMMENT '姓名',
   `student_id` int(11) DEFAULT NULL COMMENT '学号',
   `create_time` datetime NOT NULL COMMENT '注册时间',
-  `last_time` datetime NOT NULL COMMENT '最近登录时间'
+  `last_time` datetime NOT NULL COMMENT '最近登录时间',
+  `token` char(255) DEFAULT NULL COMMENT 'token'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -131,8 +132,9 @@ ALTER TABLE `table`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`id`) USING BTREE,
-  ADD UNIQUE KEY `mail` (`email`),
-  ADD UNIQUE KEY `student_id` (`student_id`);
+  ADD UNIQUE KEY `user_mail` (`email`) USING BTREE,
+  ADD UNIQUE KEY `user_student_id` (`student_id`) USING BTREE,
+  ADD UNIQUE KEY `user_token` (`token`) USING BTREE;
 
 --
 -- AUTO_INCREMENT for dumped tables

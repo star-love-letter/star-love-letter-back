@@ -1,6 +1,6 @@
 # 星愿墙开发手册
 
-版本 1.1.5
+版本 1.1.8
 
 by 赵国庆
 
@@ -9,6 +9,32 @@ by 赵国庆
 ## 项目内容
 
 ### 更新日志
+
+#### 1.1.8
+
+修复登录调用参数错误
+
+- [登录-调用参数](#登录)
+
+
+
+#### 1.1.7
+
+token绑定用户，登录获取token
+
+修改了退出登录接口路径
+
+- [登录-返回内容](#登录)
+- ~~获取token接口~~
+- [退出登录-url](#退出登录)
+
+
+
+#### 1.1.6
+
+添加了token
+
+
 
 #### 1.1.5
 
@@ -106,8 +132,6 @@ by 赵国庆
 
 ## 账号操作
 
-
-
 ### 登录
 
 #### 示例
@@ -131,13 +155,7 @@ password = xxxx
 {
     "msg": "登录成功",
     "code": 0,
-    "user": {
-        "lastTime": 1624597471000,
-        "createTime": 1624164437000,
-        "name": "赵国庆",
-        "id": 2,
-        "email": "admin@conststar.cn"
-    }
+    "token": "1164442003@qq.com 83B9197E8F0572E87BAB4B8128C7299752E67B6B0355F1E8F330A072F3BF0E78"
 }
 ```
 
@@ -167,21 +185,9 @@ data:{
 
 ##### 返回内容
 
-| 参数 | 值类型 | 说明     |
-| ---- | ------ | -------- |
-| user | object | 用户内容 |
-
-
-
-###### user内容
-
-| 参数       | 值类型 | 说明                  |
-| ---------- | ------ | --------------------- |
-| id         | int    | 用户id                |
-| lastTime   | long   | 上次登录的时间 时间戳 |
-| createTime | long   | 注册账号的时间 时间戳 |
-| name       | string | 用户名称              |
-| email      | string | 邮箱                  |
+| 参数  | 值类型 | 说明  |
+| ----- | ------ | ----- |
+| token | string | token |
 
 
 
@@ -191,7 +197,7 @@ data:{
 
 #### 示例
 
-post: http://localhost:8080/api/user/quit
+post: http://localhost:8080/api/user/logout
 
 
 
@@ -208,6 +214,9 @@ post: http://localhost:8080/api/user/quit
 ```
 url: /api/user/quit;
 method:post;
+header:{
+	token:xxx
+}
 ```
 
 
@@ -321,6 +330,9 @@ get: http://localhost:8080/api/user/user
 ```
 url: /api/user/user;
 method:get;
+header:{
+	token:xxx
+}
 ```
 
 
@@ -386,6 +398,9 @@ url: /api/user/userPublic;
 method:get;
 params:{
     id:xxxx
+};
+header:{
+	token:xxx
 }
 ```
 
@@ -543,6 +558,9 @@ url: /api/file/image;
 method:post;
 data:{
     file:xxxx
+};
+header:{
+	token:xxx
 }
 ```
 
@@ -1108,6 +1126,9 @@ data:{
     "content": xxx,
     "anonymous":xxx,
     "images":["xxx","xxx"]
+};
+header:{
+	token:xxx
 }
 ```
 
@@ -1160,6 +1181,9 @@ url: /api/table/support;
 method:put;
 data:{
     "tableId":xxx
+};
+header:{
+	token:xxx
 }
 ```
 
@@ -1206,6 +1230,9 @@ url: /api/table/support;
 method:delete;
 data:{
     "tableId":xxx
+};
+header:{
+	token:xxx
 }
 ```
 
@@ -1446,6 +1473,9 @@ data:{
     "content": xxx,
     "anonymous":xxx
     "images":["xxx","xxx"]
+};
+header:{
+	token:xxx
 }
 ```
 

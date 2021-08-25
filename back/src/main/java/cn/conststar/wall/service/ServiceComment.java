@@ -3,7 +3,6 @@ package cn.conststar.wall.service;
 import cn.conststar.wall.exception.ExceptionMain;
 import cn.conststar.wall.mapper.MapperComment;
 import cn.conststar.wall.pojo.PojoComment;
-import cn.conststar.wall.pojo.PojoUserPublic;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

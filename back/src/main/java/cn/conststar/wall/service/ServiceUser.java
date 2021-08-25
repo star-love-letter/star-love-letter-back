@@ -6,6 +6,7 @@ import cn.conststar.wall.pojo.PojoUserPublic;
 import cn.conststar.wall.pojo.PojoUser;
 import cn.conststar.wall.pojo.PojoVerifyCode;
 import cn.conststar.wall.utils.UtilsEmail;
+import cn.conststar.wall.utils.UtilsMain;
 import cn.conststar.wall.utils.UtilsVerifyCode;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,17 +32,21 @@ public class ServiceUser implements MapperUser {
         return matcher.find();
     }
 
-    public PojoUser login(String email, String password) throws Exception {
-        PojoUser user = getUser(email, password);
-        updateLastTime(user);
-        return user;
+    public String login(String email, String password) throws Exception {
+        String token = email + " " + UtilsMain.HMACSHA256(UtilsMain.getUUID());
+        login(email, password, token);
+
+        return token;
     }
 
     @Override
-    public PojoUser getUser(String email, String password) throws Exception {
-        PojoUser user = mapperUser.getUser(email, password);
+    public PojoUser getUser(String token) throws Exception {
+        if (token == null || token.isEmpty())
+            throw new ExceptionMain("用户未登录", ExceptionMain.NOT_LOGIN);
+
+        PojoUser user = mapperUser.getUser(token);
         if (user == null)
-            throw new ExceptionMain("请检查账号和密码", ExceptionMain.NOT_LOGIN);
+            throw new ExceptionMain("用户登录已失效", ExceptionMain.NOT_LOGIN);
         return user;
     }
 
@@ -54,20 +59,22 @@ public class ServiceUser implements MapperUser {
     }
 
     @Override
-    public int updateLastTime(PojoUser pojoUser) throws Exception {
-        return mapperUser.updateLastTime(pojoUser);
+    public boolean login(String email, String password, String token) throws Exception {
+        boolean b = mapperUser.login(email, password, token);
+        if (!b)
+            throw new ExceptionMain("请检查账号和密码", ExceptionMain.NOT_LOGIN);
+        return true;
     }
 
     @Override
-    public boolean verifyUser(PojoUser pojoUser) throws Exception {
-        if (pojoUser == null)
-            throw new ExceptionMain("用户未登录", ExceptionMain.NOT_LOGIN);
-        boolean b = mapperUser.verifyUser(pojoUser);
+    public boolean logout(String token) throws Exception {
+        boolean b = mapperUser.logout(token);
         if (!b)
-            throw new ExceptionMain("用户登录已失效", ExceptionMain.NOT_LOGIN);
+            throw new ExceptionMain("用户登录状态异常",ExceptionMain.NOT_LOGIN);
 
         return true;
     }
+
 
     @Override
     public int addUser(String email, String password, String name) throws Exception {
@@ -101,12 +108,7 @@ public class ServiceUser implements MapperUser {
     }
 
 
-    //验证码 多个页面的时候会出现问题
-
-    //设置验证码对象
-    public void setPojoVerifyCode(PojoVerifyCode pojoVerifyCode, HttpSession session) {
-        session.setAttribute("VerifyCode", pojoVerifyCode);
-    }
+    //验证码 多个页面的时候会出现问题 bug
 
     //获取验证码对象
     public PojoVerifyCode getPojoVerifyCode(HttpSession session) {
@@ -114,7 +116,7 @@ public class ServiceUser implements MapperUser {
         Object verifyCode = session.getAttribute("VerifyCode");
         if (verifyCode == null) {
             PojoVerifyCode pojoVerifyCode = new PojoVerifyCode();
-            setPojoVerifyCode(pojoVerifyCode, session);
+            session.setAttribute("VerifyCode", pojoVerifyCode);
             return pojoVerifyCode;
         }
         return (PojoVerifyCode) verifyCode;
@@ -133,8 +135,6 @@ public class ServiceUser implements MapperUser {
         pojoVerifyCode.setImageCode(code);
         pojoVerifyCode.setImageCodeTime(System.currentTimeMillis());
         pojoVerifyCode.setImageCodeVerifyAns(0);
-
-        setPojoVerifyCode(pojoVerifyCode, session);
 
         String imgBase64 = Base64.getEncoder().encodeToString(out.toByteArray());
         return "data:image/png;base64," + imgBase64;
@@ -193,7 +193,6 @@ public class ServiceUser implements MapperUser {
         pojoVerifyCode.setEmailCodeTime(time);
         pojoVerifyCode.setEmailCodeVerifyAns(0);
 
-        setPojoVerifyCode(pojoVerifyCode, session);
 
     }
 
