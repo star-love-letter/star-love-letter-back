@@ -7,7 +7,6 @@
     <settings>
         <setting name="logImpl" value="LOG4J"/>
         <setting name="mapUnderscoreToCamelCase" value="true" />
-        <setting name="defaultStatementTimeout" value="120" />
     </settings>
 
     <typeAliases>

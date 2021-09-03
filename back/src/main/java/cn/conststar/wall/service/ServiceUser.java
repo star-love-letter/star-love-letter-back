@@ -16,6 +16,8 @@ import javax.servlet.http.HttpSession;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,7 +26,10 @@ import java.util.regex.Pattern;
 @AllArgsConstructor
 public class ServiceUser implements MapperUser {
 
+    private static Map<String, PojoVerifyCode> verifyCodeMap = new HashMap<>();
+
     private MapperUser mapperUser;
+
 
     private boolean isEmail(String email) {
         Pattern emailPattern = Pattern.compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");
@@ -70,7 +75,7 @@ public class ServiceUser implements MapperUser {
     public boolean logout(String token) throws Exception {
         boolean b = mapperUser.logout(token);
         if (!b)
-            throw new ExceptionMain("用户登录状态异常",ExceptionMain.NOT_LOGIN);
+            throw new ExceptionMain("用户登录状态异常", ExceptionMain.NOT_LOGIN);
 
         return true;
     }
@@ -108,120 +113,129 @@ public class ServiceUser implements MapperUser {
     }
 
 
-    //验证码 多个页面的时候会出现问题 bug
+    //验证码 临时实现方法 并不优雅
 
     //获取验证码对象
-    public PojoVerifyCode getPojoVerifyCode(HttpSession session) {
+    public PojoVerifyCode getPojoVerifyCode(String email) {
 
-        Object verifyCode = session.getAttribute("VerifyCode");
+        PojoVerifyCode verifyCode = verifyCodeMap.get(email);
         if (verifyCode == null) {
             PojoVerifyCode pojoVerifyCode = new PojoVerifyCode();
-            session.setAttribute("VerifyCode", pojoVerifyCode);
+            verifyCodeMap.put(email, pojoVerifyCode);
             return pojoVerifyCode;
         }
-        return (PojoVerifyCode) verifyCode;
+        return verifyCode;
     }
 
-    public void removePojoVerifyCode(HttpSession session) {
-        session.removeAttribute("VerifyCode");
+    //清除过期验证码
+    public static void clearOverdue() {
+        synchronized (verifyCodeMap) {
+            for (String key : verifyCodeMap.keySet()) {
+                PojoVerifyCode pojoVerifyCode = verifyCodeMap.get(key);
+
+                //删除过期的验证码
+                if (pojoVerifyCode.isObjectOverdue())
+                    verifyCodeMap.remove(key);
+            }
+        }
     }
 
-    public String getVerifyImage(HttpSession session) throws IOException {
+    public void removePojoVerifyCode(String email) {
+        synchronized (verifyCodeMap) {
+            verifyCodeMap.remove(email);
+        }
+    }
+
+    public String getVerifyImage(String email) throws Exception {
+        if (!isEmail(email))
+            throw new ExceptionMain("邮箱格式有误");
+
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         String code = UtilsVerifyCode.outputVerifyImage(80, 30, out, 4);
 
-        PojoVerifyCode pojoVerifyCode = getPojoVerifyCode(session);
-
-        pojoVerifyCode.setImageCode(code);
-        pojoVerifyCode.setImageCodeTime(System.currentTimeMillis());
-        pojoVerifyCode.setImageCodeVerifyAns(0);
+        PojoVerifyCode pojoVerifyCode = getPojoVerifyCode(email);
+        pojoVerifyCode.setImageCodeArgs(code);
 
         String imgBase64 = Base64.getEncoder().encodeToString(out.toByteArray());
         return "data:image/png;base64," + imgBase64;
     }
 
-    public boolean isVerifyImage(String code, HttpSession session) throws ExceptionMain {
-        PojoVerifyCode pojoVerifyCode = getPojoVerifyCode(session);
+    public boolean isVerifyImage(String code, String email) throws ExceptionMain {
+        PojoVerifyCode pojoVerifyCode = getPojoVerifyCode(email);
 
-        String imageCode = pojoVerifyCode.getImageCode();
-        if (imageCode.isEmpty())
+        if (pojoVerifyCode.isImageCodeEmpty())
             throw new ExceptionMain("请先获取图形验证码");
 
-        Long time = System.currentTimeMillis();
-
-        //五分钟后 图形验证码失效
-        if (pojoVerifyCode.getImageCodeTime() + 1000 * 60 * 5 < time)
+        if (pojoVerifyCode.isImageCodeOverdue())
             throw new ExceptionMain("图形验证码已失效");
 
-        Integer imageCodeVerifyAns = pojoVerifyCode.getImageCodeVerifyAns();
-        if (imageCodeVerifyAns > 5)
+        if (pojoVerifyCode.isImageVerifyExceed())
             throw new ExceptionMain("图形验证码错误次数过多，请重新图形获取验证码");
 
 
-        if (!imageCode.equalsIgnoreCase(code))
+        if (!pojoVerifyCode.isVerifyImageCode(code)) {
+            //累加验证次数
+            pojoVerifyCode.addImageCodeVerifyAns();
             throw new ExceptionMain("图形验证码有误");
+        }
 
-        pojoVerifyCode.setImageCodeVerifyAns(imageCodeVerifyAns + 1);
+        pojoVerifyCode.clearImageCode();
         return true;
     }
 
-    public void getVerifyEmail(String email, String imageCode, HttpSession session) throws Exception {
-        PojoVerifyCode pojoVerifyCode = getPojoVerifyCode(session);
+    public void getVerifyEmail(String email, String imageCode) throws Exception {
+        PojoVerifyCode pojoVerifyCode = getPojoVerifyCode(email);
 
+        if (!isEmail(email))
+            throw new ExceptionMain("邮箱格式有误");
 
-        if (!isVerifyImage(imageCode, session)) {
+        if (!isVerifyImage(imageCode, email)) {
             throw new ExceptionMain("图片验证码错误");
         }
 
-        Integer emailCodeAns = pojoVerifyCode.getEmailCodeAns();
-        if (emailCodeAns > 5)
+        if (pojoVerifyCode.isEmailExceed())
             throw new ExceptionMain("今日获取邮箱验证码次数过多");
 
-        Long time = System.currentTimeMillis();
-        Long emailCodeTime = pojoVerifyCode.getEmailCodeTime();
-        //一分钟内 不得获取短信验证码
-        if (emailCodeTime + 1000 * 60 > time)
-            throw new ExceptionMain("1分钟后才能获取新的验证码");
+        if (pojoVerifyCode.isEmailSleep())
+            throw new ExceptionMain(PojoVerifyCode.EMAIL_SLEEP + "分钟后才能获取新的验证码");
 
 
         String code = UtilsVerifyCode.generateVerifyCode(5);
         UtilsEmail.send("星愿表白墙-验证码", "您的验证码为：" + code, email, "");
 
-        pojoVerifyCode.setEmailCodeAns(emailCodeAns + 1);
-        pojoVerifyCode.setEmailVerify(email);
-        pojoVerifyCode.setEmailCode(code);
-        pojoVerifyCode.setEmailCodeTime(time);
-        pojoVerifyCode.setEmailCodeVerifyAns(0);
+        //累加获取次数
+        pojoVerifyCode.addEmailCodeAns();
 
-
+        //设置邮箱验证码
+        pojoVerifyCode.setEmailCodeArgs(code, email);
     }
 
-    public boolean isVerifyEmail(String email, String code, HttpSession session) throws Exception {
-        PojoVerifyCode pojoVerifyCode = getPojoVerifyCode(session);
+    public boolean isVerifyEmail(String email, String code) throws Exception {
+        PojoVerifyCode pojoVerifyCode = getPojoVerifyCode(email);
 
-        String emailVerify = pojoVerifyCode.getEmailVerify();
-        String emailCode = pojoVerifyCode.getEmailCode();
-        Long emailCodeTime = pojoVerifyCode.getEmailCodeTime();
-        Integer emailCodeVerifyAns = pojoVerifyCode.getEmailCodeVerifyAns();
+//        String emailVerify = pojoVerifyCode.getEmailVerify();
 
-        if (emailCode.isEmpty())
-            throw new ExceptionMain("请先获取短信验证码");
+        if (pojoVerifyCode.isEmailCodeEmpty())
+            throw new ExceptionMain("请先获取邮箱验证码");
 
-        if (!emailVerify.equals(email))
-            throw new ExceptionMain("更换邮箱后请重新获取短信验证码");
+        //旧方法
+//        if (!emailVerify.equals(email))
+//            throw new ExceptionMain("更换邮箱后请重新获取短信验证码");
 
-        Long time = System.currentTimeMillis();
         //一小时后 邮箱验证码失效
-        if (emailCodeTime + 1000 * 60 * 60 < time)
+        if (pojoVerifyCode.isEmailCodeOverdue())
             throw new ExceptionMain("邮箱验证码已失效");
 
-        pojoVerifyCode.setEmailCodeAns(emailCodeVerifyAns + 1);
-        if (emailCodeVerifyAns > 5)
+        if (pojoVerifyCode.isEmailVerifyExceed())
             throw new ExceptionMain("邮箱验证码错误次数过多，请重新邮箱获取验证码");
 
-        if (!emailCode.equalsIgnoreCase(code))
+        if (!pojoVerifyCode.isVerifyEmailCode(code)) {
+            //累加验证次数
+            pojoVerifyCode.addEmailCodeVerifyAns();
             throw new ExceptionMain("邮箱验证码有误");
+        }
 
+        pojoVerifyCode.clearEmailCode();
         return true;
     }
 }

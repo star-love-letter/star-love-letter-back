@@ -28,14 +28,10 @@ public class FilterMain implements Filter {
         String url = req.getRequestURI();
         String method = req.getMethod();
         String origin = req.getHeader("Origin");
-        String localAddr = req.getLocalAddr();
-        String localName = req.getLocalName();
 
         String loginfo = "\n"
                 + method + ":" + url
-                + "\norigin:" + origin
-                + "\nlocalName:" + localName
-                + "\nlocalAddr:" + localAddr + "\n";
+                + "\norigin:" + origin+"\n";
 
         logger.info(loginfo);
 

@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @RestController
@@ -52,14 +51,13 @@ public class ControllerUser {
                       @RequestParam("password") String password,
                       @RequestParam("name") String name,
                       @RequestParam("imageCode") String imageCode,
-                      @RequestParam("emailCode") String emailCode,
-                      HttpSession session) throws Exception {
+                      @RequestParam("emailCode") String emailCode) throws Exception {
         JSONObject jsonObject = new JSONObject();
 
-        serviceUser.isVerifyImage(imageCode, session);
-        serviceUser.isVerifyEmail(email, emailCode, session);
+        serviceUser.isVerifyImage(imageCode, email);
+        serviceUser.isVerifyEmail(email, emailCode);
         serviceUser.addUser(email, password, name);
-        serviceUser.removePojoVerifyCode(session);
+        serviceUser.removePojoVerifyCode(email);
 
         jsonObject.put("code", 0);
         jsonObject.put("msg", "注册成功");
@@ -82,10 +80,10 @@ public class ControllerUser {
 
     //获取图片验证码
     @GetMapping("/verifyImage")
-    public String getVerifyImage(HttpSession session) throws IOException {
+    public String getVerifyImage(@RequestParam("email") String email) throws Exception {
         JSONObject jsonObject = new JSONObject();
 
-        String verifyImage = serviceUser.getVerifyImage(session);
+        String verifyImage = serviceUser.getVerifyImage(email);
 
         jsonObject.put("image", verifyImage);
         jsonObject.put("code", 0);
@@ -97,11 +95,10 @@ public class ControllerUser {
     //获取邮箱验证码
     @GetMapping("/verifyEmail")
     public String getVerifyEmail(@RequestParam("email") String email,
-                                 @RequestParam("imageCode") String imageCode,
-                                 HttpSession session) throws Exception {
+                                 @RequestParam("imageCode") String imageCode) throws Exception {
         JSONObject jsonObject = new JSONObject();
 
-        serviceUser.getVerifyEmail(email, imageCode, session);
+        serviceUser.getVerifyEmail(email, imageCode);
 
         jsonObject.put("code", 0);
         jsonObject.put("msg", "获取成功");

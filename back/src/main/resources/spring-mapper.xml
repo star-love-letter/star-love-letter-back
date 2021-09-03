@@ -15,6 +15,20 @@
                   value="${url}"/>
         <property name="user" value="${user}"/>
         <property name="password" value="${password}"/>
+
+
+        <property name="minPoolSize" value="1" />
+        <property name="maxPoolSize" value="20"/>
+        <property name="initialPoolSize" value="1"/>
+        <property name="maxIdleTime" value="25000"/>
+        <property name="acquireIncrement" value="1"/>
+
+        <property name="acquireRetryAttempts" value="30"/>
+        <property name="acquireRetryDelay" value="1000"/>
+        <property name="testConnectionOnCheckin" value="true"/>
+        <property name="automaticTestTable" value="c3p0TestTable"/>
+        <property name="idleConnectionTestPeriod" value="18000"/>
+        <property name="checkoutTimeout" value="3000"/>
     </bean>
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">

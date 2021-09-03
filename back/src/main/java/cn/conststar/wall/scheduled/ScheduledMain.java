@@ -1,5 +1,6 @@
 package cn.conststar.wall.scheduled;
 
+import cn.conststar.wall.service.ServiceUser;
 import cn.conststar.wall.utils.UtilsEmail;
 import cn.conststar.wall.utils.UtilsMain;
 import org.apache.log4j.Logger;
@@ -31,8 +32,19 @@ public class ScheduledMain {
         }
     }
 
+    private void clearVerifyCode() {
+        ServiceUser.clearOverdue();
+    }
+
+    //每天0点 运行
     @Scheduled(cron = "0 0 0 * * ?")
-    public void clear() {
+    public void D0H() {
         clearTempFile();
+    }
+
+    //每天12点和0点运行
+    @Scheduled(cron = "0 0 0,12 * * ?")
+    public void D0_12H() {
+        clearVerifyCode();
     }
 }
