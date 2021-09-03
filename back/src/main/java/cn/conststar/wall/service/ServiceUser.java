@@ -12,9 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.servlet.http.HttpSession;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;

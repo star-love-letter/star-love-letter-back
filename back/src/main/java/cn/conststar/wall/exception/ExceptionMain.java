@@ -10,13 +10,14 @@ public class ExceptionMain extends Exception {
     //没有登录账号
     public static final int NOT_LOGIN = 101;
 
-    //致命错误
+    //默认致命错误
     public static final int DEADLY = 200;
+    //系统致命错误
+    public static final int DEADLY_SYSTEEM = 201;
 
 
     private Logger logger = Logger.getLogger(ExceptionMain.class);
     private int code = DEFAULT;
-
 
     public ExceptionMain() {
         super();
