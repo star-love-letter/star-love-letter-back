@@ -8,6 +8,15 @@ by 赵国庆
 
 ### 更新日志
 
+### 1.1.10
+
+点赞/取消点赞接口参数方法错误
+
+- [点赞-参数](#支持（点赞）)
+- [取消点赞-参数](#取消支持（取消点赞）)
+
+
+
 ### 1.1.9
 
 使用email绑定验证码
@@ -1191,7 +1200,7 @@ put: http://localhost:8080/api/table/support?tableId=3
 ```
 url: /api/table/support;
 method:put;
-data:{
+params:{
     "tableId":xxx
 };
 header:{
@@ -1240,7 +1249,7 @@ delete: http://localhost:8080/api/table/support?tableId=3
 ```
 url: /api/table/support;
 method:delete;
-data:{
+params:{
     "tableId":xxx
 };
 header:{
