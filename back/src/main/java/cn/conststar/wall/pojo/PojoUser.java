@@ -19,10 +19,6 @@ public class PojoUser implements Serializable {
     //邮箱
     private String email;
 
-    //加密的密码
-    @JSONField(serialize = false)
-    private String password;
-
     //名称
     private String name;
 

@@ -3,9 +3,11 @@ package cn.conststar.wall.service;
 import cn.conststar.wall.exception.ExceptionMain;
 import cn.conststar.wall.mapper.MapperTable;
 import cn.conststar.wall.pojo.PojoTable;
+import cn.conststar.wall.pojo.PojoUserPublic;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -16,45 +18,41 @@ public class ServiceTable implements MapperTable {
 
     private MapperTable mapperTable;
 
-    public List<PojoTable> getTablesPage(int pageIndex, int pageSize) throws Exception {
+    public List<PojoTable> getTablesPage(int pageIndex, int pageSize, int userId) throws Exception {
 
         int startIndex = (pageIndex - 1) * pageSize;
-        return this.getTablesLimit(startIndex, pageSize);
+        return this.getTablesLimit(startIndex, pageSize, userId);
     }
 
     @Override
-    public List<PojoTable> getTablesLimit(int startIndex, int pageSize) throws Exception {
+    public List<PojoTable> getTablesLimit(int startIndex, int pageSize, int userId) throws Exception {
         if (startIndex < 0 || pageSize < 0)
             throw new ExceptionMain("页数有误");
 
-        return mapperTable.getTablesLimit(startIndex, pageSize);
+        return mapperTable.getTablesLimit(startIndex, pageSize, userId);
     }
 
-    public List<PojoTable> getSearchTablesPage(String keyword, int pageIndex, int pageSize) throws Exception {
+    public List<PojoTable> getSearchTablesPage(String keyword, int pageIndex, int pageSize, int userId) throws Exception {
 
         int startIndex = (pageIndex - 1) * pageSize;
 
-        return this.getSearchTablesLimit(keyword, startIndex, pageSize);
+        return this.getSearchTablesLimit(keyword, startIndex, pageSize, userId);
     }
 
     @Override
-    public List<PojoTable> getSearchTablesLimit(String keyword, int startIndex, int pageSize) throws Exception {
+    public List<PojoTable> getSearchTablesLimit(String keyword, int startIndex, int pageSize, int userId) throws Exception {
         if (keyword.isEmpty())
             throw new ExceptionMain("搜索内容为空");
 
         if (startIndex < 0 || pageSize < 0)
             throw new ExceptionMain("页数有误");
-        return mapperTable.getSearchTablesLimit(keyword, startIndex, pageSize);
+        return mapperTable.getSearchTablesLimit(keyword, startIndex, pageSize, userId);
     }
 
-//    @Override
-//    public PojoUserPublic getUser(int tableId) throws Exception {
-//        return mapperTable.getUser(tableId);
-//    }
 
     @Override
-    public PojoTable getTable(int id) throws Exception {
-        return mapperTable.getTable(id);
+    public PojoTable getTable(int id, int userId) throws Exception {
+        return mapperTable.getTable(id, userId);
     }
 
     @Override
@@ -82,11 +80,17 @@ public class ServiceTable implements MapperTable {
 
     @Override
     public void addSupport(int tableId, int userId) throws Exception {
+        if (isSupport(tableId, userId))
+            throw new ExceptionMain("已经点过赞了");
+
         mapperTable.addSupport(tableId, userId);
     }
 
     @Override
     public void removeSupport(int tableId, int userId) throws Exception {
+        if (!isSupport(tableId, userId))
+            throw new ExceptionMain("没有赞过这个帖子");
+
         mapperTable.removeSupport(tableId, userId);
     }
 
@@ -98,5 +102,15 @@ public class ServiceTable implements MapperTable {
     @Override
     public int getSearchCount(String keyword) throws Exception {
         return mapperTable.getSearchCount(keyword);
+    }
+
+    @Override
+    public PojoUserPublic getUser(int tableId) throws Exception {
+        return mapperTable.getUser(tableId);
+    }
+
+    @Override
+    public boolean isSupport(int tableId, int userId) throws Exception {
+        return mapperTable.isSupport(tableId, userId);
     }
 }

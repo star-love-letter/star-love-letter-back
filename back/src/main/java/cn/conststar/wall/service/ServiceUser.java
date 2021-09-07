@@ -11,6 +11,7 @@ import cn.conststar.wall.utils.UtilsVerifyCode;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Base64;
@@ -40,6 +41,17 @@ public class ServiceUser implements MapperUser {
         login(email, password, token);
 
         return token;
+    }
+
+    //获取用户id
+    //获取错误返回 -1
+    //不抛出异常
+    public int getUserId(String token) {
+        try {
+            return getUser(token).getId();
+        } catch (Exception ignored) {
+        }
+        return -1;
     }
 
     @Override

@@ -32,11 +32,13 @@ public class ControllerTable {
     //获取帖子分页列表
     @GetMapping("/pageList")
     public String getPageList(@RequestParam("pageIndex") int pageIndex,
-                              @RequestParam("pageSize") int pageSize) throws Exception {
+                              @RequestParam("pageSize") int pageSize,
+                              @RequestHeader(value = "token", required = false) String token) throws Exception {
 
         JSONObject jsonObject = new JSONObject();
 
-        List<PojoTable> tables = serviceTable.getTablesPage(pageIndex, pageSize);
+        int userId = serviceUser.getUserId(token);
+        List<PojoTable> tables = serviceTable.getTablesPage(pageIndex, pageSize, userId);
 
         JSONArray listJson = (JSONArray) JSON.toJSON(tables);
         jsonObject.put("list", listJson);
@@ -62,10 +64,12 @@ public class ControllerTable {
 
     //获取单个帖子内容
     @GetMapping("/table")
-    public String getTable(@RequestParam("id") int id) throws Exception {
+    public String getTable(@RequestParam("id") int id,
+                           @RequestHeader(value = "token", required = false) String token) throws Exception {
         JSONObject jsonObject = new JSONObject();
 
-        PojoTable table = serviceTable.getTable(id);
+        int userId = serviceUser.getUserId(token);
+        PojoTable table = serviceTable.getTable(id, userId);
 
         JSONObject tableJson = (JSONObject) JSON.toJSON(table);
         jsonObject.put("table", tableJson);
@@ -79,10 +83,12 @@ public class ControllerTable {
     @GetMapping("/searchList")
     public String getSearchTables(@RequestParam("keyword") String keyword,
                                   @RequestParam("pageIndex") int pageIndex,
-                                  @RequestParam("pageSize") int pageSize) throws Exception {
+                                  @RequestParam("pageSize") int pageSize,
+                                  @RequestHeader(value = "token", required = false) String token) throws Exception {
         JSONObject jsonObject = new JSONObject();
 
-        List<PojoTable> tables = serviceTable.getSearchTablesPage(keyword, pageIndex, pageSize);
+        int userId = serviceUser.getUserId(token);
+        List<PojoTable> tables = serviceTable.getSearchTablesPage(keyword, pageIndex, pageSize, userId);
 
         JSONArray listJson = (JSONArray) JSON.toJSON(tables);
         jsonObject.put("list", listJson);

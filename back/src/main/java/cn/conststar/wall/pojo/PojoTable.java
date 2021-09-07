@@ -17,6 +17,8 @@ public class PojoTable implements Serializable {
 
     //是否为匿名
     private boolean anonymous;
+    //是否点过赞
+    private boolean support;
 
     private String sender;
     private int senderSex;
