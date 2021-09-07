@@ -8,6 +8,16 @@ by 赵国庆
 
 ### 更新日志
 
+### 1.1.11
+
+获取帖子内容时返回用户是否点赞
+
+- [获取帖子分页列表-返回内容](#获取帖子分页列表)
+- [获取单个帖子内容-返回内容](#获取单个帖子内容)
+- [搜索帖子-返回内容](#搜索帖子)
+
+
+
 ### 1.1.10
 
 点赞/取消点赞接口参数方法错误
@@ -664,9 +674,11 @@ get: http://localhost:8080/api/table/pageList?pageIndex=1&pageSize=3
     "code": 0,
     "list": [
         {
-            "recipientSex": 1,
             "images": "[\"78b440903f1241e8a7f50d8c26f3ec07.jpg\"]",
-            "supportCount": 0,
+            "supportCount": 1,
+            "content": "哦不错呦",
+            "commentCount": 1,
+            "recipientSex": 1,
             "createTime": 1622093601000,
             "sender": "马屹东",
             "recipient": "辛金达",
@@ -679,13 +691,14 @@ get: http://localhost:8080/api/table/pageList?pageIndex=1&pageSize=3
                 "id": 1,
                 "email": "admin@conststar.cn"
             },
-            "id": 0,
-            "content": "哦不错呦",
-            "commentCount": 1
+            "id": 92,
+            "support": true
         },
         {
-            "recipientSex": 2,
             "supportCount": 0,
+            "content": "好牛啊",
+            "commentCount": 0,
+            "recipientSex": 2,
             "createTime": 1621819684000,
             "sender": "人红尘",
             "recipient": "任洪琛",
@@ -698,21 +711,28 @@ get: http://localhost:8080/api/table/pageList?pageIndex=1&pageSize=3
                 "id": 1,
                 "email": "admin@conststar.cn"
             },
-            "id": 0,
-            "content": "好牛啊",
-            "commentCount": 0
+            "id": 89,
+            "support": false
         },
         {
-            "recipientSex": 2,
             "supportCount": 0,
+            "content": "SB",
+            "commentCount": 3,
+            "recipientSex": 2,
             "createTime": 1621819650000,
             "sender": "王钦宇",
             "recipient": "段富强",
-            "anonymous": true,
+            "anonymous": false,
             "senderSex": 1,
-            "id": 0,
-            "content": "SB",
-            "commentCount": 3
+            "userPublic": {
+                "lastTime": 1624164392000,
+                "createTime": 1624164392000,
+                "name": "12321",
+                "id": 1,
+                "email": "admin@conststar.cn"
+            },
+            "id": 88,
+            "support": false
         }
     ]
 }
@@ -730,6 +750,9 @@ method:get;
 params:{
     pageIndex:xxxx,
     pageSize:xxxx
+};
+header:{
+	token:xxx
 }
 ```
 
@@ -768,6 +791,7 @@ params:{
 | commentCount | int    | 评论数量                           |
 | images       | string | 帖子图片  [下载图片](#下载图片)    |
 | userPublic   | object | 用户公开信息（非匿名）             |
+| support      | bool   | 是否点赞                           |
 
 
 
@@ -845,9 +869,11 @@ get: http://localhost:8080/api/table/table?id=1
     "msg": "获取成功",
     "code": 0,
     "table": {
-        "recipientSex": 1,
         "images": "[\"78b440903f1241e8a7f50d8c26f3ec07.jpg\"]",
-        "supportCount": 0,
+        "supportCount": 1,
+        "content": "哦不错呦",
+        "commentCount": 1,
+        "recipientSex": 1,
         "createTime": 1622093601000,
         "sender": "马屹东",
         "recipient": "辛金达",
@@ -860,9 +886,8 @@ get: http://localhost:8080/api/table/table?id=1
             "id": 1,
             "email": "admin@conststar.cn"
         },
-        "id": 0,
-        "content": "哦不错呦",
-        "commentCount": 1
+        "id": 92,
+        "support": true
     }
 }
 ```
@@ -876,6 +901,9 @@ url: /api/table/table;
 method:get;
 params:{
     id:xxx
+};
+header:{
+	token:xxx
 }
 ```
 
@@ -913,6 +941,7 @@ params:{
 | commentCount | int    | 评论数量                           |
 | images       | string | 帖子图片  [下载图片](#下载图片)    |
 | userPublic   | object | 用户公开信息（非匿名）             |
+| support      | bool   | 是否点赞                           |
 
 
 
@@ -946,8 +975,10 @@ get: http://localhost:8080/api/table/searchList?pageIndex=1&pageSize=2&keyword=�
     "code": 0,
     "list": [
         {
-            "recipientSex": 0,
             "supportCount": 0,
+            "content": "好",
+            "commentCount": 0,
+            "recipientSex": 0,
             "createTime": 1620781831000,
             "sender": "赵国庆",
             "recipient": "赵国庆庆",
@@ -960,13 +991,34 @@ get: http://localhost:8080/api/table/searchList?pageIndex=1&pageSize=2&keyword=�
                 "id": 1,
                 "email": "admin@conststar.cn"
             },
-            "id": 0,
-            "content": "好",
-            "commentCount": 0
+            "id": 75,
+            "support": false
         },
         {
-            "recipientSex": 0,
             "supportCount": 1,
+            "content": "八嘎呀路",
+            "commentCount": 0,
+            "recipientSex": 1,
+            "createTime": 1620631098000,
+            "sender": "赵国庆",
+            "recipient": "张嘉毅",
+            "anonymous": false,
+            "senderSex": 1,
+            "userPublic": {
+                "lastTime": 1624164392000,
+                "createTime": 1624164392000,
+                "name": "12321",
+                "id": 1,
+                "email": "admin@conststar.cn"
+            },
+            "id": 17,
+            "support": true
+        },
+        {
+            "supportCount": 1,
+            "content": "内容测试",
+            "commentCount": 3,
+            "recipientSex": 0,
             "createTime": 1619424609000,
             "sender": "赵国庆",
             "recipient": "赵国庆庆",
@@ -979,9 +1031,8 @@ get: http://localhost:8080/api/table/searchList?pageIndex=1&pageSize=2&keyword=�
                 "id": 1,
                 "email": "admin@conststar.cn"
             },
-            "id": 0,
-            "content": "内容测试",
-            "commentCount": 3
+            "id": 3,
+            "support": false
         }
     ]
 }
@@ -998,6 +1049,9 @@ params:{
   	keyword:xxx,
   	pageIndex:xxxx,
     pageSize:xxxx
+};
+header:{
+	token:xxx
 }
 ```
 
@@ -1035,6 +1089,7 @@ params:{
 | supportCount | int    | 支持数量                           |
 | commentCount | int    | 评论数量                           |
 | userPublic   | object | 用户公开信息（非匿名）             |
+| support      | bool   | 是否点赞                           |
 
 
 
