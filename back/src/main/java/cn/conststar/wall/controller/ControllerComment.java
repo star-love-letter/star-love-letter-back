@@ -71,11 +71,6 @@ public class ControllerComment {
 
         PojoUser user = serviceUser.getUser(token); //验证用户登录状态
 
-        List<String> imageList = JSONArray.parseArray(images).toJavaList(String.class);
-        UtilsMain.addImages(imageList);
-        if (imageList.isEmpty())
-            images = null;
-
         serviceComment.addComment(tableId, user.getId(), name, anonymous, content, images);
 
         jsonObject.put("code", 0);

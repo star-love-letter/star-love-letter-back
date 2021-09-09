@@ -128,11 +128,6 @@ public class ControllerTable {
 
         PojoUser user = serviceUser.getUser(token); //验证用户登录状态
 
-        List<String> imageList = JSONArray.parseArray(images).toJavaList(String.class);
-        UtilsMain.addImages(imageList);
-        if (imageList.isEmpty())
-            images = null;
-
         serviceTable.addTable(user.getId(), anonymous, sender, senderSex, recipient, recipientSex, content, images);
 
         jsonObject.put("code", 0);

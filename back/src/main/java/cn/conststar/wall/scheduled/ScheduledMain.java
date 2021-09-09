@@ -26,8 +26,8 @@ public class ScheduledMain {
         File[] tempFiles = tempDirectory.listFiles();
         for (File file : tempFiles) {
             long fileTime = file.lastModified();
-            //删除2天前的文件
-            if (nowTime - fileTime > 1000 * 60 * 60 * 24 * 2)
+            //删除12小时前的文件
+            if (nowTime - fileTime > 1000 * 60 * 60 * 12)
                 file.delete();
         }
     }

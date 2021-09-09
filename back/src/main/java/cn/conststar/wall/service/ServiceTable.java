@@ -4,10 +4,11 @@ import cn.conststar.wall.exception.ExceptionMain;
 import cn.conststar.wall.mapper.MapperTable;
 import cn.conststar.wall.pojo.PojoTable;
 import cn.conststar.wall.pojo.PojoUserPublic;
+import cn.conststar.wall.utils.UtilsMain;
+import com.alibaba.fastjson.JSONArray;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -69,11 +70,20 @@ public class ServiceTable implements MapperTable {
         if (content.length() > 160)
             throw new ExceptionMain("内容不得超过160个字符");
 
+        List<String> imageList = JSONArray.parseArray(images).toJavaList(String.class);
+        if (imageList.isEmpty())
+            images = null;
+        else if (imageList.size() > 6)
+            throw new ExceptionMain("图片最多上传6个");
+
 
         int line = mapperTable.addTable(userId, anonymous, sender, senderSex, recipient, recipientSex, content, images);
         if (line != 1) {
             throw new ExceptionMain("数据库操作失败，数据库添加行数为" + line, ExceptionMain.DEADLY); //wait
         }
+
+        //发布成功后移动图片
+        UtilsMain.addImages(imageList);
         return line;
     }
 

@@ -13,8 +13,6 @@ public interface MapperComment {
                                        @Param("startIndex") int startIndex,
                                        @Param("pageSize") int pageSize) throws Exception;
 
-//    //获取评论的用户信息 （评论必须是非匿名的）
-//    PojoUserPublic getUser(@Param("commentId") int commentId) throws Exception;
 
     //添加帖子评论
     int addComment(@Param("tableId") int tableId,
@@ -26,4 +24,7 @@ public interface MapperComment {
 
     //获取帖子评论总数量
     int getCount(@Param("tableId") int tableId) throws Exception;
+
+    //获取评论的用户信息 （评论必须是非匿名的）
+    PojoUserPublic getUser(@Param("commentId") int commentId) throws Exception;
 }
