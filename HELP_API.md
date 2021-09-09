@@ -8,6 +8,18 @@ by 赵国庆
 
 ### 更新日志
 
+### 1.1.12
+
+添加了帖子/评论/用户状态
+
+- [获取帖子分页列表-返回内容](#获取帖子分页列表)
+- [获取单个帖子内容-返回内容](#获取单个帖子内容)
+- [搜索帖子-返回内容](#搜索帖子)
+- [获取帖子分页评论列表-返回内容](#获取帖子分页评论列表)
+- [获取用户信息-返回内容](#获取用户信息)
+
+
+
 ### 1.1.11
 
 获取帖子内容时返回用户是否点赞
@@ -341,10 +353,11 @@ get: http://localhost:8080/api/user/user
     "code": 0,
     "user": {
         "createTime": 1624164437000,
-        "email": "admin@conststar.cn",
+        "email": "1164442003@qq.com",
         "id": 2,
-        "lastTime": 1624608382000,
-        "name": "赵国庆"
+        "lastTime": 1631195722000,
+        "name": "赵国庆",
+        "status": 0
     }
 }
 ```
@@ -379,13 +392,14 @@ header:{
 
 ###### user内容
 
-| 参数       | 值类型 | 说明                  |
-| ---------- | ------ | --------------------- |
-| id         | int    | 用户id                |
-| lastTime   | long   | 上次登录的时间 时间戳 |
-| createTime | long   | 注册账号的时间 时间戳 |
-| name       | string | 用户名称              |
-| email      | string | 邮箱                  |
+| 参数       | 值类型 | 说明                              |
+| ---------- | ------ | --------------------------------- |
+| id         | int    | 用户id                            |
+| lastTime   | long   | 上次登录的时间 时间戳             |
+| createTime | long   | 注册账号的时间 时间戳             |
+| name       | string | 用户名称                          |
+| email      | string | 邮箱                              |
+| status     | int    | 状态  0为正常 1为待审核  -1为封禁 |
 
 
 
@@ -674,65 +688,56 @@ get: http://localhost:8080/api/table/pageList?pageIndex=1&pageSize=3
     "code": 0,
     "list": [
         {
-            "images": "[\"78b440903f1241e8a7f50d8c26f3ec07.jpg\"]",
-            "supportCount": 1,
-            "content": "哦不错呦",
-            "commentCount": 1,
+            "images": "[\"c63e64cb4f2840d8b1277a09accb542d.jpg\"]",
+            "supportCount": 0,
+            "content": "在吗",
+            "commentCount": 0,
             "recipientSex": 1,
-            "createTime": 1622093601000,
-            "sender": "马屹东",
-            "recipient": "辛金达",
+            "createTime": 1631177127000,
+            "sender": "晚上",
+            "recipient": "白天",
             "anonymous": false,
-            "senderSex": 1,
-            "userPublic": {
-                "lastTime": 1624164392000,
-                "createTime": 1624164392000,
-                "name": "12321",
-                "id": 1,
-                "email": "admin@conststar.cn"
-            },
-            "id": 92,
-            "support": true
+            "senderSex": 2,
+            "id": 101,
+            "support": false,
+            "status": 1
         },
         {
+            "images": "[\"8cc87fbe98af4ad88980dd8840ceed6d.jpg\"]",
             "supportCount": 0,
-            "content": "好牛啊",
+            "content": "hi 吃了吗",
             "commentCount": 0,
             "recipientSex": 2,
-            "createTime": 1621819684000,
-            "sender": "人红尘",
-            "recipient": "任洪琛",
-            "anonymous": false,
-            "senderSex": 0,
-            "userPublic": {
-                "lastTime": 1624164392000,
-                "createTime": 1624164392000,
-                "name": "12321",
-                "id": 1,
-                "email": "admin@conststar.cn"
-            },
-            "id": 89,
-            "support": false
-        },
-        {
-            "supportCount": 0,
-            "content": "SB",
-            "commentCount": 3,
-            "recipientSex": 2,
-            "createTime": 1621819650000,
-            "sender": "王钦宇",
-            "recipient": "段富强",
+            "createTime": 1631176945000,
+            "sender": "阿狗",
+            "recipient": "阿猫",
             "anonymous": false,
             "senderSex": 1,
             "userPublic": {
-                "lastTime": 1624164392000,
-                "createTime": 1624164392000,
-                "name": "12321",
-                "id": 1,
-                "email": "admin@conststar.cn"
+                "lastTime": 1631168215000,
+                "createTime": 1630635438000,
+                "name": "阿狗",
+                "id": 12,
+                "email": "370485503@qq.com"
             },
-            "id": 88,
-            "support": false
+            "id": 100,
+            "support": false,
+            "status": 0
+        },
+        {
+            "images": "[\"87198081496b48648837d3302e0480ad.jpg\"]",
+            "supportCount": 0,
+            "content": "琛琛好帅",
+            "commentCount": 0,
+            "recipientSex": 2,
+            "createTime": 1631092392000,
+            "sender": "阿琛",
+            "recipient": "琛琛",
+            "anonymous": true,
+            "senderSex": 1,
+            "id": 99,
+            "support": false,
+            "status": 0
         }
     ]
 }
@@ -792,6 +797,7 @@ header:{
 | images       | string | 帖子图片  [下载图片](#下载图片)    |
 | userPublic   | object | 用户公开信息（非匿名）             |
 | support      | bool   | 是否点赞                           |
+| status       | int    | 状态  0为正常 1为待审核  -1为封禁  |
 
 
 
@@ -870,7 +876,7 @@ get: http://localhost:8080/api/table/table?id=1
     "code": 0,
     "table": {
         "images": "[\"78b440903f1241e8a7f50d8c26f3ec07.jpg\"]",
-        "supportCount": 1,
+        "supportCount": 2,
         "content": "哦不错呦",
         "commentCount": 1,
         "recipientSex": 1,
@@ -880,14 +886,15 @@ get: http://localhost:8080/api/table/table?id=1
         "anonymous": false,
         "senderSex": 1,
         "userPublic": {
-            "lastTime": 1624164392000,
+            "lastTime": 1630727499000,
             "createTime": 1624164392000,
             "name": "12321",
             "id": 1,
             "email": "admin@conststar.cn"
         },
         "id": 92,
-        "support": true
+        "support": true,
+        "status": 0
     }
 }
 ```
@@ -942,6 +949,7 @@ header:{
 | images       | string | 帖子图片  [下载图片](#下载图片)    |
 | userPublic   | object | 用户公开信息（非匿名）             |
 | support      | bool   | 是否点赞                           |
+| status       | int    | 状态  0为正常 1为待审核  -1为封禁  |
 
 
 
@@ -984,15 +992,9 @@ get: http://localhost:8080/api/table/searchList?pageIndex=1&pageSize=2&keyword=�
             "recipient": "赵国庆庆",
             "anonymous": false,
             "senderSex": 2,
-            "userPublic": {
-                "lastTime": 1624164392000,
-                "createTime": 1624164392000,
-                "name": "12321",
-                "id": 1,
-                "email": "admin@conststar.cn"
-            },
             "id": 75,
-            "support": false
+            "support": false,
+            "status": 0
         },
         {
             "supportCount": 1,
@@ -1005,14 +1007,15 @@ get: http://localhost:8080/api/table/searchList?pageIndex=1&pageSize=2&keyword=�
             "anonymous": false,
             "senderSex": 1,
             "userPublic": {
-                "lastTime": 1624164392000,
+                "lastTime": 1630727499000,
                 "createTime": 1624164392000,
                 "name": "12321",
                 "id": 1,
                 "email": "admin@conststar.cn"
             },
             "id": 17,
-            "support": true
+            "support": true,
+            "status": 0
         },
         {
             "supportCount": 1,
@@ -1025,14 +1028,15 @@ get: http://localhost:8080/api/table/searchList?pageIndex=1&pageSize=2&keyword=�
             "anonymous": false,
             "senderSex": 2,
             "userPublic": {
-                "lastTime": 1624164392000,
+                "lastTime": 1630727499000,
                 "createTime": 1624164392000,
                 "name": "12321",
                 "id": 1,
                 "email": "admin@conststar.cn"
             },
             "id": 3,
-            "support": false
+            "support": false,
+            "status": 0
         }
     ]
 }
@@ -1090,6 +1094,7 @@ header:{
 | commentCount | int    | 评论数量                           |
 | userPublic   | object | 用户公开信息（非匿名）             |
 | support      | bool   | 是否点赞                           |
+| status       | int    | 状态  0为正常 1为待审核  -1为封禁  |
 
 
 
@@ -1351,41 +1356,44 @@ get: http://localhost:8080/api/comment/pageList?pageIndex=1&pageSize=3&tableId=8
     "list": [
         {
             "createTime": 1621504182000,
+            "user_id": 0,
             "anonymous": true,
             "tableId": 86,
-            "id": 0,
-            "userId": 1,
-            "content": "臭傻*"
+            "id": 33,
+            "content": "臭傻逼",
+            "status": 0
         },
         {
             "createTime": 1621502882000,
+            "user_id": 0,
             "anonymous": false,
             "tableId": 86,
             "userPublic": {
-                "lastTime": 1624164392000,
+                "lastTime": 1630727499000,
                 "createTime": 1624164392000,
                 "name": "12321",
                 "id": 1,
                 "email": "admin@conststar.cn"
             },
-            "id": 0,
-            "userId": 1,
-            "content": "你kin你擦"
+            "id": 32,
+            "content": "你kin你擦",
+            "status": 0
         },
         {
             "createTime": 1621497073000,
+            "user_id": 0,
             "anonymous": false,
             "tableId": 86,
             "userPublic": {
-                "lastTime": 1624164392000,
+                "lastTime": 1630727499000,
                 "createTime": 1624164392000,
                 "name": "12321",
                 "id": 1,
                 "email": "admin@conststar.cn"
             },
-            "id": 0,
-            "userId": 1,
-            "content": "不会吧不会吧不会真的有人这么自恋吧？"
+            "id": 31,
+            "content": "不会吧不会吧不会真的有人这么自恋吧？",
+            "status": 0
         }
     ]
 }
@@ -1427,17 +1435,18 @@ params:{
 
 ###### list列表
 
-| 参数       | 值类型 | 说明                            |
-| ---------- | ------ | ------------------------------- |
-| id         | int    | 评论id                          |
-| tableId    | int    | 对应的帖子id                    |
-| userId     | int    | 对应的用户id                    |
-| name       | string | 匿名名称                        |
-| createTime | long   | 创建评论的时间 时间戳           |
-| content    | string | 评论内容                        |
-| anonymous  | bool   | 是否为匿名                      |
-| images     | string | 帖子图片  [下载图片](#下载图片) |
-| userPublic | object | 用户公开信息（非匿名）          |
+| 参数       | 值类型 | 说明                              |
+| ---------- | ------ | --------------------------------- |
+| id         | int    | 评论id                            |
+| tableId    | int    | 对应的帖子id                      |
+| userId     | int    | 对应的用户id                      |
+| name       | string | 匿名名称                          |
+| createTime | long   | 创建评论的时间 时间戳             |
+| content    | string | 评论内容                          |
+| anonymous  | bool   | 是否为匿名                        |
+| images     | string | 帖子图片  [下载图片](#下载图片)   |
+| userPublic | object | 用户公开信息（非匿名）            |
+| status     | int    | 状态  0为正常 1为待审核  -1为封禁 |
 
 
 
