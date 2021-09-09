@@ -62,6 +62,18 @@ public class ServiceUser implements MapperUser {
         PojoUser user = mapperUser.getUser(token);
         if (user == null)
             throw new ExceptionMain("用户登录已失效", ExceptionMain.NOT_LOGIN);
+
+        int status = user.getStatus();
+
+        switch (status) {
+            case 0:
+                break;
+            case -1:
+                throw new ExceptionMain("用户已被封禁");
+            case 1:
+                throw new ExceptionMain("用户等待审核");
+        }
+
         return user;
     }
 
@@ -69,7 +81,7 @@ public class ServiceUser implements MapperUser {
     public PojoUserPublic getUserPublic(int id) throws Exception {
         PojoUserPublic user = mapperUser.getUserPublic(id);
         if (user == null)
-            throw new ExceptionMain("没有此用户");
+            throw new ExceptionMain("用户不存在");
         return user;
     }
 
@@ -92,7 +104,7 @@ public class ServiceUser implements MapperUser {
 
 
     @Override
-    public int addUser(String email, String password, String name) throws Exception {
+    public int addUser(String email, String password, String name, int status) throws Exception {
 
         if (!isEmail(email))
             throw new ExceptionMain("邮箱格式有误");
@@ -109,7 +121,7 @@ public class ServiceUser implements MapperUser {
         if (this.findUser(email))
             throw new ExceptionMain("用户已存在");
 
-        int line = mapperUser.addUser(email, password, name);
+        int line = mapperUser.addUser(email, password, name, status);
 
         if (line != 1) {
             throw new ExceptionMain("数据库操作失败，数据库添加行数为" + line, ExceptionMain.DEADLY); //wait

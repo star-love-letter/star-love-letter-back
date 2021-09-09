@@ -53,11 +53,16 @@ public class ServiceTable implements MapperTable {
 
     @Override
     public PojoTable getTable(int id, int userId) throws Exception {
-        return mapperTable.getTable(id, userId);
+        PojoTable table = mapperTable.getTable(id, userId);
+        if (table == null)
+            throw new ExceptionMain("帖子不存在");
+
+        return table;
     }
 
     @Override
-    public int addTable(int userId, boolean anonymous, String sender, int senderSex, String recipient, int recipientSex, String content, String images) throws Exception {
+    public int addTable(int userId, boolean anonymous, String sender, int senderSex,
+                        String recipient, int recipientSex, String content, String images, int status) throws Exception {
         if (sender.isEmpty() || recipient.isEmpty())
             throw new ExceptionMain("名称不能为空");
 
@@ -77,7 +82,7 @@ public class ServiceTable implements MapperTable {
             throw new ExceptionMain("图片最多上传6个");
 
 
-        int line = mapperTable.addTable(userId, anonymous, sender, senderSex, recipient, recipientSex, content, images);
+        int line = mapperTable.addTable(userId, anonymous, sender, senderSex, recipient, recipientSex, content, images, status);
         if (line != 1) {
             throw new ExceptionMain("数据库操作失败，数据库添加行数为" + line, ExceptionMain.DEADLY); //wait
         }
@@ -105,13 +110,13 @@ public class ServiceTable implements MapperTable {
     }
 
     @Override
-    public int getCount() throws Exception {
-        return mapperTable.getCount();
+    public int getCount(int userId) throws Exception {
+        return mapperTable.getCount(userId);
     }
 
     @Override
-    public int getSearchCount(String keyword) throws Exception {
-        return mapperTable.getSearchCount(keyword);
+    public int getSearchCount(String keyword, int userId) throws Exception {
+        return mapperTable.getSearchCount(keyword, userId);
     }
 
     @Override

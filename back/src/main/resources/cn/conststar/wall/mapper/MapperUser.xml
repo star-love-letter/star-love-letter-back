@@ -26,6 +26,7 @@
         select count(id)
         from `user`
         where email = #{email};
+        and status = 0
     </select>
 
     <update id="login">
@@ -40,6 +41,6 @@
         update `user`
         set `last_time`= now(),
             token = null
-        where `token` = #{token};
+        where token = #{token};
     </update>
 </mapper>

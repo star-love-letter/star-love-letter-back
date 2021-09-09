@@ -19,22 +19,22 @@ public class ServiceComment implements MapperComment {
 
     private MapperComment mapperComment;
 
-    public List<PojoComment> getCommentsPage(int tableId, int pageIndex, int pageSize) throws Exception {
+    public List<PojoComment> getCommentsPage(int tableId, int pageIndex, int pageSize, int userId) throws Exception {
 
         int startIndex = (pageIndex - 1) * pageSize;
-        return this.getCommentsLimit(tableId, startIndex, pageSize);
+        return this.getCommentsLimit(tableId, startIndex, pageSize, userId);
     }
 
     @Override
-    public List<PojoComment> getCommentsLimit(int tableId, int startIndex, int pageSize) throws Exception {
+    public List<PojoComment> getCommentsLimit(int tableId, int startIndex, int pageSize, int userId) throws Exception {
         if (startIndex < 0 || pageSize < 0)
             throw new ExceptionMain("页数有误");
 
-        return mapperComment.getCommentsLimit(tableId, startIndex, pageSize);
+        return mapperComment.getCommentsLimit(tableId, startIndex, pageSize, userId);
     }
 
     @Override
-    public int addComment(int tableId, int userId, String name, boolean anonymous, String content, String images) throws Exception {
+    public int addComment(int tableId, int userId, String name, boolean anonymous, String content, String images, int status) throws Exception {
         if (content.isEmpty())
             throw new ExceptionMain("内容不能为空");
 
@@ -47,7 +47,7 @@ public class ServiceComment implements MapperComment {
         else if (imageList.size() > 3)
             throw new ExceptionMain("图片最多上传3个");
 
-        int line = mapperComment.addComment(tableId, userId, name, anonymous, content, images);
+        int line = mapperComment.addComment(tableId, userId, name, anonymous, content, images, status);
         if (line != 1) {
             throw new ExceptionMain("数据库操作失败，数据库添加行数为" + line, ExceptionMain.DEADLY); //wait
         }
@@ -58,8 +58,8 @@ public class ServiceComment implements MapperComment {
     }
 
     @Override
-    public int getCount(int tableId) throws Exception {
-        return mapperComment.getCount(tableId);
+    public int getCount(int tableId, int userId) throws Exception {
+        return mapperComment.getCount(tableId, userId);
     }
 
     @Override

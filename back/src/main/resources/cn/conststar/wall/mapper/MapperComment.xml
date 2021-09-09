@@ -6,7 +6,7 @@
 <mapper namespace="cn.conststar.wall.mapper.MapperComment">
 
     <resultMap id="PojoCommentMap" type="PojoComment" autoMapping="true">
-        <id column ="id" property="id"/>
+        <id column="id" property="id"/>
         <association property="userPublic" column="id" javaType="PojoUserPublic" select="getUser"/>
     </resultMap>
 
@@ -14,21 +14,23 @@
     <select id="getCommentsLimit" resultMap="PojoCommentMap">
         select *
         from `comment`
-        where table_id = #{tableId}
+        where `table_id` = #{tableId}
+          and (status = 0 or user_id = #{userId})
         order by create_time DESC limit #{startIndex}, #{pageSize};
     </select>
 
     <!--获取帖子评论总数量-->
-    <select id="getCount" parameterType="_int" resultType="_int">
+    <select id="getCount" resultType="_int">
         select count(1)
         from `comment`
-        where table_id = #{tableId};
+        where table_id = #{tableId}
+          and (status = 0 or user_id = #{userId});
     </select>
 
     <!--添加帖子评论-->
     <insert id="addComment">
-        insert into `comment` (table_id, user_id, name, anonymous, create_time, content, images)
-            value (#{tableId},#{userId},#{name},#{anonymous},now(),#{content},#{images});
+        insert into `comment` (table_id, user_id, name, anonymous, create_time, content, images, status)
+            value (#{tableId},#{userId},#{name},#{anonymous},now(),#{content},#{images},#{status});
     </insert>
 
     <!--获取评论的用户信息-->
@@ -38,7 +40,7 @@
              `comment`
         where `comment`.user_id = `user`.id
           and `comment`.id = #{id}
-          and `anonymous` = 0;
+          and `comment`.anonymous = 0;
     </select>
 
 </mapper>

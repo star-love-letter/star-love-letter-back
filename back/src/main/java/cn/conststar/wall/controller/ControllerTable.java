@@ -50,10 +50,11 @@ public class ControllerTable {
 
     //获取帖子总数
     @GetMapping("/count")
-    public String getCount() throws Exception {
+    public String getCount(@RequestHeader(value = "token", required = false) String token) throws Exception {
         JSONObject jsonObject = new JSONObject();
 
-        int count = serviceTable.getCount();
+        int userId = serviceUser.getUserId(token);
+        int count = serviceTable.getCount(userId);
 
         jsonObject.put("count", count);
         jsonObject.put("msg", "获取成功");
@@ -102,10 +103,12 @@ public class ControllerTable {
 
     //获取搜索帖子总数
     @GetMapping("/searchCount")
-    public String getCount(@RequestParam("keyword") String keyword) throws Exception {
+    public String getCount(@RequestParam("keyword") String keyword,
+                           @RequestHeader(value = "token", required = false) String toekn) throws Exception {
         JSONObject jsonObject = new JSONObject();
 
-        int count = serviceTable.getSearchCount(keyword);
+        int userId = serviceUser.getUserId(toekn);
+        int count = serviceTable.getSearchCount(keyword, userId);
 
         jsonObject.put("count", count);
         jsonObject.put("msg", "获取成功");
@@ -128,10 +131,23 @@ public class ControllerTable {
 
         PojoUser user = serviceUser.getUser(token); //验证用户登录状态
 
-        serviceTable.addTable(user.getId(), anonymous, sender, senderSex, recipient, recipientSex, content, images);
+        //是否不需要审核
+        List<String> imageList = JSONArray.parseArray(images).toJavaList(String.class);
+        int status = 0;
+        if (!imageList.isEmpty()
+                || UtilsMain.checkText(sender) || UtilsMain.checkText(recipient)
+                || UtilsMain.checkText(content)) {
+            status = 1;
+        }
+
+        serviceTable.addTable(user.getId(), anonymous, sender, senderSex, recipient, recipientSex, content, images, status);
 
         jsonObject.put("code", 0);
-        jsonObject.put("msg", "发布成功");
+
+        if (status == 1)
+            jsonObject.put("msg", "发布成功，等待审核中");
+        else
+            jsonObject.put("msg", "发布成功");
 
         return jsonObject.toJSONString();
     }

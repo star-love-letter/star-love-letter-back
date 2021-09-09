@@ -34,10 +34,13 @@ public class ControllerComment {
     @GetMapping("/pageList")
     public String getPageList(@RequestParam("tableId") int tableId,
                               @RequestParam("pageIndex") int pageIndex,
-                              @RequestParam("pageSize") int pageSize) throws Exception {
+                              @RequestParam("pageSize") int pageSize,
+                              @RequestHeader(value = "token", required = false) String token) throws Exception {
 
         JSONObject jsonObject = new JSONObject();
-        List<PojoComment> comments = serviceComment.getCommentsPage(tableId, pageIndex, pageSize);
+
+        int userId = serviceUser.getUserId(token);
+        List<PojoComment> comments = serviceComment.getCommentsPage(tableId, pageIndex, pageSize, userId);
 
         JSONArray listJson = (JSONArray) JSON.toJSON(comments);
         jsonObject.put("list", listJson);
@@ -48,9 +51,12 @@ public class ControllerComment {
 
     //获取帖子评论总数
     @GetMapping("/count")
-    public String getCount(@RequestParam("tableId") int tableId) throws Exception {
+    public String getCount(@RequestParam("tableId") int tableId,
+                           @RequestHeader(value = "token", required = false) String token) throws Exception {
         JSONObject jsonObject = new JSONObject();
-        int count = serviceComment.getCount(tableId);
+
+        int userId = serviceUser.getUserId(token);
+        int count = serviceComment.getCount(tableId, userId);
 
         jsonObject.put("count", count);
         jsonObject.put("code", 0);
@@ -71,10 +77,21 @@ public class ControllerComment {
 
         PojoUser user = serviceUser.getUser(token); //验证用户登录状态
 
-        serviceComment.addComment(tableId, user.getId(), name, anonymous, content, images);
+        //是否不需要审核
+        List<String> imageList = JSONArray.parseArray(images).toJavaList(String.class);
+        int status = 0;
+        if (!imageList.isEmpty() || UtilsMain.checkText(name) || UtilsMain.checkText(content)) {
+            status = 1;
+        }
+
+        serviceComment.addComment(tableId, user.getId(), name, anonymous, content, images, status);
 
         jsonObject.put("code", 0);
-        jsonObject.put("msg", "发布成功");
+
+        if (status == 1)
+            jsonObject.put("msg", "发布成功，等待审核中");
+        else
+            jsonObject.put("msg", "发布成功");
 
         return jsonObject.toJSONString();
     }

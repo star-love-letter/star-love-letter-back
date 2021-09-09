@@ -31,7 +31,8 @@ public interface MapperTable {
                  @Param("recipient") String recipient,
                  @Param("recipientSex") int recipientSex,
                  @Param("content") String content,
-                 @Param("images") String images) throws Exception;
+                 @Param("images") String images,
+                 @Param("status") int status) throws Exception;
 
     //点赞
     void addSupport(@Param("tableId") int tableId, @Param("userId") int userId) throws Exception;
@@ -40,10 +41,10 @@ public interface MapperTable {
     void removeSupport(@Param("tableId") int tableId, @Param("userId") int userId) throws Exception;
 
     //获取帖子总数量
-    int getCount() throws Exception;
+    int getCount(@Param("userId") int userId) throws Exception;
 
     //获取搜索总数量
-    int getSearchCount(@Param("keyword") String keyword) throws Exception;
+    int getSearchCount(@Param("keyword") String keyword,@Param("userId") int userId) throws Exception;
 
     //获取帖子的用户信息 （帖子必须是非匿名的）
     PojoUserPublic getUser(@Param("tableId") int tableId) throws Exception;

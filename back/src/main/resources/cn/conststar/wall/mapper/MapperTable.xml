@@ -8,7 +8,8 @@
     <resultMap id="PojoTableMap" type="PojoTable" autoMapping="true">
         <id column="id" property="id"/>
 
-        <association property="support" column="{tableId=id,userId=select_user_id}" javaType="_boolean" select="isSupport"/>
+        <association property="support" column="{tableId=id,userId=select_user_id}" javaType="_boolean"
+                     select="isSupport"/>
         <association property="userPublic" column="id" javaType="PojoUserPublic" select="getUser"/>
     </resultMap>
 
@@ -23,19 +24,21 @@
                a.anonymous,
                a.content,
                a.images,
-               #{userId} as select_user_id,
+               a.status,
+               #{userId}          as select_user_id,
                COALESCE(b.ans, 0) as comment_count,
                COALESCE(c.ans, 0) as support_count
-        from `table` a
-                 left join (select table_id as id, count(1) as ans from `comment` GROUP BY `table_id`) as b
+        from `table` as a
+                 left join (select table_id as id, count(1) as ans from `comment` GROUP BY table_id) as b
                            on b.id = a.id
-                 left join (select table_id as id, count(1) as ans from `support` GROUP BY `table_id`) as c
+                 left join (select table_id as id, count(1) as ans from `support` GROUP BY table_id) as c
                            on c.id = a.id
     </sql>
 
     <!--获取分页帖子-->
     <select id="getTablesLimit" resultMap="PojoTableMap">
         <include refid="selectTable"></include>
+        where (a.status = 0 or a.user_id = #{userId})
         order by a.create_time DESC limit #{startIndex}, #{pageSize};
     </select>
 
@@ -43,15 +46,17 @@
     <select id="getTable" parameterType="_int" resultMap="PojoTableMap">
         <include refid="selectTable"></include>
         where a.id = #{id}
+        and (a.status = 0 or a.user_id = #{userId})
         group by a.id;
     </select>
 
     <!--搜索帖子-->
     <select id="getSearchTablesLimit" resultMap="PojoTableMap">
         <include refid="selectTable"></include>
-        where a.sender like "%"#{keyword}"%"
+        where (a.sender like "%"#{keyword}"%"
         or a.recipient like "%"#{keyword}"%"
-        or a.content like "%"#{keyword}"%"
+        or a.content like "%"#{keyword}"%")
+        and (a.status = 0 or a.user_id = #{userId})
         group by a.id
         order by a.create_time DESC limit #{startIndex}, #{pageSize};
     </select>
@@ -73,23 +78,26 @@
     <!--获取帖子总数量-->
     <select id="getCount" resultType="_int">
         select count(1)
-        from `table`;
+        from `table`
+        where (status = 0 or user_id = #{userId})
     </select>
 
-    <!--获取帖子总数量-->
-    <select id="getSearchCount" parameterType="string" resultType="_int">
+    <!--获取帖子搜索总数量-->
+    <select id="getSearchCount" resultType="_int">
         select count(1)
         from `table`
-        where sender like "%"#{keyword}"%"
+        where (sender like "%"#{keyword}"%"
         or recipient like "%"#{keyword}"%"
-           or content like "%"#{keyword}"%";
+            or content like "%"#{keyword}"%")
+          and (status = 0 or user_id = #{userId})
     </select>
 
     <!--发布表白-->
     <insert id="addTable">
         insert into `table` (user_id, anonymous, sender, sender_sex, recipient,
-                             recipient_sex, create_time, content, images)
-            value (#{userId},#{anonymous},#{sender},#{senderSex},#{recipient},#{recipientSex},now(),#{content},#{images});
+                             recipient_sex, create_time, content, images, status)
+            value (#{userId}, #{anonymous}, #{sender}, #{senderSex}, #{recipient},
+                   #{recipientSex}, now(), #{content}, #{images}, #{status});
     </insert>
 
     <!--获取帖子的用户信息-->
@@ -99,14 +107,15 @@
              `table`
         where `table`.user_id = `user`.id
           and `table`.id = #{tableId}
-          and `anonymous` = 0;
+          and anonymous = 0
+          and (`table`.status = 0 or user_id = #{userId})
     </select>
 
     <!--用户是否点过赞-->
     <select id="isSupport" resultType="_boolean">
         select count(1)
         from `support`
-        where `table_id` = #{tableId}
-          and `user_id` = #{userId};
+        where table_id = #{tableId}
+          and user_id = #{userId};
     </select>
 </mapper>

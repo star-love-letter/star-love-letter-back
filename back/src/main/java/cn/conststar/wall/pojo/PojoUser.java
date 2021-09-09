@@ -31,4 +31,6 @@ public class PojoUser implements Serializable {
     //最近登录时间
     private Date lastTime;
 
+    //状态 0为正常 1为待审核 -1为封禁
+    private int status;
 }

@@ -9,7 +9,7 @@ public interface MapperUser {
     PojoUser getUser(String token) throws Exception;
 
     //登录账号
-    boolean login(@Param("email") String email, @Param("password") String password,@Param("token") String token) throws Exception;
+    boolean login(@Param("email") String email, @Param("password") String password, @Param("token") String token) throws Exception;
 
     //退出账号
     boolean logout(String token) throws Exception;
@@ -18,7 +18,8 @@ public interface MapperUser {
     PojoUserPublic getUserPublic(@Param("id") int id) throws Exception;
 
     //添加用户
-    int addUser(@Param("email") String email, @Param("password") String password, @Param("name") String name) throws Exception;
+    int addUser(@Param("email") String email, @Param("password") String password,
+                @Param("name") String name, @Param("status") int status) throws Exception;
 
     //检查用户是否存在
     boolean findUser(@Param("email") String email);

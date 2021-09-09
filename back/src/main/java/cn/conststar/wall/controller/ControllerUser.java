@@ -3,6 +3,7 @@ package cn.conststar.wall.controller;
 import cn.conststar.wall.pojo.PojoUserPublic;
 import cn.conststar.wall.pojo.PojoUser;
 import cn.conststar.wall.service.ServiceUser;
+import cn.conststar.wall.utils.UtilsMain;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -54,13 +55,23 @@ public class ControllerUser {
                       @RequestParam("emailCode") String emailCode) throws Exception {
         JSONObject jsonObject = new JSONObject();
 
+        //是否不需要审核
+        int status = 0;
+        if (UtilsMain.checkText(name)) {
+            status = 1;
+        }
+
         serviceUser.isVerifyImage(imageCode, email);
         serviceUser.isVerifyEmail(email, emailCode);
-        serviceUser.addUser(email, password, name);
+        serviceUser.addUser(email, password, name, status);
         serviceUser.removePojoVerifyCode(email);
 
         jsonObject.put("code", 0);
-        jsonObject.put("msg", "注册成功");
+
+        if (status == 1)
+            jsonObject.put("msg", "注册成功，等待审核中");
+        else
+            jsonObject.put("msg", "注册成功");
 
         return jsonObject.toJSONString();
     }

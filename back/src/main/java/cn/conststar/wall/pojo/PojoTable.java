@@ -40,4 +40,7 @@ public class PojoTable implements Serializable {
 
     //对应的用户公开信息
     private PojoUserPublic userPublic;
+
+    //状态 0为正常 1为待审核 -1为封禁
+    private int status;
 }
