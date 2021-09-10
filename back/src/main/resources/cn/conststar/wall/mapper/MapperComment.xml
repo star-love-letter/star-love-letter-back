@@ -12,19 +12,23 @@
 
     <!--获取帖子分页评论列表-->
     <select id="getCommentsLimit" resultMap="PojoCommentMap">
-        select *
+        select `comment`.*
         from `comment`
+                 left join `user` on `user`.id = `comment`.user_id
         where `table_id` = #{tableId}
-          and (status = 0 or user_id = #{userId})
-        order by create_time DESC limit #{startIndex}, #{pageSize};
+          and (`comment`.status = 0 or user_id = #{userId})
+          and `user`.status = 0
+        order by `comment`.create_time DESC limit #{startIndex}, #{pageSize};
     </select>
 
     <!--获取帖子评论总数量-->
     <select id="getCount" resultType="_int">
         select count(1)
         from `comment`
+                 left join `user` on `user`.id = `comment`.user_id
         where table_id = #{tableId}
-          and (status = 0 or user_id = #{userId});
+          and (`comment`.status = 0 or `comment`.user_id = #{userId})
+          and `user`.status = 0;
     </select>
 
     <!--添加帖子评论-->
@@ -36,11 +40,10 @@
     <!--获取评论的用户信息-->
     <select id="getUser" resultType="PojoUserPublic">
         select `user`.*
-        from `user`,
-             `comment`
-        where `comment`.user_id = `user`.id
-          and `comment`.id = #{id}
-          and `comment`.anonymous = 0;
+        from `comment`
+                 left join `user` on `comment`.user_id = `user`.id
+            and `comment`.id = #{id}
+            and `comment`.anonymous = 0;
     </select>
 
 </mapper>

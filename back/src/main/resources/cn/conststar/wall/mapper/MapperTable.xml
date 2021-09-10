@@ -33,12 +33,14 @@
                            on b.id = a.id
                  left join (select table_id as id, count(1) as ans from `support` GROUP BY table_id) as c
                            on c.id = a.id
+                 left join `user` as u on a.user_id = u.id
     </sql>
 
     <!--获取分页帖子-->
     <select id="getTablesLimit" resultMap="PojoTableMap">
         <include refid="selectTable"></include>
         where (a.status = 0 or a.user_id = #{userId})
+        and u.status = 0
         order by a.create_time DESC limit #{startIndex}, #{pageSize};
     </select>
 
@@ -47,6 +49,7 @@
         <include refid="selectTable"></include>
         where a.id = #{id}
         and (a.status = 0 or a.user_id = #{userId})
+        and u.status = 0
         group by a.id;
     </select>
 
@@ -57,6 +60,7 @@
         or a.recipient like "%"#{keyword}"%"
         or a.content like "%"#{keyword}"%")
         and (a.status = 0 or a.user_id = #{userId})
+        and u.status = 0
         group by a.id
         order by a.create_time DESC limit #{startIndex}, #{pageSize};
     </select>
@@ -79,17 +83,21 @@
     <select id="getCount" resultType="_int">
         select count(1)
         from `table`
-        where (status = 0 or user_id = #{userId})
+                 left join `user` on `user`.id = `table`.user_id
+        where (`table`.status = 0 or `table`.user_id = #{userId})
+          and `user`.status = 0;
     </select>
 
     <!--获取帖子搜索总数量-->
     <select id="getSearchCount" resultType="_int">
         select count(1)
         from `table`
-        where (sender like "%"#{keyword}"%"
-        or recipient like "%"#{keyword}"%"
-            or content like "%"#{keyword}"%")
-          and (status = 0 or user_id = #{userId})
+                 left join `user` on `user`.id = `table`.user_id
+        where (`table`.sender like "%"#{keyword}"%"
+            or `table`.recipient like "%"#{keyword}"%"
+            or `table`.content like "%" #{keyword}"%")
+          and (`table`.status = 0 or `table`.user_id = #{userId})
+          and `user`.status = 0;
     </select>
 
     <!--发布表白-->
