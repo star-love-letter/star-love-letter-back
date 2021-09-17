@@ -13,13 +13,19 @@
 
 ### 演示
 
-[演示页面](http://biaobai.xiaoxiaoge.cn)
+[演示页面](http://wall.conststar.cn)
 
 
 
 ### 接口手册
 
 [接口手册](/HELP_API.md)
+
+
+
+### 数据库结构
+
+[wall.sql](/wall.sql)
 
 
 
