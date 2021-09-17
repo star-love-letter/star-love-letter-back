@@ -1,6 +1,8 @@
 package cn.conststar.wall.pojo;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,25 +14,27 @@ import java.util.Objects;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ApiModel("用户实体")
 public class PojoUser implements Serializable {
-    //账号id
+
+    @ApiModelProperty("账号id")
     private int id;
 
-    //邮箱
+    @ApiModelProperty("邮箱")
     private String email;
 
-    //名称
+    @ApiModelProperty("名称")
     private String name;
 
-    //学号
+    @ApiModelProperty("学号")
     private String student_id;
 
-    //注册时间
+    @ApiModelProperty("注册时间")
     private Date createTime;
 
-    //最近登录时间
+    @ApiModelProperty("最近登录时间")
     private Date lastTime;
 
-    //状态 0为正常 1为待审核 -1为封禁
+    @ApiModelProperty("状态 0为正常 1为待审核 -1为封禁")
     private int status;
 }

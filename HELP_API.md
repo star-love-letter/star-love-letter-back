@@ -1,1584 +1,649 @@
-# 星愿墙开发手册
+# 星愿墙
+接口文档
 
-by 赵国庆
+***版本: 1.2.0***
 
+**联系方式:**  
+开发者邮箱  
+admin@conststar.cn  
 
 
-## 项目内容
 
-### 更新日志
 
-### 1.1.12
+## 通用响应内容
+| 状态码 | 描述 |
+| ---- | ----------- |
+| 201 | 操作失败 |
+| 1000 | 服务器错误 |
+| 10001 | 参数无效 |
+| 10002 | 参数无效 |
+| 10003 | 参数类型错误 |
+| 10004 | 参数缺失 |
+| 20001 | 用户未登录 |
+| 20002 | 账号不存在或密码错误 |
+| 20003 | 账号已被禁用 |
+| 20004 | 用户不存在 |
+| 20005 | 用户已存在 |
+| 30001 | 某业务出现问题 |
+| 40001 | 系统繁忙，请稍后重试 |
+| 50001 | 数据未找到 |
+| 50002 | 数据有误 |
+| 50003 | 数据已存在 |
+| 50004 | 查询出错 |
+| 60001 | 内部系统接口调用异常 |
+| 60002 | 外部系统接口调用异常 |
+| 60003 | 该接口禁止访问 |
+| 60004 | 接口地址无效 |
+| 60005 | 接口请求超时 |
+| 60006 | 接口负载过高 |
+| 70001 | 无权限访问 |
 
-添加了帖子/评论/用户状态
 
-- [获取帖子分页列表-返回内容](#获取帖子分页列表)
-- [获取单个帖子内容-返回内容](#获取单个帖子内容)
-- [搜索帖子-返回内容](#搜索帖子)
-- [获取帖子分页评论列表-返回内容](#获取帖子分页评论列表)
-- [获取用户信息-返回内容](#获取用户信息)
 
+## 接口列表
+### 评论内容
 
+#### 发布评论
 
-### 1.1.11
+POST: /api/comment/add
 
-获取帖子内容时返回用户是否点赞
+##### 描述:
 
-- [获取帖子分页列表-返回内容](#获取帖子分页列表)
-- [获取单个帖子内容-返回内容](#获取单个帖子内容)
-- [搜索帖子-返回内容](#搜索帖子)
+发布评论，不返回内容
 
+##### 参数
 
+| 参数名 | 参数位于 | 描述 | 必须 | 参数类型 |
+| ---- | ---------- | ----------- | -------- | ---- |
+| tableId | query | 帖子id | Yes | integer |
+| name | query | 姓名 | Yes | string |
+| anonymous | query | 是否匿名 | Yes | boolean |
+| content | query | 内容 | Yes | string |
+| images | query | 图片列表 | Yes | string |
+| token | header | token | No | string |
 
-### 1.1.10
+##### 响应
+| 状态码 | 描述 | 请求头 | 返回类型 |
+| ---- | ----------- | ------ |------ |
+| 200 | OK | application/json;charset=UTF-8 | [统一响应实体«object»](#统一响应实体«object») |
 
-点赞/取消点赞接口参数方法错误
 
-- [点赞-参数](#支持（点赞）)
-- [取消点赞-参数](#取消支持（取消点赞）)
 
+#### 获取帖子评论总数
 
+GET: /api/comment/count
 
-### 1.1.9
+##### 描述:
 
-使用email绑定验证码
+获取帖子评论总数，返回评论总数
 
-- [获取图形验证码-调用参数](#获取图形验证码)
+##### 参数
 
+| 参数名 | 参数位于 | 描述 | 必须 | 参数类型 |
+| ---- | ---------- | ----------- | -------- | ---- |
+| tableId | query | 帖子id | Yes | integer |
+| token | header | token | No | string |
 
+##### 响应
+| 状态码 | 描述 | 请求头 | 返回类型 |
+| ---- | ----------- | ------ |------ |
+| 200 | OK | application/json;charset=UTF-8 | [统一响应实体«int»](#统一响应实体«int») |
 
-#### 1.1.8
 
-修复登录调用参数错误
 
-- [登录-调用参数](#登录)
+#### 获取帖子分页评论列表
 
+GET: /api/comment/pageList
 
+##### 描述:
 
-#### 1.1.7
+获取帖子分页评论列表，返回评论列表
 
-token绑定用户，登录获取token
+##### 参数
 
-修改了退出登录接口路径
+| 参数名 | 参数位于 | 描述 | 必须 | 参数类型 |
+| ---- | ---------- | ----------- | -------- | ---- |
+| tableId | query | 帖子id | Yes | integer |
+| pageIndex | query | 页索引 | Yes | integer |
+| pageSize | query | 页大小 | Yes | integer |
+| token | header | token | No | string |
 
-- [登录-返回内容](#登录)
-- ~~获取token接口~~
-- [退出登录-url](#退出登录)
+##### 响应
+| 状态码 | 描述 | 请求头 | 返回类型 |
+| ---- | ----------- | ------ |------ |
+| 200 | OK | application/json;charset=UTF-8 | [统一响应实体«List«评论实体»»](#统一响应实体«List«评论实体»») |
 
 
 
-#### 1.1.6
+### 文件操作
 
-添加了token
+#### 上传图片
 
+POST: /api/file/image
 
+##### 描述:
 
-#### 1.1.5
+上传图片，返回上传的图片名
 
-发送邮箱前验证图片验证码
+##### 参数
 
-注册账号添加了参数演示
+| 参数名 | 参数位于 | 描述 | 必须 | 参数类型 |
+| ---- | ---------- | ----------- | -------- | ---- |
+| token | header | token | No | string |
 
+##### 响应
+| 状态码 | 描述 | 请求头 | 返回类型 |
+| ---- | ----------- | ------ |------ |
+| 200 | OK | application/json;charset=UTF-8 | [统一响应实体«string»](#统一响应实体«string») |
 
 
-#### 1.1.4
 
-修复了注册演示参数有误
+#### 获取图片
 
+GET: /api/file/image/{image}
 
+##### 描述:
 
-#### 1.1.3
+获取图片，返回图片文件
 
-在获取帖子/评论中添加了用户公开信息
+##### 参数
 
-删除了获取帖子/评论的用户信息接口
+| 参数名 | 参数位于 | 描述 | 必须 | 参数类型 |
+| ---- | ---------- | ----------- | -------- | ---- |
+| image | path | 图片文件名 | Yes | string |
 
+##### 响应
+| 状态码 | 描述 | 请求头 | 返回类型 |
+| ---- | ----------- | ------ |------ |
+| 200 | OK | */* | string |
 
 
-#### 1.1.2
 
-添加了上传文件接口
+### 帖子内容
 
-添加了获取用户公开信息接口
+#### 发布表白
 
-更新了发布表白、发布评论接口
+POST: /api/table/add
 
+##### 描述:
 
+发布表白，不返回内容
 
+##### 参数
 
+| 参数名 | 参数位于 | 描述 | 必须 | 参数类型 |
+| ---- | ---------- | ----------- | -------- | ---- |
+| sender | query | 表白者名称 | Yes | string |
+| senderSex | query | 表白者性别 | Yes | integer |
+| recipient | query | 被表白者名称 | Yes | string |
+| recipientSex | query | 被表白者性别 | Yes | integer |
+| anonymous | query | 是否匿名 | Yes | boolean |
+| content | query | 表白内容 | Yes | string |
+| images | query | 图片列表 | Yes | string |
+| token | header | token | No | string |
 
-#### 1.1.1
+##### 响应
+| 状态码 | 描述 | 请求头 | 返回类型 |
+| ---- | ----------- | ------ |------ |
+| 200 | OK | application/json;charset=UTF-8 | [统一响应实体«object»](#统一响应实体«object») |
 
-添加了图片验证码
 
-添加了邮箱验证码
 
+#### 获取帖子总数
 
+GET: /api/table/count
 
+##### 描述:
 
+获取帖子总数，返回帖子总数
 
-#### 1.1.0
+##### 参数
 
-全新版本
+| 参数名 | 参数位于 | 描述 | 必须 | 参数类型 |
+| ---- | ---------- | ----------- | -------- | ---- |
+| token | header | token | No | string |
 
+##### 响应
+| 状态码 | 描述 | 请求头 | 返回类型 |
+| ---- | ----------- | ------ |------ |
+| 200 | OK | application/json;charset=UTF-8 | [统一响应实体«int»](#统一响应实体«int») |
 
 
-[查看完整更新日志](UPDATE_LOG.md)
 
+#### 获取帖子分页列表
 
+GET: /api/table/pageList
 
-### 数据库表结构
+##### 描述:
 
-[wall.sql](wall.sql)
+获取帖子分页列表，返回帖子列表
 
+##### 参数
 
+| 参数名 | 参数位于 | 描述 | 必须 | 参数类型 |
+| ---- | ---------- | ----------- | -------- | ---- |
+| pageIndex | query | 页索引 | Yes | integer |
+| pageSize | query | 页大小 | Yes | integer |
+| token | header | token | No | string |
 
+##### 响应
+| 状态码 | 描述 | 请求头 | 返回类型 |
+| ---- | ----------- | ------ |------ |
+| 200 | OK | application/json;charset=UTF-8 | [统一响应实体«List«帖子实体»»](#统一响应实体«List«帖子实体»») |
 
 
-## 通用返回内容
 
-### 示例
+#### 获取搜索帖子总数
 
-```json
-{"msg":"消息内容","code":100}
-```
+GET: /api/table/searchCount
 
+##### 描述:
 
+获取搜索帖子总数，返回帖子数量
 
-### 返回内容
+##### 参数
 
-| 参数 | 值类型 | 说明     |
-| ---- | ------ | -------- |
-| msg  | string | 消息内容 |
-| code | int    | 状态码   |
+| 参数名 | 参数位于 | 描述 | 必须 | 参数类型 |
+| ---- | ---------- | ----------- | -------- | ---- |
+| keyword | query | 关键词 | Yes | string |
+| token | header | token | No | string |
 
+##### 响应
+| 状态码 | 描述 | 请求头 | 返回类型 |
+| ---- | ----------- | ------ |------ |
+| 200 | OK | application/json;charset=UTF-8 | [统一响应实体«int»](#统一响应实体«int») |
 
 
-#### 状态码
 
-| 数值 | 状态名         | 说明         |
-| ---- | -------------- | ------------ |
-| 0    | NONE           | 成功         |
-| 100  | DEFAULT        | 错误         |
-| 101  | NOT_LOGIN      | 没有登录账号 |
-| 200  | DEADLY         | 致命错误     |
-| 201  | DEADLY_SYSTEEM | 系统致命错误 |
+#### 搜索帖子
 
+GET: /api/table/searchList
 
+##### 描述:
 
+搜索帖子，返回帖子列表
 
+##### 参数
 
-## 账号操作
+| 参数名 | 参数位于 | 描述 | 必须 | 参数类型 |
+| ---- | ---------- | ----------- | -------- | ---- |
+| keyword | query | 关键词 | Yes | string |
+| pageIndex | query | 页索引 | Yes | integer |
+| pageSize | query | 页大小 | Yes | integer |
+| token | header | token | No | string |
 
-### 登录
+##### 响应
+| 状态码 | 描述 | 请求头 | 返回类型 |
+| ---- | ----------- | ------ |------ |
+| 200 | OK | application/json;charset=UTF-8 | [统一响应实体«List«帖子实体»»](#统一响应实体«List«帖子实体»») |
 
-#### 示例
 
-post: http://localhost:8080/api/user/login
 
+#### 点赞
 
+PUT: /api/table/support
 
-##### 参数示范 x-www-form-urlencoded
+##### 描述:
 
-```ini
-email = admin@conststar.cn
-password = xxxx
-```
+点赞，不返回内容
 
+##### 参数
 
+| 参数名 | 参数位于 | 描述 | 必须 | 参数类型 |
+| ---- | ---------- | ----------- | -------- | ---- |
+| tableId | query | 帖子id | Yes | integer |
+| token | header | token | No | string |
 
-##### 成功返回内容示范
+##### 响应
+| 状态码 | 描述 | 请求头 | 返回类型 |
+| ---- | ----------- | ------ |------ |
+| 200 | OK | application/json;charset=UTF-8 | [统一响应实体«object»](#统一响应实体«object») |
 
-```json
-{
-    "msg": "登录成功",
-    "code": 0,
-    "token": "1164442003@qq.com 83B9197E8F0572E87BAB4B8128C7299752E67B6B0355F1E8F330A072F3BF0E78"
-}
-```
 
 
+#### 取消点赞
 
-#### 调用方式
+DELETE: /api/table/support
 
-```
-url: /api/user/login;
-method:post;
-data:{
-    email:xxxx,
-    password:xxxx
-}
-```
+##### 描述:
 
+取消点赞，不返回内容
 
+##### 参数
 
-##### 调用参数
+| 参数名 | 参数位于 | 描述 | 必须 | 参数类型 |
+| ---- | ---------- | ----------- | -------- | ---- |
+| tableId | query | 帖子id | Yes | integer |
+| token | header | token | No | string |
 
-| 参数     | 值类型 | 说明 |
-| -------- | ------ | ---- |
-| email    | string | 邮箱 |
-| password | string | 密码 |
+##### 响应
+| 状态码 | 描述 | 请求头 | 返回类型 |
+| ---- | ----------- | ------ |------ |
+| 200 | OK | application/json;charset=UTF-8 | [统一响应实体«object»](#统一响应实体«object») |
 
 
 
-##### 返回内容
+#### 获取单个帖子内容
 
-| 参数  | 值类型 | 说明  |
-| ----- | ------ | ----- |
-| token | string | token |
+GET: /api/table/table
 
+##### 描述:
 
+获取单个帖子内容，返回单个帖子
 
+##### 参数
 
+| 参数名 | 参数位于 | 描述 | 必须 | 参数类型 |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | query | 帖子id | Yes | integer |
+| token | header | token | No | string |
 
-### 退出登录
+##### 响应
+| 状态码 | 描述 | 请求头 | 返回类型 |
+| ---- | ----------- | ------ |------ |
+| 200 | OK | application/json;charset=UTF-8 | [统一响应实体«帖子实体»](#统一响应实体«帖子实体») |
 
-#### 示例
 
-post: http://localhost:8080/api/user/logout
 
+### 账号操作
 
+#### 注册
 
-##### 成功返回内容示范
+POST: /api/user/add
 
-```json
-{"msg":"账号已退出","code":0}
-```
+##### 描述:
 
+注册账号，不返回内容
 
+##### 参数
 
-#### 调用方式
+| 参数名 | 参数位于 | 描述 | 必须 | 参数类型 |
+| ---- | ---------- | ----------- | -------- | ---- |
+| email | query | 邮箱 | Yes | string |
+| password | query | 密码 | Yes | string |
+| name | query | 姓名 | Yes | string |
+| imageCode | query | 图片验证码 | Yes | string |
+| emailCode | query | 邮箱验证 | Yes | string |
 
-```
-url: /api/user/quit;
-method:post;
-header:{
-	token:xxx
-}
-```
+##### 响应
+| 状态码 | 描述 | 请求头 | 返回类型 |
+| ---- | ----------- | ------ |------ |
+| 200 | OK | application/json;charset=UTF-8 | [统一响应实体«object»](#统一响应实体«object») |
 
 
 
-##### 调用参数
+#### 登录
 
-无
+POST: /api/user/login
 
+##### 描述:
 
+登录用户，返回token
 
-##### 返回内容
+##### 参数
 
-无额外内容
+| 参数名 | 参数位于 | 描述 | 必须 | 参数类型 |
+| ---- | ---------- | ----------- | -------- | ---- |
+| email | query | 邮箱 | Yes | string |
+| password | query | 密码 | Yes | string |
 
+##### 响应
+| 状态码 | 描述 | 请求头 | 返回类型 |
+| ---- | ----------- | ------ |------ |
+| 200 | OK | application/json;charset=UTF-8 | [统一响应实体«string»](#统一响应实体«string») |
 
 
 
+#### 退出登录
 
-### 注册
+POST: /api/user/logout
 
-#### 示例
+##### 描述:
 
-post: http://localhost:8080/api/user/add
+退出登录，不返回内容
 
+##### 参数
 
+| 参数名 | 参数位于 | 描述 | 必须 | 参数类型 |
+| ---- | ---------- | ----------- | -------- | ---- |
+| token | header | token | No | string |
 
-##### 参数示范 x-www-form-urlencoded
+##### 响应
+| 状态码 | 描述 | 请求头 | 返回类型 |
+| ---- | ----------- | ------ |------ |
+| 200 | OK | application/json;charset=UTF-8 | [统一响应实体«object»](#统一响应实体«object») |
 
-```ini
-email = admin@conststar.cn
-password = 123123456
-name = 用户名称
-imageCode = zgq6
-emailCode = 6hhh
-```
 
 
+#### 获取登录用户信息
 
-##### 成功返回内容示范
+GET: /api/user/user
 
-```json
-{"msg":"注册成功","code":0}
-```
+##### 描述:
 
+获取登录用户信息，返回用户公开信息
 
+##### 参数
 
-#### 调用方式
+| 参数名 | 参数位于 | 描述 | 必须 | 参数类型 |
+| ---- | ---------- | ----------- | -------- | ---- |
+| token | header | token | No | string |
 
-```
-url: /api/user/add;
-method:post;
-data:{
-    email:xxxx,
-    password:xxxx,
-    name:xxx,
-    imageCode:xxxx,
-    emailCode:xxxx
-}
-```
+##### 响应
+| 状态码 | 描述 | 请求头 | 返回类型 |
+| ---- | ----------- | ------ |------ |
+| 200 | OK | application/json;charset=UTF-8 | [统一响应实体«用户实体»](#统一响应实体«用户实体») |
 
 
 
-##### 调用参数
+#### 获取用户公开信息
 
-| 参数      | 值类型 | 说明                          |
-| --------- | ------ | ----------------------------- |
-| email     | string | 邮箱                          |
-| password  | string | 密码                          |
-| name      | string | 用户名称                      |
-| imageCode | string | [图片验证码](#获取图片验证码) |
-| emailCode | string | [邮箱验证码](#获取邮箱验证码) |
+GET: /api/user/userPublic
 
+##### 描述:
 
+获取用户公开信息，返回用户公开信息
 
-##### 返回内容
+##### 参数
 
-无额外内容
+| 参数名 | 参数位于 | 描述 | 必须 | 参数类型 |
+| ---- | ---------- | ----------- | -------- | ---- |
+| id | query | 用户id | Yes | integer |
+| token | header | token | No | string |
 
+##### 响应
+| 状态码 | 描述 | 请求头 | 返回类型 |
+| ---- | ----------- | ------ |------ |
+| 200 | OK | application/json;charset=UTF-8 | [统一响应实体«用户公开信息»](#统一响应实体«用户公开信息») |
 
 
 
+#### 获取邮箱验证码
 
-### 获取用户信息
+GET: /api/user/verifyEmail
 
-#### 示例
+##### 描述:
 
-get: http://localhost:8080/api/user/user
+获取邮箱验证码，不返回内容
 
+##### 参数
 
+| 参数名 | 参数位于 | 描述 | 必须 | 参数类型 |
+| ---- | ---------- | ----------- | -------- | ---- |
+| email | query | 邮箱 | Yes | string |
+| imageCode | query | 图形验证码 | Yes | string |
 
-##### 成功返回内容示范
+##### 响应
+| 状态码 | 描述 | 请求头 | 返回类型 |
+| ---- | ----------- | ------ |------ |
+| 200 | OK | application/json;charset=UTF-8 | [统一响应实体«object»](#统一响应实体«object») |
 
-```json
-{
-    "msg": "获取成功",
-    "code": 0,
-    "user": {
-        "createTime": 1624164437000,
-        "email": "1164442003@qq.com",
-        "id": 2,
-        "lastTime": 1631195722000,
-        "name": "赵国庆",
-        "status": 0
-    }
-}
-```
 
 
+#### 获取图片验证码
 
-#### 调用方式
+GET: /api/user/verifyImage
 
-```
-url: /api/user/user;
-method:get;
-header:{
-	token:xxx
-}
-```
+##### 描述:
 
+获取图片验证码，返回图片base64
 
+##### 参数
 
-##### 调用参数
+| 参数名 | 参数位于 | 描述 | 必须 | 参数类型 |
+| ---- | ---------- | ----------- | -------- | ---- |
+| email | query | 邮箱 | Yes | string |
 
-无
+##### 响应
+| 状态码 | 描述 | 请求头 | 返回类型 |
+| ---- | ----------- | ------ |------ |
+| 200 | OK | application/json;charset=UTF-8 | [统一响应实体«string»](#统一响应实体«string») |
 
 
 
-##### 返回内容
+## 返回类型
 
-| 参数 | 值类型 | 说明     |
-| ---- | ------ | -------- |
-| user | object | 用户内容 |
 
+#### 帖子实体
 
+| 参数名 | 类型 | 描述 | 必须 |
+| ---- | ---- | ----------- | -------- |
+| anonymous | boolean | 是否为匿名 | No |
+| commentCount | integer | 评论数量 | No |
+| content | string | 表白内容 | No |
+| createTime | dateTime | 创建时间 | No |
+| id | integer | 帖子id | No |
+| images | string | 图片列表 | No |
+| recipient | string | 被表白者姓名 | No |
+| recipientSex | integer | 被表白者性别 | No |
+| sender | string | 表白者姓名 | No |
+| senderSex | integer | 表白者性别 | No |
+| status | integer | 状态 0为正常 1为待审核 -1为封禁 | No |
+| support | boolean | 是否点过赞 | No |
+| supportCount | integer | 点赞数量 | No |
+| userPublic | [用户公开信息](#用户公开信息) | 对应的用户公开信息 | No |
 
-###### user内容
 
-| 参数       | 值类型 | 说明                              |
-| ---------- | ------ | --------------------------------- |
-| id         | int    | 用户id                            |
-| lastTime   | long   | 上次登录的时间 时间戳             |
-| createTime | long   | 注册账号的时间 时间戳             |
-| name       | string | 用户名称                          |
-| email      | string | 邮箱                              |
-| status     | int    | 状态  0为正常 1为待审核  -1为封禁 |
 
+#### 用户公开信息
 
+| 参数名 | 类型 | 描述 | 必须 |
+| ---- | ---- | ----------- | -------- |
+| createTime | dateTime | 注册时间 | No |
+| email | string | 邮箱 | No |
+| id | integer | 账号id | No |
+| lastTime | dateTime | 最近登录时间 | No |
+| name | string | 名称 | No |
+| studentId | string | 学号 | No |
 
 
 
-### 获取用户公开信息
+#### 用户实体
 
-#### 示例
+| 参数名 | 类型 | 描述 | 必须 |
+| ---- | ---- | ----------- | -------- |
+| createTime | dateTime | 注册时间 | No |
+| email | string | 邮箱 | No |
+| id | integer | 账号id | No |
+| lastTime | dateTime | 最近登录时间 | No |
+| name | string | 名称 | No |
+| status | integer | 状态 0为正常 1为待审核 -1为封禁 | No |
+| student_id | string | 学号 | No |
 
-get: http://localhost:8080/api/user/userPublic
 
 
+#### 统一响应实体«List«帖子实体»»
 
-##### 成功返回内容示范
+| 参数名 | 类型 | 描述 | 必须 |
+| ---- | ---- | ----------- | -------- |
+| code | integer | 状态码 | Yes |
+| data | [ [帖子实体](#帖子实体) ] | 数据 | No |
+| message | string | 消息 | Yes |
 
-```json
-{
-    "msg": "获取成功",
-    "code": 0,
-    "userPublic": {
-        "createTime": 1624164392000,
-        "email": "admin@conststar.cn",
-        "id": 1,
-        "lastTime": 1624164392000,
-        "name": "12321"
-    }
-}
-```
 
 
+#### 统一响应实体«List«评论实体»»
 
-#### 调用方式
+| 参数名 | 类型 | 描述 | 必须 |
+| ---- | ---- | ----------- | -------- |
+| code | integer | 状态码 | Yes |
+| data | [ [评论实体](#评论实体) ] | 数据 | No |
+| message | string | 消息 | Yes |
 
-```
-url: /api/user/userPublic;
-method:get;
-params:{
-    id:xxxx
-};
-header:{
-	token:xxx
-}
-```
 
 
+#### 统一响应实体«int»
 
-##### 调用参数
+| 参数名 | 类型 | 描述 | 必须 |
+| ---- | ---- | ----------- | -------- |
+| code | integer | 状态码 | Yes |
+| data | integer | 数据 | No |
+| message | string | 消息 | Yes |
 
-| 参数 | 值类型 | 说明   |
-| ---- | ------ | ------ |
-| id   | int    | 用户id |
 
 
+#### 统一响应实体«object»
 
-##### 返回内容
+| 参数名 | 类型 | 描述 | 必须 |
+| ---- | ---- | ----------- | -------- |
+| code | integer | 状态码 | Yes |
+| data | object | 数据 | No |
+| message | string | 消息 | Yes |
 
-| 参数       | 值类型 | 说明     |
-| ---------- | ------ | -------- |
-| userPublic | object | 用户内容 |
 
 
+#### 统一响应实体«string»
 
-###### userPublic内容
+| 参数名 | 类型 | 描述 | 必须 |
+| ---- | ---- | ----------- | -------- |
+| code | integer | 状态码 | Yes |
+| data | string | 数据 | No |
+| message | string | 消息 | Yes |
 
-| 参数       | 值类型 | 说明                  |
-| ---------- | ------ | --------------------- |
-| id         | int    | 用户id                |
-| email      | string | 用户邮箱              |
-| createTime | long   | 注册账号的时间 时间戳 |
-| lastTime   | long   | 上次登录的时间 时间戳 |
-| name       | string | 用户名称              |
 
 
+#### 统一响应实体«帖子实体»
 
+| 参数名 | 类型 | 描述 | 必须 |
+| ---- | ---- | ----------- | -------- |
+| code | integer | 状态码 | Yes |
+| data | [帖子实体](#帖子实体) | 数据 | No |
+| message | string | 消息 | Yes |
 
 
-### 获取图形验证码
 
-#### 示例
+#### 统一响应实体«用户公开信息»
 
-get: http://localhost:8080/api/user/verifyImage
+| 参数名 | 类型 | 描述 | 必须 |
+| ---- | ---- | ----------- | -------- |
+| code | integer | 状态码 | Yes |
+| data | [用户公开信息](#用户公开信息) | 数据 | No |
+| message | string | 消息 | Yes |
 
 
 
-##### 成功返回内容示范
+#### 统一响应实体«用户实体»
 
-```json
-{"msg":"获取成功","image":"data:image/png;base64,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","code":0}
-```
+| 参数名 | 类型 | 描述 | 必须 |
+| ---- | ---- | ----------- | -------- |
+| code | integer | 状态码 | Yes |
+| data | [用户实体](#用户实体) | 数据 | No |
+| message | string | 消息 | Yes |
 
 
 
-#### 调用方式
+#### 评论实体
 
-```
-url: /api/user/verifyImage;
-method:get;
-params:{
-    email:xxxx
-}
-```
-
-
-
-##### 调用参数
-
-| 参数  | 值类型 | 说明             |
-| ----- | ------ | ---------------- |
-| email | string | 获取验证码的邮箱 |
-
-
-
-##### 返回内容
-
-| 参数  | 值类型 | 说明              |
-| ----- | ------ | ----------------- |
-| image | string | 图形验证码 base64 |
-
-
-
-
-
-### 获取邮箱验证码
-
-#### 示例
-
-get: http://localhost:8080/api/user/verifyEmail?email=admin@conststar.cn?imageCode=zgq6
-
-
-
-##### 成功返回内容示范
-
-```java
-{"msg":"获取成功","code":0}
-```
-
-
-
-#### 调用方式
-
-```
-url: /api/user/verifyEmail;
-method:get;
-params:{
-	imageCode:xxxx,
-    email:xxxx
-}
-```
-
-
-
-##### 调用参数
-
-| 参数      | 值类型 | 说明             |
-| --------- | ------ | ---------------- |
-| email     | string | 获取验证码的邮箱 |
-| imageCode | string | 图片验证码       |
-
-
-
-##### 返回内容
-
-无额外内容
-
-
-
-
-
-## 文件操作
-
-
-
-### 上传图片
-
-#### 示例
-
-post: http://localhost:8080/api/file/image
-
-
-
-##### 参数示范 form-data
-
-```ini
-file = Cache_7b9745cb0eebc9cc.jpg
-```
-
-
-
-##### 成功返回内容示范
-
-```java
-{"msg":"上传成功","file":"5d8dffb031cf465bbc5edaca5378eccf.jpg","code":0}
-```
-
-
-
-#### 调用方式
-
-```
-url: /api/file/image;
-method:post;
-data:{
-    file:xxxx
-};
-header:{
-	token:xxx
-}
-```
-
-
-
-##### 调用参数
-
-| 参数 | 值类型 | 说明                                                |
-| ---- | ------ | --------------------------------------------------- |
-| file | file   | 上传的图片文件 支持[JPG, BMP, GIF, WBMP, PNG, JPEG] |
-
-
-
-##### 返回内容
-
-| 参数 | 值类型 | 说明           |
-| ---- | ------ | -------------- |
-| file | string | 已上传的文件id |
-
-
-
-
-
-### 下载图片
-
-#### 示例
-
-get: http://localhost:8080/api/file/image/5d8dffb031cf465bbc5edaca5378eccf.jpg
-
-
-
-##### 成功返回内容示范
-
-返回图片文件
-
-
-
-#### 调用方式
-
-```
-url: /api/file/image/{image};
-method:get;
-```
-
-
-
-##### 调用参数
-
-| 参数    | 值类型 | 说明               |
-| ------- | ------ | ------------------ |
-| {image} | url    | 已添加使用的文件id |
-
-
-
-##### 返回内容
-
-无
-
-
-
-
-
-## 帖子内容
-
-
-
-### 获取帖子分页列表
-
-#### 示例
-
-get: http://localhost:8080/api/table/pageList?pageIndex=1&pageSize=3
-
-
-
-##### 成功返回内容示范
-
-```json
-{
-    "msg": "获取成功",
-    "code": 0,
-    "list": [
-        {
-            "images": "[\"c63e64cb4f2840d8b1277a09accb542d.jpg\"]",
-            "supportCount": 0,
-            "content": "在吗",
-            "commentCount": 0,
-            "recipientSex": 1,
-            "createTime": 1631177127000,
-            "sender": "晚上",
-            "recipient": "白天",
-            "anonymous": false,
-            "senderSex": 2,
-            "id": 101,
-            "support": false,
-            "status": 1
-        },
-        {
-            "images": "[\"8cc87fbe98af4ad88980dd8840ceed6d.jpg\"]",
-            "supportCount": 0,
-            "content": "hi 吃了吗",
-            "commentCount": 0,
-            "recipientSex": 2,
-            "createTime": 1631176945000,
-            "sender": "阿狗",
-            "recipient": "阿猫",
-            "anonymous": false,
-            "senderSex": 1,
-            "userPublic": {
-                "lastTime": 1631168215000,
-                "createTime": 1630635438000,
-                "name": "阿狗",
-                "id": 12,
-                "email": "370485503@qq.com"
-            },
-            "id": 100,
-            "support": false,
-            "status": 0
-        },
-        {
-            "images": "[\"87198081496b48648837d3302e0480ad.jpg\"]",
-            "supportCount": 0,
-            "content": "琛琛好帅",
-            "commentCount": 0,
-            "recipientSex": 2,
-            "createTime": 1631092392000,
-            "sender": "阿琛",
-            "recipient": "琛琛",
-            "anonymous": true,
-            "senderSex": 1,
-            "id": 99,
-            "support": false,
-            "status": 0
-        }
-    ]
-}
-```
-
-
-
-
-
-#### 调用方式
-
-```
-url: /api/table/pageList;
-method:get;
-params:{
-    pageIndex:xxxx,
-    pageSize:xxxx
-};
-header:{
-	token:xxx
-}
-```
-
-
-
-##### 调用参数
-
-| 参数      | 值类型 | 说明                              |
-| --------- | ------ | --------------------------------- |
-| pageIndex | int    | 第几页（不得小于1）               |
-| pageSize  | int    | 每页有多少个表白内容（不得小于1） |
-
-
-
-##### 返回内容
-
-| 参数 | 值类型 | 说明         |
-| ---- | ------ | ------------ |
-| list | array  | 表白内容列表 |
-
-
-
-###### list列表
-
-| 参数         | 值类型 | 说明                               |
-| ------------ | ------ | ---------------------------------- |
-| id           | int    | 表白帖子id                         |
-| sender       | string | 表白者                             |
-| senderSex    | int    | 表白者性别 1为男性 2为女性 0为未知 |
-| recipient    | string | 被表白者                           |
-| recipientSex | int    | 被表白者 1为男性 2为女性 0为未知   |
-| createTime   | long   | 创建表白的时间 时间戳              |
-| content      | string | 表白内容                           |
-| anonymous    | bool   | 是否为匿名                         |
-| supportCount | int    | 点赞数量                           |
-| commentCount | int    | 评论数量                           |
-| images       | string | 帖子图片  [下载图片](#下载图片)    |
-| userPublic   | object | 用户公开信息（非匿名）             |
-| support      | bool   | 是否点赞                           |
-| status       | int    | 状态  0为正常 1为待审核  -1为封禁  |
-
-
-
-###### userPublic内容
-
-| 参数       | 值类型 | 说明                  |
-| ---------- | ------ | --------------------- |
-| id         | int    | 用户id                |
-| email      | string | 用户邮箱              |
-| lastTime   | long   | 上次登录的时间 时间戳 |
-| createTime | long   | 注册账号的时间 时间戳 |
-| name       | string | 用户名称              |
-
-
-
-
-
-### 获取帖子总数量
-
-**说明:可以用来计算总页数**
-
-
-
-#### 示范
-
-get: http://localhost:8080/api/table/count
-
-
-
-##### 成功返回内容示范
-
-```json
-{"msg":"获取成功","code":0,"count":15}
-```
-
-
-
-#### 调用方式
-
-```
-url: /api/table/count;
-method:get;
-```
-
-
-
-##### 调用参数
-
-无
-
-
-
-##### 返回内容
-
-| 参数  | 值类型 | 说明       |
-| ----- | ------ | ---------- |
-| count | int    | 帖子总数量 |
-
-
-
-
-
-### 获取单个帖子内容
-
-#### 示范
-
-get: http://localhost:8080/api/table/table?id=1
-
-
-
-##### 成功返回内容示范
-
-```json
-{
-    "msg": "获取成功",
-    "code": 0,
-    "table": {
-        "images": "[\"78b440903f1241e8a7f50d8c26f3ec07.jpg\"]",
-        "supportCount": 2,
-        "content": "哦不错呦",
-        "commentCount": 1,
-        "recipientSex": 1,
-        "createTime": 1622093601000,
-        "sender": "马屹东",
-        "recipient": "辛金达",
-        "anonymous": false,
-        "senderSex": 1,
-        "userPublic": {
-            "lastTime": 1630727499000,
-            "createTime": 1624164392000,
-            "name": "12321",
-            "id": 1,
-            "email": "admin@conststar.cn"
-        },
-        "id": 92,
-        "support": true,
-        "status": 0
-    }
-}
-```
-
-
-
-#### 调用方式
-
-```
-url: /api/table/table;
-method:get;
-params:{
-    id:xxx
-};
-header:{
-	token:xxx
-}
-```
-
-
-
-##### 调用参数
-
-| 参数 | 值类型 | 说明   |
-| ---- | ------ | ------ |
-| id   | int    | 帖子id |
-
-
-
-##### 返回内容
-
-| 参数  | 值类型 | 说明     |
-| ----- | ------ | -------- |
-| table | object | 帖子内容 |
-
-
-
-###### table内容
-
-| 参数         | 值类型 | 说明                               |
-| ------------ | ------ | ---------------------------------- |
-| id           | int    | 表白帖子id                         |
-| sender       | string | 表白者                             |
-| senderSex    | int    | 表白者性别 1为男性 2为女性 0为未知 |
-| recipient    | string | 被表白者                           |
-| recipientSex | int    | 被表白者 1为男性 2为女性 0为未知   |
-| createTime   | long   | 创建表白的时间 时间戳              |
-| content      | string | 表白内容                           |
-| anonymous    | bool   | 是否为匿名                         |
-| supportCount | int    | 支持数量                           |
-| commentCount | int    | 评论数量                           |
-| images       | string | 帖子图片  [下载图片](#下载图片)    |
-| userPublic   | object | 用户公开信息（非匿名）             |
-| support      | bool   | 是否点赞                           |
-| status       | int    | 状态  0为正常 1为待审核  -1为封禁  |
-
-
-
-######  userPublic内容
-
-| 参数       | 值类型 | 说明                  |
-| ---------- | ------ | --------------------- |
-| id         | int    | 用户id                |
-| email      | string | 用户邮箱              |
-| lastTime   | long   | 上次登录的时间 时间戳 |
-| createTime | long   | 注册账号的时间 时间戳 |
-| name       | string | 用户名称              |
-
-
-
-
-
-### 搜索帖子
-
-#### 示范
-
-get: http://localhost:8080/api/table/searchList?pageIndex=1&pageSize=2&keyword=赵国庆
-
-
-
-##### 成功返回内容示范
-
-```json
-{
-    "msg": "获取成功",
-    "code": 0,
-    "list": [
-        {
-            "supportCount": 0,
-            "content": "好",
-            "commentCount": 0,
-            "recipientSex": 0,
-            "createTime": 1620781831000,
-            "sender": "赵国庆",
-            "recipient": "赵国庆庆",
-            "anonymous": false,
-            "senderSex": 2,
-            "id": 75,
-            "support": false,
-            "status": 0
-        },
-        {
-            "supportCount": 1,
-            "content": "八嘎呀路",
-            "commentCount": 0,
-            "recipientSex": 1,
-            "createTime": 1620631098000,
-            "sender": "赵国庆",
-            "recipient": "张嘉毅",
-            "anonymous": false,
-            "senderSex": 1,
-            "userPublic": {
-                "lastTime": 1630727499000,
-                "createTime": 1624164392000,
-                "name": "12321",
-                "id": 1,
-                "email": "admin@conststar.cn"
-            },
-            "id": 17,
-            "support": true,
-            "status": 0
-        },
-        {
-            "supportCount": 1,
-            "content": "内容测试",
-            "commentCount": 3,
-            "recipientSex": 0,
-            "createTime": 1619424609000,
-            "sender": "赵国庆",
-            "recipient": "赵国庆庆",
-            "anonymous": false,
-            "senderSex": 2,
-            "userPublic": {
-                "lastTime": 1630727499000,
-                "createTime": 1624164392000,
-                "name": "12321",
-                "id": 1,
-                "email": "admin@conststar.cn"
-            },
-            "id": 3,
-            "support": false,
-            "status": 0
-        }
-    ]
-}
-```
-
-
-
-#### 调用方式
-
-```
-url: /api/table/searchList;
-method:get;
-params:{
-  	keyword:xxx,
-  	pageIndex:xxxx,
-    pageSize:xxxx
-};
-header:{
-	token:xxx
-}
-```
-
-
-
-##### 调用参数
-
-| 参数      | 值类型 | 说明                              |
-| --------- | ------ | --------------------------------- |
-| keyword   | string | 关键词                            |
-| pageIndex | int    | 第几页（不得小于1）               |
-| pageSize  | int    | 每页有多少个表白内容（不得小于1） |
-
-
-
-##### 返回内容
-
-| 参数 | 值类型 | 说明         |
-| ---- | ------ | ------------ |
-| list | array  | 表白内容列表 |
-
-
-
-###### list列表
-
-| 参数         | 值类型 | 说明                               |
-| ------------ | ------ | ---------------------------------- |
-| id           | int    | 表白帖子id                         |
-| sender       | string | 表白者                             |
-| senderSex    | int    | 表白者性别 1为男性 2为女性 0为未知 |
-| recipient    | string | 被表白者                           |
-| recipientSex | int    | 被表白者 1为男性 2为女性 0为未知   |
-| createTime   | long   | 创建表白的时间 时间戳              |
-| content      | string | 表白内容                           |
-| supportCount | int    | 支持数量                           |
-| commentCount | int    | 评论数量                           |
-| userPublic   | object | 用户公开信息（非匿名）             |
-| support      | bool   | 是否点赞                           |
-| status       | int    | 状态  0为正常 1为待审核  -1为封禁  |
-
-
-
-######  userPublic内容
-
-| 参数       | 值类型 | 说明                  |
-| ---------- | ------ | --------------------- |
-| id         | int    | 用户id                |
-| email      | string | 用户邮箱              |
-| lastTime   | long   | 上次登录的时间 时间戳 |
-| createTime | long   | 注册账号的时间 时间戳 |
-| name       | string | 用户名称              |
-
-
-
-
-
-### 搜索总数量
-
-**说明:可以用来计算总页数**
-
-
-
-#### 示范
-
-get: http://localhost:8080/api/table/searchCount?keyword=赵国庆
-
-
-
-##### 成功返回内容示范
-
-```json
-{"msg":"获取成功","code":0,"count":4}
-```
-
-
-
-#### 调用方式
-
-```
-url: /api/table/searchCount;
-method:get;
-params:{
-    keyword:xxx
-}
-```
-
-
-
-##### 调用参数
-
-| 参数    | 值类型 | 说明   |
-| ------- | ------ | ------ |
-| keyword | string | 关键词 |
-
-
-
-##### 返回内容
-
-| 参数  | 值类型 | 说明       |
-| ----- | ------ | ---------- |
-| count | int    | 帖子总数量 |
-
-
-
-
-
-### 发布表白
-
-
-
-#### 示范
-
-post: http://localhost:8080/api/table/add
-
-
-
-##### 参数示范 x-www-form-urlencoded
-
-```ini
-sender = 表白者
-senderSex = 1
-recipient = 被表白者
-recipientSex =2
-content = 表白内容
-anonymous = true
-images = ["5d8dffb031cf465bbc5edaca5378eccf.jpg"]
-```
-
-
-
-##### 成功返回内容示范
-
-```json
-{"msg":"发布成功","code":0}
-```
-
-
-
-#### 调用方式
-
-```
-url: /api/table/add;
-method:post;
-data:{
-    "sender": xxx,
-    "senderSex": xxx,
-    "recipient": xxx,
-    "recipientSex": xxx,
-    "content": xxx,
-    "anonymous":xxx,
-    "images":["xxx","xxx"]
-};
-header:{
-	token:xxx
-}
-```
-
-
-
-##### 调用参数
-
-| 参数         | 值类型 | 说明                               |
-| ------------ | ------ | ---------------------------------- |
-| sender       | string | 表白者                             |
-| senderSex    | int    | 表白者性别 1为男性 2为女性 0为未知 |
-| recipient    | string | 被表白者                           |
-| recipientSex | int    | 被表白者 1为男性 2为女性 0为未知   |
-| content      | string | 表白内容                           |
-| anonymous    | bool   | 是否匿名                           |
-| images       | array  | 图片列表  [上传图片](#上传图片)    |
-
-
-
-##### 返回内容
-
-无额外内容
-
-
-
-
-
-### 支持（点赞）
-
-#### 示范
-
-put: http://localhost:8080/api/table/support?tableId=3
-
-
-
-##### 成功返回内容示范
-
-```json
-{"msg":"已点赞","code":0}
-```
-
-
-
-
-
-#### 调用方式
-
-```
-url: /api/table/support;
-method:put;
-params:{
-    "tableId":xxx
-};
-header:{
-	token:xxx
-}
-```
-
-
-
-##### 调用参数
-
-| 参数 | 值类型 | 说明   |
-| ---- | ------ | ------ |
-| id   | int    | 帖子id |
-
-
-
-#### 返回内容
-
-无额外内容
-
-
-
-
-
-### 取消支持（取消点赞）
-
-#### 示范
-
-delete: http://localhost:8080/api/table/support?tableId=3
-
-
-
-##### 成功返回内容示范
-
-```json
-{"msg":"已取消点赞","code":0}
-```
-
-
-
-
-
-#### 调用方式
-
-```
-url: /api/table/support;
-method:delete;
-params:{
-    "tableId":xxx
-};
-header:{
-	token:xxx
-}
-```
-
-
-
-##### 调用参数
-
-| 参数 | 值类型 | 说明   |
-| ---- | ------ | ------ |
-| id   | int    | 帖子id |
-
-
-
-#### 返回内容
-
-无额外内容
-
-
-
-
-
-## 评论内容
-
-
-
-### 获取帖子分页评论列表
-
-#### 示范
-
-get: http://localhost:8080/api/comment/pageList?pageIndex=1&pageSize=3&tableId=86
-
-
-
-##### 成功返回内容示范
-
-```json
-{
-    "msg": "获取成功",
-    "code": 0,
-    "list": [
-        {
-            "createTime": 1621504182000,
-            "user_id": 0,
-            "anonymous": true,
-            "tableId": 86,
-            "id": 33,
-            "content": "臭傻逼",
-            "status": 0
-        },
-        {
-            "createTime": 1621502882000,
-            "user_id": 0,
-            "anonymous": false,
-            "tableId": 86,
-            "userPublic": {
-                "lastTime": 1630727499000,
-                "createTime": 1624164392000,
-                "name": "12321",
-                "id": 1,
-                "email": "admin@conststar.cn"
-            },
-            "id": 32,
-            "content": "你kin你擦",
-            "status": 0
-        },
-        {
-            "createTime": 1621497073000,
-            "user_id": 0,
-            "anonymous": false,
-            "tableId": 86,
-            "userPublic": {
-                "lastTime": 1630727499000,
-                "createTime": 1624164392000,
-                "name": "12321",
-                "id": 1,
-                "email": "admin@conststar.cn"
-            },
-            "id": 31,
-            "content": "不会吧不会吧不会真的有人这么自恋吧？",
-            "status": 0
-        }
-    ]
-}
-```
-
-
-
-#### 调用方式
-
-```
-url: /api/comment/pageList;
-method:get;
-params:{
-    "tableId": xxx,
-    "pageIndex": xxx,
-    "pageSize": xxx
-}
-```
-
-
-
-##### 调用参数
-
-| 参数      | 值类型 | 说明                              |
-| --------- | ------ | --------------------------------- |
-| tableId   | int    | 对应的帖子id                      |
-| pageIndex | int    | 第几页（不得小于1）               |
-| pageSize  | int    | 每页有多少个评论内容（不得小于1） |
-
-
-
-##### 返回内容
-
-| 参数 | 值类型 | 说明     |
-| ---- | ------ | -------- |
-| list | array  | 评论列表 |
-
-
-
-###### list列表
-
-| 参数       | 值类型 | 说明                              |
-| ---------- | ------ | --------------------------------- |
-| id         | int    | 评论id                            |
-| tableId    | int    | 对应的帖子id                      |
-| userId     | int    | 对应的用户id                      |
-| name       | string | 匿名名称                          |
-| createTime | long   | 创建评论的时间 时间戳             |
-| content    | string | 评论内容                          |
-| anonymous  | bool   | 是否为匿名                        |
-| images     | string | 帖子图片  [下载图片](#下载图片)   |
-| userPublic | object | 用户公开信息（非匿名）            |
-| status     | int    | 状态  0为正常 1为待审核  -1为封禁 |
-
-
-
-######  userPublic内容
-
-| 参数       | 值类型 | 说明                  |
-| ---------- | ------ | --------------------- |
-| id         | int    | 用户id                |
-| email      | string | 用户邮箱              |
-| lastTime   | long   | 上次登录的时间 时间戳 |
-| createTime | long   | 注册账号的时间 时间戳 |
-| name       | string | 用户名称              |
-
-
-
-
-
-### 获取帖子评论总数
-
-**说明:可以用来计算总页数**
-
-
-
-#### 示范
-
-get: http://localhost:8080/api/comment/count?tableId=86
-
-
-
-##### 成功返回内容示范
-
-```json
-{"msg":"获取成功","code":0,"count":4}
-```
-
-
-
-#### 调用方式
-
-```
-url: /api/comment/count;
-method:get;
-params:{
-    tableId:xxx
-}
-```
-
-
-
-##### 调用参数
-
-| 参数    | 值类型  | 说明                         |
-| ------- | ------- | ---------------------------- |
-| type    | 3(固定) | 类型（当前为获取评论总数量） |
-| tableId | int     | 对应的帖子id                 |
-
-
-
-##### 返回内容
-
-| 参数  | 值类型 | 说明       |
-| ----- | ------ | ---------- |
-| count | int    | 评论总数量 |
-
-
-
-
-
-### 发布评论
-
-
-
-#### 示范
-
-post: http://localhost:8080/api/comment/add
-
-
-
-##### 参数示范 x-www-form-urlencoded
-
-```ini
-tableId = 2
-name = 匿名名称
-content = 评论内容
-anonymous = true
-images = ["5d8dffb031cf465bbc5edaca5378eccf.jpg"]
-```
-
-
-
-
-
-##### 成功返回内容示范
-
-```json
-{"msg":"发布成功","code":0}
-```
-
-
-
-#### 调用方式
-
-```
-url: /api/comment/add;
-method:post;
-data:{
-    "tableId": xxx,
-    "name": xxx,
-    "content": xxx,
-    "anonymous":xxx
-    "images":["xxx","xxx"]
-};
-header:{
-	token:xxx
-}
-```
-
-
-
-##### 调用参数
-
-| 参数      | 值类型 | 说明                            |
-| --------- | ------ | ------------------------------- |
-| tableId   | int    | 对应的帖子id                    |
-| name      | string | 匿名名称【仅在匿名下使用】      |
-| content   | string | 评论内容                        |
-| anonymous | bool   | 是否匿名                        |
-| images    | array  | 图片列表  [上传图片](#上传图片) |
-
-
-
-##### 返回内容
-
-无额外内容
+| 参数名 | 类型 | 描述 | 必须 |
+| ---- | ---- | ----------- | -------- |
+| anonymous | boolean | 是否为匿名 | No |
+| content | string | 评论内容 | No |
+| createTime | dateTime | 评论创建时间 | No |
+| id | integer | 评论id | No |
+| images | string | 图片列表 | No |
+| name | string | 匿名名称 | No |
+| status | integer | 状态 0为正常 1为待审核 -1为封禁 | No |
+| tableId | integer | 帖子id | No |
+| userPublic | [用户公开信息](#用户公开信息) | 对应的用户公开信息 | No |
+| user_id | integer | 评论者id | No |
 

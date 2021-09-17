@@ -1,10 +1,16 @@
 package cn.conststar.wall.controller;
 
 import cn.conststar.wall.pojo.PojoUser;
+import cn.conststar.wall.response.ResponseCodeEnums;
+import cn.conststar.wall.response.ResponseFormat;
+import cn.conststar.wall.response.ResponseGeneric;
 import cn.conststar.wall.service.ServiceFile;
 import cn.conststar.wall.service.ServiceUser;
 import cn.conststar.wall.utils.UtilsMain;
 import com.alibaba.fastjson.JSONObject;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
 @RestController
+@Api(tags = "文件操作")
 @RequestMapping("/api/file")
 public class ControllerFile {
 
@@ -26,24 +33,25 @@ public class ControllerFile {
     @Qualifier("serviceUser")
     ServiceUser serviceUser;
 
+
+    @ApiOperation(value = "上传图片", notes = "上传图片，返回上传的图片名")
     @PostMapping(value = "/image", produces = {"application/json;charset=UTF-8"})
-    String uploadImage(@RequestParam("file") MultipartFile file,
-                       @RequestHeader(value = "token", required = false) String token) throws Exception {
-        JSONObject jsonObject = new JSONObject();
+    public ResponseGeneric<String> uploadImage(
+            @ApiParam("文件") @RequestParam("file") MultipartFile file,
+            @ApiParam("token") @RequestHeader(value = "token", required = false) String token) throws Exception {
 
         PojoUser user = serviceUser.getUser(token); //验证用户登录状态
         String fileName = serviceFile.uploadImage(file);
 
-        jsonObject.put("file", fileName);
-        jsonObject.put("msg", "上传成功");
-        jsonObject.put("code", 0);
-
-        return jsonObject.toJSONString();
+        return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, fileName, "上传成功");
     }
 
-    @RequestMapping("/image/{image:.+}")
-    String getTableImage(@PathVariable String image,
-                         HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+    @ApiOperation(value = "获取图片", notes = "获取图片，返回图片文件")
+    @GetMapping("/image/{image:.+}")
+    public String getTableImage(
+            @ApiParam("图片文件名") @PathVariable String image,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         //要下载的图片地址
         String path = UtilsMain.getImagePath();

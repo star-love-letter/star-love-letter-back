@@ -4,6 +4,7 @@ import cn.conststar.wall.exception.ExceptionMain;
 import cn.conststar.wall.mapper.MapperTable;
 import cn.conststar.wall.pojo.PojoTable;
 import cn.conststar.wall.pojo.PojoUserPublic;
+import cn.conststar.wall.response.ResponseCodeEnums;
 import cn.conststar.wall.utils.UtilsMain;
 import com.alibaba.fastjson.JSONArray;
 import lombok.AllArgsConstructor;
@@ -84,7 +85,7 @@ public class ServiceTable implements MapperTable {
 
         int line = mapperTable.addTable(userId, anonymous, sender, senderSex, recipient, recipientSex, content, images, status);
         if (line != 1) {
-            throw new ExceptionMain("数据库操作失败，数据库添加行数为" + line, ExceptionMain.DEADLY); //wait
+            throw new ExceptionMain("数据库操作失败，数据库添加行数为" + line,  ResponseCodeEnums.CODE_50002); //wait
         }
 
         //发布成功后移动图片

@@ -1,42 +1,28 @@
 package cn.conststar.wall.exception;
 
+import cn.conststar.wall.response.ResponseCodeEnums;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.log4j.Logger;
 
-public class ExceptionMain extends Exception {
-
-    //默认错误
-    public static final int DEFAULT = 100;
-
-    //没有登录账号
-    public static final int NOT_LOGIN = 101;
-
-    //默认致命错误
-    public static final int DEADLY = 200;
-    //系统致命错误
-    public static final int DEADLY_SYSTEEM = 201;
-
+@Getter
+@Setter
+public class ExceptionMain extends RuntimeException {
 
     private Logger logger = Logger.getLogger(ExceptionMain.class);
-    private int code = DEFAULT;
-
-    public ExceptionMain() {
-        super();
-    }
+    private Exception exception;
+    private ResponseCodeEnums status;
 
     public ExceptionMain(String message) {
         super(message);
+        this.exception = new Exception(message);
+        this.status = ResponseCodeEnums.CODE_201;
     }
 
-    public ExceptionMain(String message, int code) {
+    public ExceptionMain(String message, ResponseCodeEnums status) {
         super(message);
-        this.code = code;
 
-        if (code == DEADLY) {
-            logger.error(message);
-        }
-    }
-
-    public int getCode() {
-        return code;
+        this.exception = new Exception(message);
+        this.status = status;
     }
 }

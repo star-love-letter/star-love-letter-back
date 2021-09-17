@@ -1,6 +1,8 @@
 package cn.conststar.wall.pojo;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,27 +14,36 @@ import java.util.Objects;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ApiModel("评论实体")
 public class PojoComment implements Serializable {
+
+    @ApiModelProperty("评论id")
     private int id;
+
+    @ApiModelProperty("帖子id")
     private int tableId;
-    //评论者id
+
+    @ApiModelProperty("评论者id")
     private int user_id;
 
-    //是否为匿名
+    @ApiModelProperty("是否为匿名")
     private boolean anonymous;
 
-    //匿名名称
+    @ApiModelProperty("匿名名称")
     private String name;
 
+    @ApiModelProperty("评论创建时间")
     private Date createTime;
+
+    @ApiModelProperty("评论内容")
     private String content;
 
-    //图片列表
+    @ApiModelProperty("图片列表")
     private String images;
 
-    //对应的用户公开信息
+    @ApiModelProperty("对应的用户公开信息")
     private PojoUserPublic userPublic;
 
-    //状态 0为正常 1为待审核 -1为封禁
+    @ApiModelProperty("状态 0为正常 1为待审核 -1为封禁")
     private int status;
 }

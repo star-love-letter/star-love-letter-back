@@ -22,13 +22,14 @@ public class FilterMain implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletResponse res = (HttpServletResponse) response;
+
         HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse res = (HttpServletResponse) response;
 
         req.setCharacterEncoding("UTF-8");
         res.setCharacterEncoding("UTF-8");
 
-        try {
+//        try {
 
             /***
              * 开发环境
@@ -65,47 +66,47 @@ public class FilterMain implements Filter {
 
 
 //            chain.doFilter(request, response);
-        } catch (Exception ex) {
-            JSONObject jsonObject = new JSONObject();
-            Throwable cause = ex.getCause();
-
-            String msg = "";
-            String exceptionStr = "";
-            int code = ExceptionMain.DEADLY_SYSTEEM;
-
-            if (cause instanceof ExceptionMain) {
-                ExceptionMain exceptionMain = (ExceptionMain) cause;
-                msg = exceptionMain.getMessage();
-                exceptionStr = exceptionMain.toString();
-                code = exceptionMain.getCode();
-            } else if (cause instanceof Exception) {
-                Exception exception = (Exception) cause;
-                msg = exception.getMessage();
-                exceptionStr = exception.toString();
-                code = ExceptionMain.DEADLY;
-            } else {
-                msg = ex.getMessage();
-                exceptionStr = ex.toString();
-                code = ExceptionMain.DEADLY_SYSTEEM;
-            }
-
-
-            String warnOut = ""
-                    + "\nmsg:" + msg
-                    + "\nexception:"
-                    + exceptionStr
-                    + "\n" + code
-                    + "\n\n";
-            logger.warn(warnOut);
+//        } catch (Exception ex) {
+//            JSONObject jsonObject = new JSONObject();
+//            Throwable cause = ex.getCause();
+//
+//            String msg = "";
+//            String exceptionStr = "";
+//            int code = ExceptionMain.DEADLY_SYSTEEM;
+//
+//            if (cause instanceof ExceptionMain) {
+//                ExceptionMain exceptionMain = (ExceptionMain) cause;
+//                msg = exceptionMain.getMessage();
+//                exceptionStr = exceptionMain.toString();
+//                code = exceptionMain.getCode();
+//            } else if (cause instanceof Exception) {
+//                Exception exception = (Exception) cause;
+//                msg = exception.getMessage();
+//                exceptionStr = exception.toString();
+//                code = ExceptionMain.DEADLY;
+//            } else {
+//                msg = ex.getMessage();
+//                exceptionStr = ex.toString();
+//                code = ExceptionMain.DEADLY_SYSTEEM;
+//            }
 
 
-            jsonObject.put("msg", msg);
-            jsonObject.put("exception", exceptionStr);
-            jsonObject.put("code", code);
-
-            res.setContentType("application/json;charset=UTF-8");
-            res.getWriter().write(jsonObject.toJSONString());
-        }
+//            String warnOut = ""
+//                    + "\nmsg:" + msg
+//                    + "\nexception:"
+//                    + exceptionStr
+//                    + "\n" + code
+//                    + "\n\n";
+//            logger.warn(warnOut);
+//
+//
+//            jsonObject.put("msg", msg);
+//            jsonObject.put("exception", exceptionStr);
+//            jsonObject.put("code", code);
+//
+//            res.setContentType("application/json;charset=UTF-8");
+//            res.getWriter().write(jsonObject.toJSONString());
+//        }
     }
 
     @Override

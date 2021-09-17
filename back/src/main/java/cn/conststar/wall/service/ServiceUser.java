@@ -5,6 +5,7 @@ import cn.conststar.wall.mapper.MapperUser;
 import cn.conststar.wall.pojo.PojoUserPublic;
 import cn.conststar.wall.pojo.PojoUser;
 import cn.conststar.wall.pojo.PojoVerifyCode;
+import cn.conststar.wall.response.ResponseCodeEnums;
 import cn.conststar.wall.utils.UtilsEmail;
 import cn.conststar.wall.utils.UtilsMain;
 import cn.conststar.wall.utils.UtilsVerifyCode;
@@ -57,11 +58,11 @@ public class ServiceUser implements MapperUser {
     @Override
     public PojoUser getUser(String token) throws Exception {
         if (token == null || token.isEmpty())
-            throw new ExceptionMain("用户未登录", ExceptionMain.NOT_LOGIN);
+            throw new ExceptionMain("用户未登录", ResponseCodeEnums.CODE_20001);
 
         PojoUser user = mapperUser.getUser(token);
         if (user == null)
-            throw new ExceptionMain("用户登录已失效", ExceptionMain.NOT_LOGIN);
+            throw new ExceptionMain("用户登录已失效", ResponseCodeEnums.CODE_20001);
 
         int status = user.getStatus();
 
@@ -89,7 +90,7 @@ public class ServiceUser implements MapperUser {
     public boolean login(String email, String password, String token) throws Exception {
         boolean b = mapperUser.login(email, password, token);
         if (!b)
-            throw new ExceptionMain("请检查账号和密码", ExceptionMain.NOT_LOGIN);
+            throw new ExceptionMain("请检查账号和密码", ResponseCodeEnums.CODE_20001);
         return true;
     }
 
@@ -97,7 +98,7 @@ public class ServiceUser implements MapperUser {
     public boolean logout(String token) throws Exception {
         boolean b = mapperUser.logout(token);
         if (!b)
-            throw new ExceptionMain("用户登录状态异常", ExceptionMain.NOT_LOGIN);
+            throw new ExceptionMain("用户登录状态异常", ResponseCodeEnums.CODE_20001);
 
         return true;
     }
@@ -124,7 +125,7 @@ public class ServiceUser implements MapperUser {
         int line = mapperUser.addUser(email, password, name, status);
 
         if (line != 1) {
-            throw new ExceptionMain("数据库操作失败，数据库添加行数为" + line, ExceptionMain.DEADLY); //wait
+            throw new ExceptionMain("数据库操作失败，数据库添加行数为" + line, ResponseCodeEnums.CODE_50002); //wait
         }
         return line;
     }

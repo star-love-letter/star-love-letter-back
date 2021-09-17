@@ -2,9 +2,15 @@ package cn.conststar.wall.controller;
 
 import cn.conststar.wall.pojo.PojoUserPublic;
 import cn.conststar.wall.pojo.PojoUser;
+import cn.conststar.wall.response.ResponseCodeEnums;
+import cn.conststar.wall.response.ResponseFormat;
+import cn.conststar.wall.response.ResponseGeneric;
 import cn.conststar.wall.service.ServiceUser;
 import cn.conststar.wall.utils.UtilsMain;
 import com.alibaba.fastjson.JSONObject;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 
 @RestController
+@Api(tags = "账号操作")
 @RequestMapping(value = "/api/user", produces = {"application/json;charset=UTF-8"})
 public class ControllerUser {
 
@@ -19,41 +26,35 @@ public class ControllerUser {
     @Qualifier("serviceUser")
     private ServiceUser serviceUser;
 
-    //登录
+    @ApiOperation(value = "登录", notes = "登录用户，返回token")
     @PostMapping("/login")
-    public String login(@RequestParam("email") String email,
-                        @RequestParam("password") String password) throws Exception {
-        JSONObject jsonObject = new JSONObject();
+    public ResponseGeneric<String> login(
+            @ApiParam("邮箱") @RequestParam("email") String email,
+            @ApiParam("密码") @RequestParam("password") String password) throws Exception {
 
         String token = serviceUser.login(email, password);
 
-        jsonObject.put("token", token);
-        jsonObject.put("code", 0);
-        jsonObject.put("msg", "登录成功");
-
-        return jsonObject.toJSONString();
+        return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, token, "登录成功");
     }
 
-    //退出登录
+    @ApiOperation(value = "退出登录", notes = "退出登录，不返回内容")
     @PostMapping("/logout")
-    public String quit(@RequestHeader(value = "token", required = false) String token) throws Exception {
-        JSONObject jsonObject = new JSONObject();
+    public ResponseGeneric<Object> quit(
+            @ApiParam("token") @RequestHeader(value = "token", required = false) String token) throws Exception {
 
         serviceUser.logout(token);
 
-        jsonObject.put("code", 0);
-        jsonObject.put("msg", "账号已退出");
-        return jsonObject.toJSONString();
+        return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, null, "已退出登录");
     }
 
-    //注册
+    @ApiOperation(value = "注册", notes = "注册账号，不返回内容")
     @PostMapping("/add")
-    public String add(@RequestParam("email") String email,
-                      @RequestParam("password") String password,
-                      @RequestParam("name") String name,
-                      @RequestParam("imageCode") String imageCode,
-                      @RequestParam("emailCode") String emailCode) throws Exception {
-        JSONObject jsonObject = new JSONObject();
+    public ResponseGeneric<Object> add(
+            @ApiParam("邮箱") @RequestParam("email") String email,
+            @ApiParam("密码") @RequestParam("password") String password,
+            @ApiParam("姓名") @RequestParam("name") String name,
+            @ApiParam("图片验证码") @RequestParam("imageCode") String imageCode,
+            @ApiParam("邮箱验证") @RequestParam("emailCode") String emailCode) throws Exception {
 
         //是否不需要审核
         int status = 0;
@@ -66,70 +67,55 @@ public class ControllerUser {
         serviceUser.addUser(email, password, name, status);
         serviceUser.removePojoVerifyCode(email);
 
-        jsonObject.put("code", 0);
-
         if (status == 1)
-            jsonObject.put("msg", "注册成功，等待审核中");
-        else
-            jsonObject.put("msg", "注册成功");
+            return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, null, "注册成功，等待审核");
 
-        return jsonObject.toJSONString();
+
+        return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, null, "注册成功");
     }
 
-    //获取用户信息
+    @ApiOperation(value = "获取登录用户信息", notes = "获取登录用户信息，返回用户公开信息")
     @GetMapping("/user")
-    public String getUser(@RequestHeader(value = "token", required = false) String token) throws Exception {
-        JSONObject jsonObject = new JSONObject();
+    public ResponseGeneric<PojoUser> getUser(
+            @ApiParam("token") @RequestHeader(value = "token", required = false) String token) throws Exception {
+
         PojoUser user = serviceUser.getUser(token);
 
-        jsonObject.put("user", user);
-        jsonObject.put("code", 0);
-        jsonObject.put("msg", "获取成功");
-
-        return jsonObject.toJSONString();
+        return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, user);
     }
 
-    //获取图片验证码
+    @ApiOperation(value = "获取图片验证码", notes = "获取图片验证码，返回图片base64")
     @GetMapping("/verifyImage")
-    public String getVerifyImage(@RequestParam("email") String email) throws Exception {
-        JSONObject jsonObject = new JSONObject();
+    public ResponseGeneric<String> getVerifyImage(
+            @ApiParam("邮箱") @RequestParam("email") String email) throws Exception {
 
         String verifyImage = serviceUser.getVerifyImage(email);
 
-        jsonObject.put("image", verifyImage);
-        jsonObject.put("code", 0);
-        jsonObject.put("msg", "获取成功");
-
-        return jsonObject.toJSONString();
+        return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, verifyImage);
     }
 
-    //获取邮箱验证码
+
+    @ApiOperation(value = "获取邮箱验证码", notes = "获取邮箱验证码，不返回内容")
     @GetMapping("/verifyEmail")
-    public String getVerifyEmail(@RequestParam("email") String email,
-                                 @RequestParam("imageCode") String imageCode) throws Exception {
-        JSONObject jsonObject = new JSONObject();
+    public ResponseGeneric<Object> getVerifyEmail(
+            @ApiParam("邮箱") @RequestParam("email") String email,
+            @ApiParam("图形验证码") @RequestParam("imageCode") String imageCode) throws Exception {
 
         serviceUser.getVerifyEmail(email, imageCode);
 
-        jsonObject.put("code", 0);
-        jsonObject.put("msg", "获取成功");
-        return jsonObject.toJSONString();
+        return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, null, "验证码发送成功");
     }
 
-    //获取公开用户信息
+    @ApiOperation(value = "获取用户公开信息", notes = "获取用户公开信息，返回用户公开信息")
     @GetMapping("/userPublic")
-    public String getPublicUser(@RequestParam("id") int id,
-                                @RequestHeader(value = "token", required = false) String token) throws Exception {
-        JSONObject jsonObject = new JSONObject();
+    public ResponseGeneric<PojoUserPublic> getPublicUser(
+            @ApiParam("用户id") @RequestParam("id") int id,
+            @ApiParam("token") @RequestHeader(value = "token", required = false) String token) throws Exception {
 
         PojoUser user = serviceUser.getUser(token); //验证用户登录状态
         PojoUserPublic userPublic = serviceUser.getUserPublic(id);
 
-        jsonObject.put("userPublic", userPublic);
-        jsonObject.put("code", 0);
-        jsonObject.put("msg", "获取成功");
-
-        return jsonObject.toJSONString();
+        return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, userPublic);
     }
 
 }

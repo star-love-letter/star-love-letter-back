@@ -30,5 +30,12 @@
     </bean>
     <!-- 用于文件上传、下载的配置 -->
     <bean id="multipartResolver"
-          class="org.springframework.web.multipart.commons.CommonsMultipartResolver"></bean>
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    </bean>
+
+    <context:annotation-config/>
+    <mvc:resources mapping="/swagger-ui/**" location="classpath:/META-INF/resources/webjars/springfox-swagger-ui/"/>
+    <mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/"/>
+    <!-- 加载SwaggerConfig -->
+    <bean id="swaggerConfig" class="cn.conststar.wall.config.ConfigSwagger"/>
 </beans>
