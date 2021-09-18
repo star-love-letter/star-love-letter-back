@@ -90,7 +90,7 @@ public class ServiceUser implements MapperUser {
     public boolean login(String email, String password, String token) throws Exception {
         boolean b = mapperUser.login(email, password, token);
         if (!b)
-            throw new ExceptionMain("请检查账号和密码", ResponseCodeEnums.CODE_20001);
+            throw new ExceptionMain("请检查账号和密码", ResponseCodeEnums.CODE_201);
         return true;
     }
 
@@ -187,21 +187,22 @@ public class ServiceUser implements MapperUser {
         PojoVerifyCode pojoVerifyCode = getPojoVerifyCode(email);
 
         if (pojoVerifyCode.isImageCodeEmpty())
-            throw new ExceptionMain("请先获取图形验证码");
+            throw new ExceptionMain("请先获取图片验证码");
 
         if (pojoVerifyCode.isImageCodeOverdue())
-            throw new ExceptionMain("图形验证码已失效");
+            throw new ExceptionMain("图片验证码已失效");
 
         if (pojoVerifyCode.isImageVerifyExceed())
-            throw new ExceptionMain("图形验证码错误次数过多，请重新图形获取验证码");
+            throw new ExceptionMain("图片验证码错误次数过多，请重新图片获取验证码");
 
 
         if (!pojoVerifyCode.isVerifyImageCode(code)) {
             //累加验证次数
             pojoVerifyCode.addImageCodeVerifyAns();
-            throw new ExceptionMain("图形验证码有误");
+            throw new ExceptionMain("图片验证码有误");
         }
 
+        //清除验证过的图片验证码
         pojoVerifyCode.clearImageCode();
         return true;
     }
@@ -257,8 +258,6 @@ public class ServiceUser implements MapperUser {
             pojoVerifyCode.addEmailCodeVerifyAns();
             throw new ExceptionMain("邮箱验证码有误");
         }
-
-        pojoVerifyCode.clearEmailCode();
         return true;
     }
 }

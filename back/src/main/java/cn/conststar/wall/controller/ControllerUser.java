@@ -84,7 +84,9 @@ public class ControllerUser {
         return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, user);
     }
 
-    @ApiOperation(value = "获取图片验证码", notes = "获取图片验证码，返回图片base64")
+    @ApiOperation(value = "获取图片验证码", notes = "获取图片验证码，返回图片base64\n\n" +
+            "验证过的图片验证码需要重新获取\n\n" +
+            "建议：在输入邮箱后、获取邮箱验证码后、点击注册后 都要重新获取一下图片验证码")
     @GetMapping("/verifyImage")
     public ResponseGeneric<String> getVerifyImage(
             @ApiParam("邮箱") @RequestParam("email") String email) throws Exception {

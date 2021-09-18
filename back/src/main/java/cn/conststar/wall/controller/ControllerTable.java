@@ -84,7 +84,7 @@ public class ControllerTable {
         int userId = serviceUser.getUserId(token);
         List<PojoTable> tables = serviceTable.getSearchTablesPage(keyword, pageIndex, pageSize, userId);
 
-        return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, tables);
+        return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, tables, "搜索成功");
     }
 
     @ApiOperation(value = "获取搜索帖子总数", notes = "获取搜索帖子总数，返回帖子数量")

@@ -42,6 +42,6 @@ public class ControllerAdviceHandler {
         Exception exception = ex.getException();
         exception.printStackTrace();
         logger.error(exception.toString());
-        return ResponseFormat.retParam(ex.getStatus(), null, exception.getMessage());
+        return ResponseFormat.retParam(ex.getCode(), null, exception.getMessage());
     }
 }

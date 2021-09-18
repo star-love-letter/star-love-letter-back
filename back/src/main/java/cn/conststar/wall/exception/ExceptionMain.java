@@ -11,18 +11,18 @@ public class ExceptionMain extends RuntimeException {
 
     private Logger logger = Logger.getLogger(ExceptionMain.class);
     private Exception exception;
-    private ResponseCodeEnums status;
+    private ResponseCodeEnums code;
 
     public ExceptionMain(String message) {
         super(message);
         this.exception = new Exception(message);
-        this.status = ResponseCodeEnums.CODE_201;
+        this.code = ResponseCodeEnums.CODE_201;
     }
 
-    public ExceptionMain(String message, ResponseCodeEnums status) {
+    public ExceptionMain(String message, ResponseCodeEnums code) {
         super(message);
 
         this.exception = new Exception(message);
-        this.status = status;
+        this.code = code;
     }
 }
