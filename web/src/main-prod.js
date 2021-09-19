@@ -1,3 +1,3 @@
-axios.defaults.baseURL = ''
+axios.defaults.baseURL = './'
 
-Vue.prototype.httpImg = '/api/file/image/'
+Vue.prototype.httpImg = './api/file/image/'
