@@ -1,7 +1,7 @@
 const webpack = require('webpack')
 module.exports = {
   lintOnSave: false,
-  publicPath: '/',
+  publicPath: './',
   css: {
     extract: false
   },
