@@ -39,8 +39,8 @@ export default {
       // 这是登录表单的数据绑定对象
       // 只需要通过 rules 属性传入约定的验证规则，并将 Form-Item 的 prop 属性设置为需校验的字段名即可。
       loginFrom: {
-        email: 'admin@conststar.cn',
-        password: '123456'
+        email: '',
+        password: ''
       },
       // 表单验证
       loginFromRules: {
@@ -61,7 +61,6 @@ export default {
     },
     // 点击重置按钮，重置登录表单
     resetLoginFrom() {
-      // console.log(this)
       this.$refs.loginFromRef.resetFields()
     },
     // 登录
