@@ -7,9 +7,9 @@
 ### 目录
 
 - [back](/back)   *后端代码（java）*
-- [web](/web)   *前端代码（vue）* **待开发....**
+- [web](/web)   *前端代码（vue）*
 
-
+- [mini](/ mini)   *微信小程序*  **待开发…**
 
 ### 演示
 
@@ -115,4 +115,20 @@
 
 
 
-### 项目完善中....
+### 参与的开发者
+
+##### 后端 
+
+- [@conststar](https://github.com/conststar)
+
+##### 前端
+
+- [@AGouDOM](https://github.com/AGouDOM)
+
+##### 小程序
+
+- [@AGouDOM](https://github.com/AGouDOM)
+
+
+
+### 项目完善中，敬请期待……
