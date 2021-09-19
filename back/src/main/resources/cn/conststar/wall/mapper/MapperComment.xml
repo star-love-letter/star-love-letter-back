@@ -42,7 +42,7 @@
         select `user`.*
         from `comment`
                  left join `user` on `comment`.user_id = `user`.id
-            and `comment`.id = #{id}
+            where `comment`.id = #{id}
             and `comment`.anonymous = 0;
     </select>
 
