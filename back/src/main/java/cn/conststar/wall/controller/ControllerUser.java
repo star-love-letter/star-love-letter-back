@@ -18,16 +18,16 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 
 @RestController
-@Api(tags = "账号操作")
 @RequestMapping(value = "/api/user", produces = {"application/json;charset=UTF-8"})
+@Api(tags = "账号操作")
 public class ControllerUser {
 
     @Autowired
     @Qualifier("serviceUser")
     private ServiceUser serviceUser;
 
-    @ApiOperation(value = "登录", notes = "登录用户，返回token")
     @PostMapping("/login")
+    @ApiOperation(value = "登录", notes = "登录用户，返回token")
     public ResponseGeneric<String> login(
             @ApiParam("邮箱") @RequestParam("email") String email,
             @ApiParam("密码") @RequestParam("password") String password) throws Exception {
@@ -37,8 +37,8 @@ public class ControllerUser {
         return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, token, "登录成功");
     }
 
-    @ApiOperation(value = "退出登录", notes = "退出登录，不返回内容")
     @PostMapping("/logout")
+    @ApiOperation(value = "退出登录", notes = "退出登录，不返回内容")
     public ResponseGeneric<Object> quit(
             @ApiParam("token") @RequestHeader(value = "token", required = false) String token) throws Exception {
 
@@ -47,8 +47,8 @@ public class ControllerUser {
         return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, null, "已退出登录");
     }
 
-    @ApiOperation(value = "注册", notes = "注册账号，不返回内容")
     @PostMapping("/add")
+    @ApiOperation(value = "注册", notes = "注册账号，不返回内容")
     public ResponseGeneric<Object> add(
             @ApiParam("邮箱") @RequestParam("email") String email,
             @ApiParam("密码") @RequestParam("password") String password,
@@ -74,8 +74,8 @@ public class ControllerUser {
         return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, null, "注册成功");
     }
 
-    @ApiOperation(value = "获取登录用户信息", notes = "获取登录用户信息，返回用户公开信息")
     @GetMapping("/user")
+    @ApiOperation(value = "获取登录用户信息", notes = "获取登录用户信息，返回用户公开信息")
     public ResponseGeneric<PojoUser> getUser(
             @ApiParam("token") @RequestHeader(value = "token", required = false) String token) throws Exception {
 
@@ -97,8 +97,8 @@ public class ControllerUser {
     }
 
 
-    @ApiOperation(value = "获取邮箱验证码", notes = "获取邮箱验证码，不返回内容")
     @GetMapping("/verifyEmail")
+    @ApiOperation(value = "获取邮箱验证码", notes = "获取邮箱验证码，不返回内容")
     public ResponseGeneric<Object> getVerifyEmail(
             @ApiParam("邮箱") @RequestParam("email") String email,
             @ApiParam("图形验证码") @RequestParam("imageCode") String imageCode) throws Exception {
@@ -108,8 +108,8 @@ public class ControllerUser {
         return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, null, "验证码发送成功");
     }
 
-    @ApiOperation(value = "获取用户公开信息", notes = "获取用户公开信息，返回用户公开信息")
     @GetMapping("/userPublic")
+    @ApiOperation(value = "获取用户公开信息", notes = "获取用户公开信息，返回用户公开信息")
     public ResponseGeneric<PojoUserPublic> getPublicUser(
             @ApiParam("用户id") @RequestParam("id") int id,
             @ApiParam("token") @RequestHeader(value = "token", required = false) String token) throws Exception {

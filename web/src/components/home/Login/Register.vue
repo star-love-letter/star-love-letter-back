@@ -88,8 +88,6 @@ export default {
   methods: {
     //注册按钮
     Register() {
-      this.getVerifyImage()
-
       this.$refs.RegisterFromRef.validate(async (valid) => {
         if (!valid) {
           this.$message.error('账号或密码格式错误 请重新输入');
@@ -113,6 +111,8 @@ export default {
         }).then((data) => {
           this.$message.success(data.message)
           this.$router.push('./Login')
+        }).finally((res)=>{
+          this.getVerifyImage()
         })
       })
     },
@@ -123,6 +123,7 @@ export default {
         email: this.RegisterFrom.email
       }).then((data) => {
         this.$message.success(data.message)
+      }).finally((res)=>{
         this.getVerifyImage()
       })
     },

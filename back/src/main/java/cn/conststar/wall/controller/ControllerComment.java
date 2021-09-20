@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@Api(tags = "评论内容")
 @RequestMapping(value = "/api/comment", produces = {"application/json;charset=UTF-8"})
+@Api(tags = "评论内容")
 public class ControllerComment {
     private Logger logger = Logger.getLogger(ControllerComment.class);
 
@@ -35,8 +35,8 @@ public class ControllerComment {
     private ServiceUser serviceUser;
 
 
-    @ApiOperation(value = "获取帖子分页评论列表",notes="获取帖子分页评论列表，返回评论列表")
     @GetMapping("/pageList")
+    @ApiOperation(value = "获取帖子分页评论列表",notes="获取帖子分页评论列表，返回评论列表")
     public ResponseGeneric<List<PojoComment>> getPageList(
             @ApiParam("帖子id") @RequestParam("tableId") int tableId,
             @ApiParam("页索引") @RequestParam("pageIndex") int pageIndex,
@@ -49,8 +49,8 @@ public class ControllerComment {
         return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, comments);
     }
 
-    @ApiOperation(value = "获取帖子评论总数",notes = "获取帖子评论总数，返回评论总数")
     @GetMapping("/count")
+    @ApiOperation(value = "获取帖子评论总数",notes = "获取帖子评论总数，返回评论总数")
     public ResponseGeneric<Integer> getCount(
             @ApiParam("帖子id") @RequestParam("tableId") int tableId,
             @ApiParam("token") @RequestHeader(value = "token", required = false) String token) throws Exception {
@@ -61,8 +61,8 @@ public class ControllerComment {
         return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, count);
     }
 
-    @ApiOperation(value = "发布评论",notes = "发布评论，不返回内容")
     @PostMapping("/add")
+    @ApiOperation(value = "发布评论",notes = "发布评论，不返回内容")
     public ResponseGeneric<Object> post(
             @ApiParam("帖子id") @RequestParam("tableId") int tableId,
             @ApiParam("姓名") @RequestParam("name") String name,

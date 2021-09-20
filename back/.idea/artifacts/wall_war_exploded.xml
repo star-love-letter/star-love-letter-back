@@ -58,10 +58,10 @@
           <element id="library" level="project" name="Maven: io.springfox:springfox-data-rest:3.0.0" />
           <element id="library" level="project" name="Maven: io.springfox:springfox-oas:3.0.0" />
           <element id="library" level="project" name="Maven: io.swagger.core.v3:swagger-models:2.1.2" />
-          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.12.3" />
-          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.12.3" />
-          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.12.3" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-log4j12:1.7.21" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.12.5" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.12.5" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.12.5" />
         </element>
       </element>
       <element id="javaee-facet-resources" facet="back/web/Web" />

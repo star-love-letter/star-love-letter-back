@@ -1,6 +1,7 @@
 package cn.conststar.wall.response;
 
 import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -22,6 +23,7 @@ public class ResponseGeneric<T> implements Serializable{
     private String message;
 
     @ApiModelProperty(value = "数据",required = false,allowEmptyValue = true)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;
 
     /**
@@ -30,9 +32,6 @@ public class ResponseGeneric<T> implements Serializable{
      */
     @Override
     public String toString() {
-        if(Objects.isNull(this.data)){
-            this.setData((T) new Object());
-        }
         return JSON.toJSONString(this);
     }
 }

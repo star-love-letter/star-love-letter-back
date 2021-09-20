@@ -9,5 +9,6 @@
     <import resource="classpath:spring-mapper.xml"/>
     <import resource="classpath:spring-service.xml"/>
     <import resource="classpath:spring-mvc.xml"/>
+    <import resource="classpath:spting-config.xml"/>
 
 </beans>

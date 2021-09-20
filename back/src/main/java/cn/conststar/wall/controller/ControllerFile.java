@@ -34,8 +34,8 @@ public class ControllerFile {
     ServiceUser serviceUser;
 
 
-    @ApiOperation(value = "上传图片", notes = "上传图片，返回上传的图片名")
     @PostMapping(value = "/image", produces = {"application/json;charset=UTF-8"})
+    @ApiOperation(value = "上传图片", notes = "上传图片，返回上传的图片名")
     public ResponseGeneric<String> uploadImage(
             @ApiParam("文件") @RequestParam("file") MultipartFile file,
             @ApiParam("token") @RequestHeader(value = "token", required = false) String token) throws Exception {
@@ -47,8 +47,8 @@ public class ControllerFile {
     }
 
 
-    @ApiOperation(value = "获取图片", notes = "获取图片，返回图片文件")
     @GetMapping("/image/{image:.+}")
+    @ApiOperation(value = "获取图片", notes = "获取图片，返回图片文件")
     public String getTableImage(
             @ApiParam("图片文件名") @PathVariable String image,
             HttpServletRequest request, HttpServletResponse response) throws Exception {

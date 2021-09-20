@@ -23,8 +23,8 @@ import java.util.List;
 import java.util.Objects;
 
 @RestController
-@Api(tags = "帖子内容")
 @RequestMapping(value = "/api/table", produces = {"application/json;charset=UTF-8"})
+@Api(tags = "帖子内容")
 public class ControllerTable {
     private Logger logger = Logger.getLogger(ControllerTable.class);
 
@@ -37,8 +37,8 @@ public class ControllerTable {
     private ServiceUser serviceUser;
 
 
-    @ApiOperation(value = "获取帖子分页列表", notes = "获取帖子分页列表，返回帖子列表")
     @GetMapping("/pageList")
+    @ApiOperation(value = "获取帖子分页列表", notes = "获取帖子分页列表，返回帖子列表")
     public ResponseGeneric<List<PojoTable>> getPageList(
             @ApiParam("页索引") @RequestParam("pageIndex") int pageIndex,
             @ApiParam("页大小") @RequestParam("pageSize") int pageSize,
@@ -50,8 +50,8 @@ public class ControllerTable {
         return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, tables);
     }
 
-    @ApiOperation(value = "获取帖子总数", notes = "获取帖子总数，返回帖子总数")
     @GetMapping("/count")
+    @ApiOperation(value = "获取帖子总数", notes = "获取帖子总数，返回帖子总数")
     public ResponseGeneric<Integer> getCount(
             @ApiParam("token") @RequestHeader(value = "token", required = false) String token) throws Exception {
 
@@ -61,8 +61,8 @@ public class ControllerTable {
         return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, count);
     }
 
-    @ApiOperation(value = "获取单个帖子内容", notes = "获取单个帖子内容，返回单个帖子")
     @GetMapping("/table")
+    @ApiOperation(value = "获取单个帖子内容", notes = "获取单个帖子内容，返回单个帖子")
     public ResponseGeneric<PojoTable> getTable(
             @ApiParam("帖子id") @RequestParam("id") int id,
             @ApiParam("token") @RequestHeader(value = "token", required = false) String token) throws Exception {
@@ -73,8 +73,8 @@ public class ControllerTable {
         return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, table);
     }
 
-    @ApiOperation(value = "搜索帖子", notes = "搜索帖子，返回帖子列表")
     @GetMapping("/searchList")
+    @ApiOperation(value = "搜索帖子", notes = "搜索帖子，返回帖子列表")
     public ResponseGeneric<List<PojoTable>> getSearchTables(
             @ApiParam("关键词") @RequestParam("keyword") String keyword,
             @ApiParam("页索引") @RequestParam("pageIndex") int pageIndex,
@@ -87,8 +87,8 @@ public class ControllerTable {
         return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, tables, "搜索成功");
     }
 
-    @ApiOperation(value = "获取搜索帖子总数", notes = "获取搜索帖子总数，返回帖子数量")
     @GetMapping("/searchCount")
+    @ApiOperation(value = "获取搜索帖子总数", notes = "获取搜索帖子总数，返回帖子数量")
     public ResponseGeneric<Integer> getCount(
             @ApiParam("关键词") @RequestParam("keyword") String keyword,
             @ApiParam("token") @RequestHeader(value = "token", required = false) String toekn) throws Exception {
@@ -99,8 +99,8 @@ public class ControllerTable {
         return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, count);
     }
 
-    @ApiOperation(value = "发布表白", notes = "发布表白，不返回内容")
     @PostMapping("/add")
+    @ApiOperation(value = "发布表白", notes = "发布表白，不返回内容")
     public ResponseGeneric<Object> add(
             @ApiParam("表白者名称") @RequestParam("sender") String sender,
             @ApiParam("表白者性别") @RequestParam("senderSex") int senderSex,
@@ -130,8 +130,8 @@ public class ControllerTable {
         return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, null, "发布成功");
     }
 
-    @ApiOperation(value = "点赞", notes = "点赞，不返回内容")
     @PutMapping("/support")
+    @ApiOperation(value = "点赞", notes = "点赞，不返回内容")
     public ResponseGeneric<Object> putSupport(
             @ApiParam("帖子id") @RequestParam("tableId") int tableId,
             @ApiParam("token") @RequestHeader(value = "token", required = false) String token) throws Exception {
@@ -142,8 +142,8 @@ public class ControllerTable {
         return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, null, "点赞成功");
     }
 
-    @ApiOperation(value = "取消点赞", notes = "取消点赞，不返回内容")
     @DeleteMapping("/support")
+    @ApiOperation(value = "取消点赞", notes = "取消点赞，不返回内容")
     public ResponseGeneric<Object> deleteSupport(
             @ApiParam("帖子id") @RequestParam("tableId") int tableId,
             @ApiParam("token") @RequestHeader(value = "token", required = false) String token) throws Exception {

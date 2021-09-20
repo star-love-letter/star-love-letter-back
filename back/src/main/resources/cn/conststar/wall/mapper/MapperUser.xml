@@ -26,7 +26,6 @@
         select count(id)
         from `user`
         where email = #{email};
-        and status = 0
     </select>
 
     <update id="login">
