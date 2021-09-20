@@ -32,6 +32,7 @@ public class ControllerAdviceHandler {
     @ApiOperation("捕获全是异常")
     public ResponseGeneric errorHandler(Exception ex) {
         ex.printStackTrace();
+        logger.error(ex.toString());
         return ResponseFormat.retParam(ResponseCodeEnums.CODE_1000, null, ex.getMessage());
     }
 
@@ -41,7 +42,7 @@ public class ControllerAdviceHandler {
     public ResponseGeneric myErrorHandler(ExceptionMain ex) {
         Exception exception = ex.getException();
         exception.printStackTrace();
-        logger.error(exception.toString());
+        logger.warn(exception.toString());
         return ResponseFormat.retParam(ex.getCode(), null, exception.getMessage());
     }
 }
