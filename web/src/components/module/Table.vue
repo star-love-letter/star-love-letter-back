@@ -187,7 +187,7 @@ export default {
       var ele = this.$refs.urlText
       ele.select()
       document.execCommand('Copy')
-      alert('复制链接成功！')
+      this.$message.success('复制链接成功！')
     }
   },
   created() {

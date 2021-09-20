@@ -39,7 +39,7 @@ Vue.prototype.isNull = function (obj) {
 Vue.prototype.getToken = function (token) {
   if (Vue.prototype.isNull(Vue.prototype.g_token)) {
     let token = window.localStorage.getItem("token");
-    return token != null ? token : ''
+    return Vue.prototype.isNull(token) ? '' : token
   }
 
   return Vue.prototype.g_token
