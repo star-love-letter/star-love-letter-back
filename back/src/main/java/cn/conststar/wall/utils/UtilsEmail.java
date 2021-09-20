@@ -60,7 +60,6 @@ public class UtilsEmail {
     }
 
 
-
     /**
      * @param subject     主题
      * @param content     内容
@@ -69,26 +68,22 @@ public class UtilsEmail {
      */
     public static void send(String subject, String content, String receiveMail, String receiveName) throws Exception {
 
-        System.out.println(content);
-        if(false) {
+        // 配置并创建会话对象
+        Session session = createSession(emailSMTPHost, ssl, port);
 
-            // 配置并创建会话对象
-            Session session = createSession(emailSMTPHost, ssl, port);
+        // 创建一封邮件
+        MimeMessage message = createMimeMessage(session, emailAccount,
+                receiveMail, sendName, receiveName, subject, content);
 
-            // 创建一封邮件
-            MimeMessage message = createMimeMessage(session, emailAccount,
-                    receiveMail, sendName, receiveName, subject, content);
+        // 获取邮件传输对象
+        Transport transport = session.getTransport();
+        transport.connect(emailAccount, emailPassword);
 
-            // 获取邮件传输对象
-            Transport transport = session.getTransport();
-            transport.connect(emailAccount, emailPassword);
+        // 发送邮件
+        transport.sendMessage(message, message.getAllRecipients());
 
-            // 发送邮件
-            transport.sendMessage(message, message.getAllRecipients());
-
-            // 关闭连接
-            transport.close();
-        }
+        // 关闭连接
+        transport.close();
     }
 
     // 配置并创建会话对象
