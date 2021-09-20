@@ -47,7 +47,7 @@ public class FilterMain implements Filter {
                 + "\ntoken:" + token
                 + "\n";
 
-        if (url.startsWith("/api"))
+        if (url.contains("/api/"))
             logger.info(requestInfo);
 
         //跨域

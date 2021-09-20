@@ -10,6 +10,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.processing.FilerException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.FileNotFoundException;
+
 
 @ApiOperation("Controller增强器")
 @RestControllerAdvice
@@ -27,20 +32,27 @@ public class ControllerAdviceHandler {
 
     }
 
-    @ApiOperation("捕获全是异常")
-    @ExceptionHandler(value = Exception.class)
-    public ResponseGeneric errorHandler(Exception ex) {
+    @ApiOperation("捕获全部异常")
+    @ExceptionHandler(Exception.class)
+    public ResponseGeneric<Object> errorHandler(Exception ex) {
         ex.printStackTrace();
         logger.error(ex.toString());
         return ResponseFormat.retParam(ResponseCodeEnums.CODE_1000, null, ex.getMessage());
     }
 
     @ApiOperation("捕获自定义异常")
-    @ExceptionHandler(value = ExceptionMain.class)
-    public ResponseGeneric myErrorHandler(ExceptionMain ex) {
+    @ExceptionHandler(ExceptionMain.class)
+    public ResponseGeneric<Object> myErrorHandler(ExceptionMain ex) {
         Exception exception = ex.getException();
         exception.printStackTrace();
         logger.warn(exception.toString());
         return ResponseFormat.retParam(ex.getCode(), null, exception.getMessage());
+    }
+
+    @ApiOperation("捕获异常-没有此文件")
+    @ExceptionHandler(FileNotFoundException.class)
+    public void errorHandler(FileNotFoundException ex,
+                               HttpServletRequest request, HttpServletResponse response) {
+        response.setStatus(HttpServletResponse.SC_NOT_FOUND);
     }
 }
