@@ -65,8 +65,6 @@ public class ControllerComment {
     @ApiOperation(value = "发布评论",notes = "发布评论，不返回内容")
     public ResponseGeneric<Object> post(
             @ApiParam("帖子id") @RequestParam("tableId") int tableId,
-            @ApiParam("姓名") @RequestParam("name") String name,
-            @ApiParam("是否匿名") @RequestParam("anonymous") boolean anonymous,
             @ApiParam("内容") @RequestParam("content") String content,
             @ApiParam("图片列表") @RequestParam("images") String images,
             @ApiParam("token") @RequestHeader(value = "token", required = false) String token) throws Exception {
@@ -76,11 +74,11 @@ public class ControllerComment {
         //是否不需要审核
         List<String> imageList = JSONArray.parseArray(images).toJavaList(String.class);
         int status = 0;
-        if (!imageList.isEmpty() || UtilsMain.checkText(name) || UtilsMain.checkText(content)) {
+        if (!imageList.isEmpty() || UtilsMain.checkText(content)) {
             status = 1;
         }
 
-        serviceComment.addComment(tableId, user.getId(), name, anonymous, content, images, status);
+        serviceComment.addComment(tableId, user.getId(), content, images, status);
 
         if (status == 1)
             return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, null,"发布成功，等待审核");

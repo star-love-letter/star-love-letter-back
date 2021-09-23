@@ -35,7 +35,7 @@ public class ServiceComment implements MapperComment {
     }
 
     @Override
-    public int addComment(int tableId, int userId, String name, boolean anonymous, String content, String images, int status) throws Exception {
+    public int addComment(int tableId, int userId, String content, String images, int status) throws Exception {
         if (content.isEmpty())
             throw new ExceptionMain("内容不能为空");
 
@@ -48,7 +48,7 @@ public class ServiceComment implements MapperComment {
         else if (imageList.size() > 3)
             throw new ExceptionMain("图片最多上传3个");
 
-        int line = mapperComment.addComment(tableId, userId, name, anonymous, content, images, status);
+        int line = mapperComment.addComment(tableId, userId, content, images, status);
         if (line != 1) {
             throw new ExceptionMain("数据库操作失败，数据库添加行数为" + line, ResponseCodeEnums.CODE_50002); //wait
         }

@@ -26,12 +26,6 @@ public class PojoComment implements Serializable {
     @ApiModelProperty("评论者id")
     private int userId;
 
-    @ApiModelProperty("是否为匿名")
-    private boolean anonymous;
-
-    @ApiModelProperty("匿名名称")
-    private String name;
-
     @ApiModelProperty("评论创建时间")
     private Date createTime;
 

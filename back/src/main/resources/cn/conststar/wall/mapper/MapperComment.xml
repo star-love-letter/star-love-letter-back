@@ -33,8 +33,8 @@
 
     <!--添加帖子评论-->
     <insert id="addComment">
-        insert into `comment` (table_id, user_id, name, anonymous, create_time, content, images, status)
-            value (#{tableId},#{userId},#{name},#{anonymous},now(),#{content},#{images},#{status});
+        insert into `comment` (table_id, user_id, create_time, content, images, status)
+            value (#{tableId},#{userId},now(),#{content},#{images},#{status});
     </insert>
 
     <!--获取评论的用户信息-->
@@ -42,8 +42,7 @@
         select `user`.*
         from `comment`
                  left join `user` on `comment`.user_id = `user`.id
-            where `comment`.id = #{id}
-            and `comment`.anonymous = 0;
+            where `comment`.id = #{id};
     </select>
 
 </mapper>

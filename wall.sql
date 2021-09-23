@@ -23,8 +23,6 @@ CREATE TABLE IF NOT EXISTS `comment` (
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `content` varchar(160) NOT NULL COMMENT '评论内容',
   `images` varchar(255) DEFAULT NULL COMMENT '图像列表',
-  `name` varchar(255) DEFAULT NULL COMMENT '匿名名称',
-  `anonymous` bit(1) NOT NULL COMMENT '是否为匿名',
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态 0为正常 1为待审核 -1为封禁'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

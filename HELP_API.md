@@ -1,7 +1,7 @@
 # 星愿墙
 接口文档
 
-***版本: 1.2.0***
+***版本: 1.2.1***
 
 **联系方式:**  
 开发者邮箱  
@@ -56,8 +56,6 @@ POST: /api/comment/add
 | 参数名 | 参数位于 | 描述 | 必须 | 参数类型 |
 | ---- | ---------- | ----------- | -------- | ---- |
 | tableId | query | 帖子id | Yes | integer |
-| name | query | 姓名 | Yes | string |
-| anonymous | query | 是否匿名 | Yes | boolean |
 | content | query | 内容 | Yes | string |
 | images | query | 图片列表 | Yes | string |
 | token | header | token | No | string |
@@ -488,6 +486,10 @@ GET: /api/user/verifyImage
 
 获取图片验证码，返回图片base64
 
+验证过的图片验证码需要重新获取
+
+建议：在输入邮箱后、获取邮箱验证码后、点击注册后 都要重新获取一下图片验证码
+
 ##### 参数
 
 | 参数名 | 参数位于 | 描述 | 必须 | 参数类型 |
@@ -636,14 +638,12 @@ GET: /api/user/verifyImage
 
 | 参数名 | 类型 | 描述 | 必须 |
 | ---- | ---- | ----------- | -------- |
-| anonymous | boolean | 是否为匿名 | No |
 | content | string | 评论内容 | No |
 | createTime | dateTime | 评论创建时间 | No |
 | id | integer | 评论id | No |
 | images | string | 图片列表 | No |
-| name | string | 匿名名称 | No |
 | status | integer | 状态 0为正常 1为待审核 -1为封禁 | No |
 | tableId | integer | 帖子id | No |
+| userId | integer | 评论者id | No |
 | userPublic | [用户公开信息](#用户公开信息) | 对应的用户公开信息 | No |
-| user_id | integer | 评论者id | No |
 

@@ -18,8 +18,6 @@ public interface MapperComment {
     //添加帖子评论
     int addComment(@Param("tableId") int tableId,
                    @Param("userId") int userId,
-                   @Param("name") String name,
-                   @Param("anonymous") boolean anonymous,
                    @Param("content") String content,
                    @Param("images") String images,
                    @Param("status") int status) throws Exception;
