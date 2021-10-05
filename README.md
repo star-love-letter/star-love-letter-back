@@ -13,7 +13,7 @@
 
 ### 演示
 
-[演示页面](http://wall.conststar.cn)
+[演示页面（功能不完整）](http://wall.conststar.cn)
 
 
 
