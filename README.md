@@ -21,6 +21,8 @@
 
 [接口手册](/HELP_API.md)
 
+[swagger](https://wall.conststar.cn/wall_test_1.2/swagger-ui/index.html#/)
+
 
 
 ### 数据库结构
