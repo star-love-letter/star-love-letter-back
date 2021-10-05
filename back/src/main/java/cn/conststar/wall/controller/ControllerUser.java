@@ -6,8 +6,7 @@ import cn.conststar.wall.response.ResponseCodeEnums;
 import cn.conststar.wall.response.ResponseFormat;
 import cn.conststar.wall.response.ResponseGeneric;
 import cn.conststar.wall.service.ServiceUser;
-import cn.conststar.wall.utils.UtilsMain;
-import com.alibaba.fastjson.JSONObject;
+import cn.conststar.wall.utils.UtilsText;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -29,10 +28,10 @@ public class ControllerUser {
     @PostMapping("/login")
     @ApiOperation(value = "登录", notes = "登录用户，返回token")
     public ResponseGeneric<String> login(
-            @ApiParam("邮箱") @RequestParam("email") String email,
+            @ApiParam("用户id或邮箱") @RequestParam("id") String id,
             @ApiParam("密码") @RequestParam("password") String password) throws Exception {
 
-        String token = serviceUser.login(email, password);
+        String token = serviceUser.loginMakeToken(id, password);
 
         return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, token, "登录成功");
     }
@@ -47,25 +46,57 @@ public class ControllerUser {
         return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, null, "已退出登录");
     }
 
+
+    @PostMapping("/loginByWeChat")
+    @ApiOperation(value = "微信登录", notes = "微信登录，返回token")
+    public ResponseGeneric<Object> loginByWeChat(
+            @ApiParam("临时登录凭证") @RequestParam("code") String code) throws Exception {
+
+        String token = serviceUser.loginByWeChatCode(code);
+
+        return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, token, "登录成功");
+    }
+
+
     @PostMapping("/add")
     @ApiOperation(value = "注册", notes = "注册账号，不返回内容")
     public ResponseGeneric<Object> add(
             @ApiParam("邮箱") @RequestParam("email") String email,
             @ApiParam("密码") @RequestParam("password") String password,
-            @ApiParam("姓名") @RequestParam("name") String name,
-            @ApiParam("图片验证码") @RequestParam("imageCode") String imageCode,
-            @ApiParam("邮箱验证") @RequestParam("emailCode") String emailCode) throws Exception {
+            @ApiParam("名称") @RequestParam("name") String name,
+            @ApiParam("邮箱验证码") @RequestParam("emailCode") String emailCode) throws Exception {
 
         //是否不需要审核
         int status = 0;
-        if (UtilsMain.checkText(name)) {
+        if (UtilsText.checkText(name)) {
             status = 1;
         }
 
-        serviceUser.isVerifyImage(imageCode, email);
-        serviceUser.isVerifyEmail(email, emailCode);
-        serviceUser.addUser(email, password, name, status);
+        serviceUser.verifyEmailCode(email, emailCode);
+        serviceUser.addUserByEmail(email, password, name, status);
         serviceUser.removePojoVerifyCode(email);
+
+        if (status == 1)
+            return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, null, "注册成功，等待审核");
+
+
+        return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, null, "注册成功");
+    }
+
+    @PostMapping("/addByWeChat")
+    @ApiOperation(value = "通过微信注册", notes = "通过微信注册账号，不返回内容")
+    public ResponseGeneric<Object> addByWeChat(
+            @ApiParam("临时登录凭证") @RequestParam("code") String code,
+            @ApiParam("密码") @RequestParam("password") String password,
+            @ApiParam("名称") @RequestParam("name") String name) throws Exception {
+
+        //是否不需要审核
+        int status = 0;
+        if (UtilsText.checkText(name)) {
+            status = 1;
+        }
+
+        serviceUser.addUserByWeChatCode(code, password, name, status);
 
         if (status == 1)
             return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, null, "注册成功，等待审核");
@@ -84,29 +115,51 @@ public class ControllerUser {
         return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, user);
     }
 
-    @ApiOperation(value = "获取图片验证码", notes = "获取图片验证码，返回图片base64\n\n" +
-            "验证过的图片验证码需要重新获取\n\n" +
-            "建议：在输入邮箱后、获取邮箱验证码后、点击注册后 都要重新获取一下图片验证码")
-    @GetMapping("/verifyImage")
-    public ResponseGeneric<String> getVerifyImage(
+    @ApiOperation(value = "获取旋转验证码", notes = "获取旋转验证码，返回图片base64")
+    @GetMapping("/rotateCode")
+    public ResponseGeneric<String> getRotateCode(
             @ApiParam("邮箱") @RequestParam("email") String email) throws Exception {
 
-        String verifyImage = serviceUser.getVerifyImage(email);
+        String rotateCode = serviceUser.getRotateCode(email);
 
-        return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, verifyImage);
+        return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, rotateCode);
     }
 
 
-    @GetMapping("/verifyEmail")
+    @GetMapping("/emailCode")
     @ApiOperation(value = "获取邮箱验证码", notes = "获取邮箱验证码，不返回内容")
-    public ResponseGeneric<Object> getVerifyEmail(
+    public ResponseGeneric<Object> getEmailCode(
             @ApiParam("邮箱") @RequestParam("email") String email,
-            @ApiParam("图形验证码") @RequestParam("imageCode") String imageCode) throws Exception {
+            @ApiParam("旋转验证码度数") @RequestParam("angle") int angle) throws Exception {
 
-        serviceUser.getVerifyEmail(email, imageCode);
+        serviceUser.getEmailCode(email, angle);
 
         return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, null, "验证码发送成功");
     }
+
+
+    @GetMapping("/isAddedByWeChat")
+    @ApiOperation(value = "是否通过微信注册过", notes = "是否通过微信注册过，返回true/false")
+    public ResponseGeneric<Boolean> isAddedByWeChat(
+            @ApiParam("临时登录凭证") @RequestParam("code") String code) throws Exception {
+
+        Boolean data = serviceUser.isAddedByWeChatCode(code);
+
+        return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, data);
+    }
+
+    @PostMapping("/bindWeChatByCode")
+    @ApiOperation(value = "绑定微信", notes = "绑定微信,会覆盖之前绑定的微信，不返回内容")
+    public ResponseGeneric<Object> bindWeChatByCode(
+            @ApiParam("临时登录凭证") @RequestParam("code") String code,
+            @ApiParam("用户id或邮箱") @RequestParam("id") String id,
+            @ApiParam("用户密码") @RequestParam("password") String password) throws Exception {
+
+        serviceUser.bindWeChatByCode(code, id, password);
+
+        return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, null, "绑定成功");
+    }
+
 
     @GetMapping("/userPublic")
     @ApiOperation(value = "获取用户公开信息", notes = "获取用户公开信息，返回用户公开信息")

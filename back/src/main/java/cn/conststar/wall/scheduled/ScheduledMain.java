@@ -15,7 +15,7 @@ public class ScheduledMain {
 
     private void clearTempFile() {
         logger.info("清理缓存文件");
-        String path = UtilsMain.getTempPath();
+        String path = UtilsMain.getDataTempPath();
         System.out.println(path);
         long nowTime = System.currentTimeMillis();
 

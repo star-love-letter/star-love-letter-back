@@ -2,20 +2,21 @@ package cn.conststar.wall.service;
 
 import cn.conststar.wall.exception.ExceptionMain;
 import cn.conststar.wall.mapper.MapperUser;
+import cn.conststar.wall.pojo.PojoToken;
 import cn.conststar.wall.pojo.PojoUserPublic;
 import cn.conststar.wall.pojo.PojoUser;
 import cn.conststar.wall.pojo.PojoVerifyCode;
 import cn.conststar.wall.response.ResponseCodeEnums;
-import cn.conststar.wall.utils.UtilsEmail;
-import cn.conststar.wall.utils.UtilsMain;
+import cn.conststar.wall.utils.UtilsImage;
 import cn.conststar.wall.utils.UtilsVerifyCode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.SneakyThrows;
 
 import java.io.ByteArrayOutputStream;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -37,9 +38,60 @@ public class ServiceUser implements MapperUser {
         return matcher.find();
     }
 
-    public String login(String email, String password) throws Exception {
-        String token = email + " " + UtilsMain.HMACSHA256(UtilsMain.getUUID());
-        login(email, password, token);
+    private Map getWeChat(String code) throws Exception {
+        Unirest.setTimeouts(0, 0);
+        HttpResponse<String> response = Unirest.get("https://api.weixin.qq.com/sns/jscode2session" +
+                        "?appid=wx6aab5a7855da31e7" +
+                        "&secret=e873f76b236b50435d06f72bc790fff0" +
+                        "&js_code=" +
+                        code +
+                        "&grant_type=authorization_code")
+                .asString();
+        String body = response.getBody();
+
+        HashMap data;
+        ObjectMapper mapper = new ObjectMapper();
+        data = mapper.readValue(body, HashMap.class);
+
+        Integer errcode = (Integer) data.get("errcode");
+        if (errcode != null && 0 != errcode)
+            throw new ExceptionMain((String) data.get("errmsg"));
+
+        return data;
+    }
+
+
+    //登录用户  通过 id || 邮箱
+    public String loginMakeToken(String id, String password) throws Exception {
+        PojoUser user = findUser(id);
+        if (user == null)
+            throw new ExceptionMain("用户不存在");
+
+        PojoToken pojoToken = new PojoToken(user.getId(), PojoToken.TYPE.Email, id);
+        String token = pojoToken.toToken();
+
+        login(id, password, token);
+
+        return token;
+    }
+
+    //通过微信登录用户
+    public String loginByWeChatCode(String code) throws Exception {
+        Map data = getWeChat(code);
+        String openid = (String) data.get("openid");
+        String sessionKey = (String) data.get("session_key");
+
+        PojoUser user = findUserByWeChat(openid);
+        if (user == null) {
+            throw new ExceptionMain("微信用户未注册", ResponseCodeEnums.CODE_20001);
+        }
+
+        PojoToken pojoToken = new PojoToken(user.getId(), PojoToken.TYPE.WeChat, sessionKey);
+        String token = pojoToken.toToken();
+
+        boolean res = loginByWeChat(openid, token);
+        if (!res)
+            throw new ExceptionMain("登录失败,数据库出现问题", ResponseCodeEnums.CODE_1000);
 
         return token;
     }
@@ -60,6 +112,10 @@ public class ServiceUser implements MapperUser {
         if (token == null || token.isEmpty())
             throw new ExceptionMain("用户未登录", ResponseCodeEnums.CODE_20001);
 
+        PojoToken pojoToken = PojoToken.getToken(token);
+        if (pojoToken.isExpire())
+            throw new ExceptionMain("用户登录已失效", ResponseCodeEnums.CODE_20001);
+
         PojoUser user = mapperUser.getUser(token);
         if (user == null)
             throw new ExceptionMain("用户登录已失效", ResponseCodeEnums.CODE_20001);
@@ -78,6 +134,7 @@ public class ServiceUser implements MapperUser {
         return user;
     }
 
+    //获取用户公开信息
     @Override
     public PojoUserPublic getUserPublic(int id) throws Exception {
         PojoUserPublic user = mapperUser.getUserPublic(id);
@@ -86,11 +143,21 @@ public class ServiceUser implements MapperUser {
         return user;
     }
 
+    //登录用户  通过 id || 邮箱
     @Override
-    public boolean login(String email, String password, String token) throws Exception {
-        boolean b = mapperUser.login(email, password, token);
+    public boolean login(String id, String password, String token) throws Exception {
+        boolean b = mapperUser.login(id, password, token);
         if (!b)
             throw new ExceptionMain("请检查账号和密码", ResponseCodeEnums.CODE_201);
+        return true;
+    }
+
+    //通过微信登录用户
+    @Override
+    public boolean loginByWeChat(String openId, String token) throws Exception {
+        boolean b = mapperUser.loginByWeChat(openId, token);
+        if (!b)
+            throw new ExceptionMain("没有此微信用户", ResponseCodeEnums.CODE_201);
         return true;
     }
 
@@ -104,11 +171,15 @@ public class ServiceUser implements MapperUser {
     }
 
 
+    //通过邮箱注册用户
     @Override
-    public int addUser(String email, String password, String name, int status) throws Exception {
+    public int addUserByEmail(String email, String password, String name, int status) throws Exception {
 
         if (!isEmail(email))
             throw new ExceptionMain("邮箱格式有误");
+
+        if (this.findUserByEmail(email) != null)
+            throw new ExceptionMain("用户已存在");
 
         if (password.length() <= 6 || password.length() >= 18)
             throw new ExceptionMain("密码必须大于6个字符串小于18个字符");
@@ -119,10 +190,7 @@ public class ServiceUser implements MapperUser {
         if (name.isEmpty())
             throw new ExceptionMain("名称不能为空");
 
-        if (this.findUser(email))
-            throw new ExceptionMain("用户已存在");
-
-        int line = mapperUser.addUser(email, password, name, status);
+        int line = mapperUser.addUserByEmail(email, password, name, status);
 
         if (line != 1) {
             throw new ExceptionMain("数据库操作失败，数据库添加行数为" + line, ResponseCodeEnums.CODE_50002); //wait
@@ -130,16 +198,90 @@ public class ServiceUser implements MapperUser {
         return line;
     }
 
+    //通过微信注册用户
     @Override
-    public boolean findUser(String email) {
-        return mapperUser.findUser(email);
+    public int addUserByWeChat(String openId, String password, String name, int status) throws Exception {
+
+        if (this.findUserByWeChat(openId) != null)
+            throw new ExceptionMain("微信用户已存在");
+
+        if (password.length() <= 6 || password.length() >= 18)
+            throw new ExceptionMain("密码必须大于6个字符串小于18个字符");
+
+        if (name.length() > 6)
+            throw new ExceptionMain("名称不得超过6个字符");
+
+        if (name.isEmpty())
+            throw new ExceptionMain("名称不能为空");
+
+        int line = mapperUser.addUserByWeChat(openId, password, name, status);
+
+        if (line != 1) {
+            throw new ExceptionMain("数据库操作失败，数据库添加行数为" + line, ResponseCodeEnums.CODE_50002); //wait
+        }
+        return line;
     }
 
+    //通过微信Code注册用户
+    public void addUserByWeChatCode(String code, String password, String name, int status) throws Exception {
+        Map wechat = getWeChat(code);
+        String openid = (String) wechat.get("openid");
+
+        addUserByWeChat(openid, password, name, status);
+    }
+
+    //绑定微信
+    @Override
+    public void bindWeChat(String id, String openId) {
+        PojoUser weChat = findUserByWeChat(openId);
+        if (weChat != null)
+            throw new ExceptionMain("微信用户已存在");
+
+        mapperUser.bindWeChat(id, openId);
+    }
+
+    //绑定微信 会覆盖之前绑定的微信
+    public void bindWeChatByCode(String code, String id, String password) throws Exception {
+        loginMakeToken(id, password); //验证用户账号和密码
+
+        Map weChat = getWeChat(code);
+        String openid = (String) weChat.get("openid");
+        bindWeChat(id, openid);
+    }
+
+    //查找用户  通过 id || 邮箱
+    @Override
+    public PojoUser findUser(String id) {
+        return mapperUser.findUser(id);
+    }
+
+
+    //通过邮箱查找用户
+    @Override
+    public PojoUser findUserByEmail(String email) {
+        return mapperUser.findUserByEmail(email);
+    }
+
+    //通过微信查找用户
+    @Override
+    public PojoUser findUserByWeChat(String openId) {
+        return mapperUser.findUserByWeChat(openId);
+    }
+
+    //是否通过微信注册过
+    public boolean isAddedByWeChatCode(String code) throws Exception {
+        Map wechat = getWeChat(code);
+        String openid = (String) wechat.get("openid");
+
+        return findUserByWeChat(openid) != null;
+    }
 
     //验证码 临时实现方法 并不优雅
 
     //获取验证码对象
     public PojoVerifyCode getPojoVerifyCode(String email) {
+        if (!isEmail(email))
+            throw new ExceptionMain("邮箱格式有误");
 
         PojoVerifyCode verifyCode = verifyCodeMap.get(email);
         if (verifyCode == null) {
@@ -169,95 +311,37 @@ public class ServiceUser implements MapperUser {
         }
     }
 
-    public String getVerifyImage(String email) throws Exception {
-        if (!isEmail(email))
-            throw new ExceptionMain("邮箱格式有误");
+    //获取 旋转验证码
+    public String getRotateCode(String email) throws Exception {
+        PojoVerifyCode pojoVerifyCode = getPojoVerifyCode(email);
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        String code = UtilsVerifyCode.outputVerifyImage(80, 30, out, 4);
+        int angle = UtilsVerifyCode.getRotateImage(out);
+        pojoVerifyCode.setRotateCodeArgs(angle);
 
-        PojoVerifyCode pojoVerifyCode = getPojoVerifyCode(email);
-        pojoVerifyCode.setImageCodeArgs(code);
-
-        String imgBase64 = Base64.getEncoder().encodeToString(out.toByteArray());
-        return "data:image/png;base64," + imgBase64;
+        return UtilsImage.base64(out, "png");
     }
 
-    public boolean isVerifyImage(String code, String email) throws ExceptionMain {
+    //验证 旋转验证码
+    public void verifyRotateCode(String email, int angle) throws ExceptionMain {
         PojoVerifyCode pojoVerifyCode = getPojoVerifyCode(email);
-
-        if (pojoVerifyCode.isImageCodeEmpty())
-            throw new ExceptionMain("请先获取图片验证码");
-
-        if (pojoVerifyCode.isImageCodeOverdue())
-            throw new ExceptionMain("图片验证码已失效");
-
-        if (pojoVerifyCode.isImageVerifyExceed())
-            throw new ExceptionMain("图片验证码错误次数过多，请重新图片获取验证码");
-
-
-        if (!pojoVerifyCode.isVerifyImageCode(code)) {
-            //累加验证次数
-            pojoVerifyCode.addImageCodeVerifyAns();
-            throw new ExceptionMain("图片验证码有误");
-        }
-
-        //清除验证过的图片验证码
-        pojoVerifyCode.clearImageCode();
-        return true;
+        pojoVerifyCode.verifyRotateCode(angle);
     }
 
-    public void getVerifyEmail(String email, String imageCode) throws Exception {
+    //获取 邮箱验证码
+    public void getEmailCode(String email, int angle) throws Exception {
         PojoVerifyCode pojoVerifyCode = getPojoVerifyCode(email);
 
-        if (!isEmail(email))
-            throw new ExceptionMain("邮箱格式有误");
+        //验证旋转验证码
+        pojoVerifyCode.verifyRotateCode(angle);
 
-        if (!isVerifyImage(imageCode, email)) {
-            throw new ExceptionMain("图片验证码错误");
-        }
-
-        if (pojoVerifyCode.isEmailExceed())
-            throw new ExceptionMain("今日获取邮箱验证码次数过多");
-
-        if (pojoVerifyCode.isEmailSleep())
-            throw new ExceptionMain(PojoVerifyCode.EMAIL_SLEEP + "分钟后才能获取新的验证码");
-
-
-        String code = UtilsVerifyCode.generateVerifyCode(5);
-        UtilsEmail.send("星愿表白墙-验证码", "您的验证码为：" + code, email, "");
-
-        //累加获取次数
-        pojoVerifyCode.addEmailCodeAns();
-
-        //设置邮箱验证码
-        pojoVerifyCode.setEmailCodeArgs(code, email);
+        //发送邮箱验证码
+        pojoVerifyCode.sendEmailCode(email);
     }
 
-    public boolean isVerifyEmail(String email, String code) throws Exception {
+    //验证 邮箱验证码
+    public void verifyEmailCode(String email, String code) {
         PojoVerifyCode pojoVerifyCode = getPojoVerifyCode(email);
-
-//        String emailVerify = pojoVerifyCode.getEmailVerify();
-
-        if (pojoVerifyCode.isEmailCodeEmpty())
-            throw new ExceptionMain("请先获取邮箱验证码");
-
-        //旧方法
-//        if (!emailVerify.equals(email))
-//            throw new ExceptionMain("更换邮箱后请重新获取短信验证码");
-
-        //一小时后 邮箱验证码失效
-        if (pojoVerifyCode.isEmailCodeOverdue())
-            throw new ExceptionMain("邮箱验证码已失效");
-
-        if (pojoVerifyCode.isEmailVerifyExceed())
-            throw new ExceptionMain("邮箱验证码错误次数过多，请重新邮箱获取验证码");
-
-        if (!pojoVerifyCode.isVerifyEmailCode(code)) {
-            //累加验证次数
-            pojoVerifyCode.addEmailCodeVerifyAns();
-            throw new ExceptionMain("邮箱验证码有误");
-        }
-        return true;
+        pojoVerifyCode.verifyEmailCode(code);
     }
 }

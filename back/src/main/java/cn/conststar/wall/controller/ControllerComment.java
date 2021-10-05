@@ -7,8 +7,8 @@ import cn.conststar.wall.response.ResponseFormat;
 import cn.conststar.wall.response.ResponseGeneric;
 import cn.conststar.wall.service.ServiceComment;
 import cn.conststar.wall.service.ServiceUser;
-import cn.conststar.wall.utils.UtilsMain;
-import com.alibaba.fastjson.JSONArray;
+import cn.conststar.wall.utils.UtilsText;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -72,9 +74,11 @@ public class ControllerComment {
         PojoUser user = serviceUser.getUser(token); //验证用户登录状态
 
         //是否不需要审核
-        List<String> imageList = JSONArray.parseArray(images).toJavaList(String.class);
         int status = 0;
-        if (!imageList.isEmpty() || UtilsMain.checkText(content)) {
+
+        ObjectMapper mapper = new ObjectMapper();
+        List<String> imageList = Arrays.asList(mapper.readValue(images, String[].class));
+        if (!imageList.isEmpty() || UtilsText.checkText(content)) {
             status = 1;
         }
 

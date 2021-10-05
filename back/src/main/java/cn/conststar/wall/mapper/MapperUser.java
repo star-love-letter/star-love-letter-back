@@ -8,19 +8,35 @@ public interface MapperUser {
     //获取用户
     PojoUser getUser(String token) throws Exception;
 
-    //登录账号
-    boolean login(@Param("email") String email, @Param("password") String password, @Param("token") String token) throws Exception;
+    //登录用户  通过 id || 邮箱
+    boolean login(@Param("id") String id, @Param("password") String password, @Param("token") String token) throws Exception;
 
-    //退出账号
+    //通过微信登录用户
+    boolean loginByWeChat(@Param("openId") String openId, @Param("token") String token) throws Exception;
+
+    //退出用户
     boolean logout(String token) throws Exception;
+
+    //通过邮箱注册用户
+    int addUserByEmail(@Param("email") String email, @Param("password") String password,
+                @Param("name") String name, @Param("status") int status) throws Exception;
+
+    //通过邮箱注册用户
+    int addUserByWeChat(@Param("openId") String openId, @Param("password") String password,
+                       @Param("name") String name, @Param("status") int status) throws Exception;
+
+    //绑定微信
+    void bindWeChat(@Param("id") String id,@Param("openId") String openId);
+
+    //查找用户  通过 id || 邮箱
+    PojoUser findUser(@Param("id") String id);
+
+    //通过邮箱查找用户
+    PojoUser findUserByEmail(@Param("email") String email);
+
+    //通过微信查找用户
+    PojoUser findUserByWeChat(@Param("openId") String openId);
 
     //获取公开用户信息
     PojoUserPublic getUserPublic(@Param("id") int id) throws Exception;
-
-    //添加用户
-    int addUser(@Param("email") String email, @Param("password") String password,
-                @Param("name") String name, @Param("status") int status) throws Exception;
-
-    //检查用户是否存在
-    boolean findUser(@Param("email") String email);
 }

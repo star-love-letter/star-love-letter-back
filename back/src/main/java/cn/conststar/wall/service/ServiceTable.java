@@ -5,12 +5,15 @@ import cn.conststar.wall.mapper.MapperTable;
 import cn.conststar.wall.pojo.PojoTable;
 import cn.conststar.wall.pojo.PojoUserPublic;
 import cn.conststar.wall.response.ResponseCodeEnums;
+import cn.conststar.wall.utils.UtilsImage;
 import cn.conststar.wall.utils.UtilsMain;
-import com.alibaba.fastjson.JSONArray;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 @Data
@@ -76,7 +79,8 @@ public class ServiceTable implements MapperTable {
         if (content.length() > 160)
             throw new ExceptionMain("内容不得超过160个字符");
 
-        List<String> imageList = JSONArray.parseArray(images).toJavaList(String.class);
+        ObjectMapper mapper = new ObjectMapper();
+        List<String> imageList = Arrays.asList(mapper.readValue(images, String[].class));
         if (imageList.isEmpty())
             images = null;
         else if (imageList.size() > 6)
@@ -89,7 +93,7 @@ public class ServiceTable implements MapperTable {
         }
 
         //发布成功后移动图片
-        UtilsMain.addImages(imageList);
+        UtilsMain.addDataImages(new HashSet<>(imageList));
         return line;
     }
 

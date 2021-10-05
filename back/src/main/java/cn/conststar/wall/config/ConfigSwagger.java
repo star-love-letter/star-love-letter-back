@@ -58,7 +58,7 @@ public class ConfigSwagger {
         return new ApiInfoBuilder().title("星愿墙")
                 .description("接口文档")
                 .contact(new Contact("开发者邮箱", null, "admin@conststar.cn"))
-                .version("1.2.1")
+                .version("1.2.4")
                 .build();
     }
 

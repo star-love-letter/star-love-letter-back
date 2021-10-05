@@ -44,14 +44,25 @@ public class ControllerAdviceHandler {
     public ResponseGeneric<Object> myErrorHandler(ExceptionMain ex) {
         Exception exception = ex.getException();
         exception.printStackTrace();
-        logger.warn(exception.toString());
-        return ResponseFormat.retParam(ex.getCode(), null, exception.getMessage());
+
+        ResponseCodeEnums code = ex.getCode();
+        int codeValue = code.getCode();
+
+        if (200 <= codeValue && codeValue <= 299) {
+            logger.info(exception.toString());
+        } else if (20001 <= codeValue && codeValue <= 29999) {
+            logger.warn(exception.toString());
+        } else {
+            logger.error(exception.toString());
+        }
+
+        return ResponseFormat.retParam(code, null, exception.getMessage());
     }
 
     @ApiOperation("捕获异常-没有此文件")
     @ExceptionHandler(FileNotFoundException.class)
     public void errorHandler(FileNotFoundException ex,
-                               HttpServletRequest request, HttpServletResponse response) {
+                             HttpServletRequest request, HttpServletResponse response) {
         response.setStatus(HttpServletResponse.SC_NOT_FOUND);
     }
 }

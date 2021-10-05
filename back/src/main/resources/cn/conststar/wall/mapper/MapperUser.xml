@@ -11,35 +11,71 @@
         where token = #{token};
     </select>
 
+    <sql id="whereid">
+            (email = #{id} or CAST(id AS char) = #{id})
+    </sql>
+
+
     <select id="getUserPublic" resultType="PojoUserPublic">
         select *
         from `user`
         where id = #{id};
     </select>
 
-    <insert id="addUser">
-        insert into `user` (email, password, name, last_time, create_time)
-        values (#{email}, password(#{password}), #{name}, now(), now());
+    <insert id="addUserByEmail">
+        insert into `user` (email, password, name, status, last_time, create_time)
+        values (#{email}, password(#{password}), #{status}, #{name}, now(), now());
     </insert>
 
-    <select id="findUser" parameterType="PojoUser" resultType="_boolean">
-        select count(id)
+    <insert id="addUserByWeChat">
+        insert into `user` (wechat, name, password, status, last_time, create_time)
+        values (#{openId}, #{name}, password(#{password}), #{status}, now(), now());
+    </insert>
+
+    <select id="findUserByEmail" resultType="PojoUser">
+        select *
         from `user`
         where email = #{email};
     </select>
 
+    <select id="findUser" resultType="PojoUser">
+        select *
+        from `user`
+        where <include refid="whereid"></include>;
+    </select>
+
+    <select id="findUserByWeChat" resultType="PojoUser">
+        select *
+        from `user`
+        where wechat = #{openId};
+    </select>
+
+    <update id="bindWeChat">
+        update `user`
+        set wechat = #{openId}
+        where <include refid="whereid"></include>;
+    </update>
+
     <update id="login">
         update `user`
-        set `last_time`=now(),
-            `token` = #{token}
-        where email = #{email}
-          and password = password(#{password});
+        set `last_time`= now(),
+        `token` = #{token}
+        where
+        <include refid="whereid"></include>
+        and password = password(#{password});
+    </update>
+
+    <update id="loginByWeChat">
+        update `user`
+        set `last_time`= now(),
+            `token`    = #{token}
+        where wechat = #{openId};
     </update>
 
     <update id="logout">
         update `user`
         set `last_time`= now(),
-            token = null
+            token      = null
         where token = #{token};
     </update>
 </mapper>
