@@ -58,8 +58,8 @@ public class ControllerUser {
     }
 
 
-    @PostMapping("/add")
-    @ApiOperation(value = "注册", notes = "注册账号，不返回内容")
+    @PostMapping("/addByEmail")
+    @ApiOperation(value = "通过邮箱注册", notes = "通过邮箱注册账号，不返回内容")
     public ResponseGeneric<Object> add(
             @ApiParam("邮箱") @RequestParam("email") String email,
             @ApiParam("密码") @RequestParam("password") String password,
@@ -72,13 +72,15 @@ public class ControllerUser {
             status = 1;
         }
 
+        //验证邮箱验证码
         serviceUser.verifyEmailCode(email, emailCode);
+        //通过邮箱添加用户
         serviceUser.addUserByEmail(email, password, name, status);
+        //删除邮箱验证码
         serviceUser.removePojoVerifyCode(email);
 
         if (status == 1)
             return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, null, "注册成功，等待审核");
-
 
         return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, null, "注册成功");
     }

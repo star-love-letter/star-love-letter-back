@@ -50,7 +50,7 @@ public class ControllerTable {
     }
 
     @GetMapping("/count")
-    @ApiOperation(value = "获取帖子总数", notes = "获取帖子总数，返回帖子总数")
+    @ApiOperation(value = "获取帖子总数", notes = "获取帖子总数，返回帖子总数，用来计算页数")
     public ResponseGeneric<Integer> getCount(
             @ApiParam("token") @RequestHeader(value = "token", required = false) String token) throws Exception {
 

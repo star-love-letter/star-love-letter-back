@@ -52,7 +52,7 @@ public class ControllerComment {
     }
 
     @GetMapping("/count")
-    @ApiOperation(value = "获取帖子评论总数",notes = "获取帖子评论总数，返回评论总数")
+    @ApiOperation(value = "获取帖子评论总数",notes = "获取帖子评论总数，返回评论总数，用来计算页数")
     public ResponseGeneric<Integer> getCount(
             @ApiParam("帖子id") @RequestParam("tableId") int tableId,
             @ApiParam("token") @RequestHeader(value = "token", required = false) String token) throws Exception {
