@@ -42,6 +42,12 @@
             <el-button type="info" @click="Register" class="registerButton">注册</el-button>
           </el-form-item>
         </el-form>
+
+
+
+        <div class="RVerify">
+          <el-button type="info" @click="RVerifyShow" class="registerButton">注册</el-button>
+        </div>
       </div>
     </div>
   </div>
@@ -86,6 +92,19 @@ export default {
     }
   },
   methods: {
+    RVerifyShow(){
+        RVerify.action(function(code) {
+          console.log(code)
+          // switch (code) {
+          //   case 1:
+          //     alert("Verify successful.");
+          //     break;
+          //   case 2:
+          //     alert("No action");
+          //     break;
+          // }
+        });
+    },
     //注册按钮
     Register() {
       this.$refs.RegisterFromRef.validate(async (valid) => {

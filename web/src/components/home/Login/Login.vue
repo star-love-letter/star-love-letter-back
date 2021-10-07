@@ -9,7 +9,7 @@
       <el-form ref="loginFromRef" :model="loginFrom" :rules="loginFromRules" class="e_form">
         <!--    用户名    -->
         <el-form-item prop="email">
-          <el-input v-focus @keyup.enter.native="login" v-model="loginFrom.email" prefix-icon="fas fa-user"></el-input>
+          <el-input v-focus @keyup.enter.native="login" v-model="loginFrom.email_or_id" prefix-icon="fas fa-user"></el-input>
         </el-form-item>
         <!--    密码    -->
         <el-form-item prop="password">
@@ -39,13 +39,13 @@ export default {
       // 这是登录表单的数据绑定对象
       // 只需要通过 rules 属性传入约定的验证规则，并将 Form-Item 的 prop 属性设置为需校验的字段名即可。
       loginFrom: {
-        email: '',
+        email_or_id: '',
         password: ''
       },
       // 表单验证
       loginFromRules: {
-        email: [
-          {required: true, message: '请输入用户名', trigger: 'blur'},
+        email_or_id: [
+          {required: true, message: '请输入用户名或邮箱', trigger: 'blur'},
           {type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change']}
         ],
         password: [
@@ -76,7 +76,7 @@ export default {
         }
 
         await this.$http.post('/api/user/login', {
-          email: this.loginFrom.email,
+          id: this.loginFrom.email_or_id,
           password: this.loginFrom.password
         }).then((data) => {
           this.setToken(data.data)
