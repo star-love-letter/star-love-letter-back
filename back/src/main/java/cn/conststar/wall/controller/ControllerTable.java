@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping(value = "/api/table", produces = {"application/json;charset=UTF-8"})
@@ -108,6 +107,7 @@ public class ControllerTable {
             @ApiParam("是否匿名") @RequestParam("anonymous") boolean anonymous,
             @ApiParam("表白内容") @RequestParam("content") String content,
             @ApiParam("图片列表") @RequestParam("images") String images,
+            @ApiParam("是否邮箱通知") @RequestParam("notifyEmail") boolean notifyEmail,
             @ApiParam("token") @RequestHeader(value = "token", required = false) String token) throws Exception {
 
         PojoUser user = serviceUser.getUser(token); //验证用户登录状态
@@ -123,7 +123,7 @@ public class ControllerTable {
             status = 1;
         }
 
-        serviceTable.addTable(user.getId(), anonymous, sender, senderSex, recipient, recipientSex, content, images, status);
+        serviceTable.addTable(user.getId(), anonymous, sender, senderSex, recipient, recipientSex, content, images, notifyEmail, status);
 
         if (status == 1)
             return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, null, "发布成功，等待审核中");

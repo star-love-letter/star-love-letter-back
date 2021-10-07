@@ -1,7 +1,7 @@
 # 星愿墙
 接口文档
 
-***版本: 1.2.5***
+***版本: 1.2.6***
 
 **联系方式:**  
 开发者邮箱  
@@ -178,6 +178,7 @@ POST: /api/table/add
 | anonymous | query | 是否匿名 | Yes | boolean |
 | content | query | 表白内容 | Yes | string |
 | images | query | 图片列表 | Yes | string |
+| notifyEmail | query | 是否邮箱通知 | Yes | boolean |
 | token | header | token | No | string |
 
 ##### 响应
@@ -392,6 +393,29 @@ POST: /api/user/addByWeChat
 
 
 
+#### 绑定邮箱
+
+POST: /api/user/bindEmail
+
+##### 描述
+
+绑定微信,会覆盖之前绑定的微信，不返回内容
+
+##### 参数
+
+| 参数名 | 参数位于 | 描述 | 必须 | 参数类型 |
+| ---- | ---------- | ----------- | -------- | ---- |
+| email | query | 邮箱 | Yes | string |
+| emailCode | query | 邮箱验证码 | Yes | string |
+| token | header | token | No | string |
+
+##### 响应
+| 状态码 | 描述 | 请求头 | 返回类型 |
+| ---- | ----------- | ------ |------ |
+| 200 | OK | application/json;charset=UTF-8 | [统一响应实体«object»](#统一响应实体«object») |
+
+
+
 #### 绑定微信
 
 POST: /api/user/bindWeChatByCode
@@ -405,8 +429,7 @@ POST: /api/user/bindWeChatByCode
 | 参数名 | 参数位于 | 描述 | 必须 | 参数类型 |
 | ---- | ---------- | ----------- | -------- | ---- |
 | code | query | 临时登录凭证 | Yes | string |
-| id | query | 用户id或邮箱 | Yes | string |
-| password | query | 用户密码 | Yes | string |
+| token | header | token | No | string |
 
 ##### 响应
 | 状态码 | 描述 | 请求头 | 返回类型 |
@@ -599,6 +622,7 @@ GET: /api/user/userPublic
 | createTime | dateTime | 创建时间 | No |
 | id | integer | 帖子id | No |
 | images | string | 图片列表 | No |
+| notifyEmail | boolean | 是否邮箱通知 | No |
 | recipient | string | 被表白者姓名 | No |
 | recipientSex | integer | 被表白者性别 | No |
 | sender | string | 表白者姓名 | No |

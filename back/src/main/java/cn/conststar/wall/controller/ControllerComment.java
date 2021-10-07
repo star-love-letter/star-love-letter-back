@@ -1,11 +1,14 @@
 package cn.conststar.wall.controller;
 
+import cn.conststar.wall.exception.ExceptionMain;
 import cn.conststar.wall.pojo.PojoComment;
+import cn.conststar.wall.pojo.PojoTable;
 import cn.conststar.wall.pojo.PojoUser;
 import cn.conststar.wall.response.ResponseCodeEnums;
 import cn.conststar.wall.response.ResponseFormat;
 import cn.conststar.wall.response.ResponseGeneric;
 import cn.conststar.wall.service.ServiceComment;
+import cn.conststar.wall.service.ServiceTable;
 import cn.conststar.wall.service.ServiceUser;
 import cn.conststar.wall.utils.UtilsText;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,9 +39,12 @@ public class ControllerComment {
     @Qualifier("serviceUser")
     private ServiceUser serviceUser;
 
+    @Autowired
+    @Qualifier("serviceTable")
+    private ServiceTable serviceTable;
 
     @GetMapping("/pageList")
-    @ApiOperation(value = "获取帖子分页评论列表",notes="获取帖子分页评论列表，返回评论列表")
+    @ApiOperation(value = "获取帖子分页评论列表", notes = "获取帖子分页评论列表，返回评论列表")
     public ResponseGeneric<List<PojoComment>> getPageList(
             @ApiParam("帖子id") @RequestParam("tableId") int tableId,
             @ApiParam("页索引") @RequestParam("pageIndex") int pageIndex,
@@ -52,7 +58,7 @@ public class ControllerComment {
     }
 
     @GetMapping("/count")
-    @ApiOperation(value = "获取帖子评论总数",notes = "获取帖子评论总数，返回评论总数，用来计算页数")
+    @ApiOperation(value = "获取帖子评论总数", notes = "获取帖子评论总数，返回评论总数，用来计算页数")
     public ResponseGeneric<Integer> getCount(
             @ApiParam("帖子id") @RequestParam("tableId") int tableId,
             @ApiParam("token") @RequestHeader(value = "token", required = false) String token) throws Exception {
@@ -64,7 +70,7 @@ public class ControllerComment {
     }
 
     @PostMapping("/add")
-    @ApiOperation(value = "发布评论",notes = "发布评论，不返回内容")
+    @ApiOperation(value = "发布评论", notes = "发布评论，不返回内容")
     public ResponseGeneric<Object> post(
             @ApiParam("帖子id") @RequestParam("tableId") int tableId,
             @ApiParam("内容") @RequestParam("content") String content,
@@ -81,12 +87,17 @@ public class ControllerComment {
         if (!imageList.isEmpty() || UtilsText.checkText(content)) {
             status = 1;
         }
+        PojoTable table = serviceTable.getTable(tableId, user.getId());
+        if (table == null)
+            throw new ExceptionMain("帖子不存在");
 
         serviceComment.addComment(tableId, user.getId(), content, images, status);
+        table.sendNotifyEmail(content, imageList, status);
+
 
         if (status == 1)
-            return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, null,"发布成功，等待审核");
+            return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, null, "发布成功，等待审核");
 
-        return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, null,"发布成功");
+        return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, null, "发布成功");
     }
 }

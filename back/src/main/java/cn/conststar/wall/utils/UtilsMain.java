@@ -92,6 +92,7 @@ public class UtilsMain {
     //获取配置图片验证码目录
     public static String getConfCodeImagePath(){
         return getConfPath() + "/codeImage";
+//        return "D:\\用户文档\\图片\\codeImage"; //test
     }
 
     //获取数据目录

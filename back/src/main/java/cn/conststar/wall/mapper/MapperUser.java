@@ -26,7 +26,10 @@ public interface MapperUser {
                        @Param("name") String name, @Param("status") int status) throws Exception;
 
     //绑定微信
-    void bindWeChat(@Param("id") String id,@Param("openId") String openId);
+    void bindWeChat(@Param("userId") int userId,@Param("openId") String openId);
+
+    //绑定邮箱
+    void bindEmail(@Param("userId") int userId,@Param("email") String email);
 
     //查找用户  通过 id || 邮箱
     PojoUser findUser(@Param("id") String id);

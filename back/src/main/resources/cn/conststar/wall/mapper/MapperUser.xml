@@ -53,8 +53,15 @@
     <update id="bindWeChat">
         update `user`
         set wechat = #{openId}
-        where <include refid="whereid"></include>;
+        where id = #{userId};
     </update>
+
+    <update id="bindEmail">
+        update `user`
+        set email = #{email}
+        where id = #{userId};
+    </update>
+
 
     <update id="login">
         update `user`

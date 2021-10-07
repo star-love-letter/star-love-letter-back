@@ -160,7 +160,7 @@ public class PojoVerifyCode {
 
 
         String code = UtilsVerifyCode.generateVerifyCode(5);
-        UtilsEmail.send("星愿表白墙-验证码", "您的验证码为：" + code, email, "");
+        UtilsEmail.sendAsync("星愿表白墙-验证码", "您的验证码为：" + code, email, "星愿表白墙");
 
         //累加获取次数
         emailCodeAns++;

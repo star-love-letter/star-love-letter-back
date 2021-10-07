@@ -139,7 +139,6 @@ public class ControllerUser {
         return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, null, "验证码发送成功");
     }
 
-
     @GetMapping("/isAddedByWeChat")
     @ApiOperation(value = "是否通过微信注册过", notes = "是否通过微信注册过，返回true/false")
     public ResponseGeneric<Boolean> isAddedByWeChat(
@@ -150,14 +149,27 @@ public class ControllerUser {
         return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, data);
     }
 
+    @PostMapping("/bindEmail")
+    @ApiOperation(value = "绑定邮箱", notes = "绑定微信,会覆盖之前绑定的微信，不返回内容")
+    public ResponseGeneric<Object> bindEmail(
+            @ApiParam("邮箱") @RequestParam("email") String email,
+            @ApiParam("邮箱验证码") @RequestParam("emailCode") String emailCode,
+            @ApiParam("token") @RequestHeader(value = "token", required = false) String token) throws Exception {
+
+        int userId = serviceUser.getUserId(token);
+        serviceUser.bindEmailCode(userId, email, emailCode);
+
+        return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, null, "绑定成功");
+    }
+
     @PostMapping("/bindWeChatByCode")
     @ApiOperation(value = "绑定微信", notes = "绑定微信,会覆盖之前绑定的微信，不返回内容")
     public ResponseGeneric<Object> bindWeChatByCode(
             @ApiParam("临时登录凭证") @RequestParam("code") String code,
-            @ApiParam("用户id或邮箱") @RequestParam("id") String id,
-            @ApiParam("用户密码") @RequestParam("password") String password) throws Exception {
+            @ApiParam("token") @RequestHeader(value = "token", required = false) String token) throws Exception {
 
-        serviceUser.bindWeChatByCode(code, id, password);
+        int userId = serviceUser.getUserId(token);
+        serviceUser.bindWeChatByCode(code, userId);
 
         return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, null, "绑定成功");
     }

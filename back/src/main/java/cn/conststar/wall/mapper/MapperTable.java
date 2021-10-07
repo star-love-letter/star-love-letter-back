@@ -32,6 +32,7 @@ public interface MapperTable {
                  @Param("recipientSex") int recipientSex,
                  @Param("content") String content,
                  @Param("images") String images,
+                 @Param("notifyEmail") boolean notifyEmail,
                  @Param("status") int status) throws Exception;
 
     //点赞

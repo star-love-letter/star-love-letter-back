@@ -275,11 +275,11 @@ public class UtilsVerifyCode {
 
         Random r = new Random();
 
-        int index = r.nextInt() % list.length;
+        int index = r.nextInt(list.length);
         File imageFile = new File(imageDirectory, list[index]);
 
         //30~330度以内
-        int angel = r.nextInt() % 300 + 30;
+        int angel = r.nextInt(300) + 30;
         BufferedImage image = UtilsImage.rotate(imageFile, angel);
 
         ImageIO.write(image, "png", out);

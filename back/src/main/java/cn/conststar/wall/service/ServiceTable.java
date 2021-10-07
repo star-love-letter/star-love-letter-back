@@ -66,7 +66,7 @@ public class ServiceTable implements MapperTable {
 
     @Override
     public int addTable(int userId, boolean anonymous, String sender, int senderSex,
-                        String recipient, int recipientSex, String content, String images, int status) throws Exception {
+                        String recipient, int recipientSex, String content, String images, boolean notifyEmail, int status) throws Exception {
         if (sender.isEmpty() || recipient.isEmpty())
             throw new ExceptionMain("名称不能为空");
 
@@ -87,9 +87,9 @@ public class ServiceTable implements MapperTable {
             throw new ExceptionMain("图片最多上传6个");
 
 
-        int line = mapperTable.addTable(userId, anonymous, sender, senderSex, recipient, recipientSex, content, images, status);
+        int line = mapperTable.addTable(userId, anonymous, sender, senderSex, recipient, recipientSex, content, images, notifyEmail, status);
         if (line != 1) {
-            throw new ExceptionMain("数据库操作失败，数据库添加行数为" + line,  ResponseCodeEnums.CODE_50002); //wait
+            throw new ExceptionMain("数据库操作失败，数据库添加行数为" + line, ResponseCodeEnums.CODE_50002); //wait
         }
 
         //发布成功后移动图片

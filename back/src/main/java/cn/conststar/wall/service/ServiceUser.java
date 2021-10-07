@@ -57,6 +57,11 @@ public class ServiceUser implements MapperUser {
         if (errcode != null && 0 != errcode)
             throw new ExceptionMain((String) data.get("errmsg"));
 
+        String openid = (String) data.get("openid");
+        String sessionKey = (String) data.get("session_key");
+        if (openid == null || sessionKey == null)
+            throw new ExceptionMain("通过code2Session未获取到微信用户信息", ResponseCodeEnums.CODE_60002);
+
         return data;
     }
 
@@ -230,23 +235,41 @@ public class ServiceUser implements MapperUser {
         addUserByWeChat(openid, password, name, status);
     }
 
+    //绑定邮箱
+    @Override
+    public void bindEmail(int userId, String email) {
+        PojoUser weChat = findUserByEmail(email);
+        if (weChat != null)
+            throw new ExceptionMain("邮箱已被绑定");
+
+        mapperUser.bindEmail(userId, email);
+    }
+
+    //绑定邮箱 会覆盖之前绑定的邮箱
+    public void bindEmailCode(int userId, String email, String emailCode) {
+        //验证邮箱验证码
+        verifyEmailCode(email, emailCode);
+
+        //绑定邮箱
+        bindEmail(userId, email);
+    }
+
     //绑定微信
     @Override
-    public void bindWeChat(String id, String openId) {
+    public void bindWeChat(int userId, String openId) {
         PojoUser weChat = findUserByWeChat(openId);
         if (weChat != null)
             throw new ExceptionMain("微信用户已存在");
 
-        mapperUser.bindWeChat(id, openId);
+        mapperUser.bindWeChat(userId, openId);
     }
 
-    //绑定微信 会覆盖之前绑定的微信
-    public void bindWeChatByCode(String code, String id, String password) throws Exception {
-        loginMakeToken(id, password); //验证用户账号和密码
 
+    //绑定微信 会覆盖之前绑定的微信
+    public void bindWeChatByCode(String code, int userId) throws Exception {
         Map weChat = getWeChat(code);
         String openid = (String) weChat.get("openid");
-        bindWeChat(id, openid);
+        bindWeChat(userId, openid);
     }
 
     //查找用户  通过 id || 邮箱
