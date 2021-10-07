@@ -14,55 +14,57 @@
     </resultMap>
 
     <sql id="selectTable">
-        select a.id,
-               a.user_id,
-               a.sender,
-               a.sender_sex,
-               a.recipient,
-               a.recipient_sex,
-               a.create_time,
-               a.anonymous,
-               a.content,
-               a.images,
-               a.status,
-               #{userId}          as select_user_id,
-               COALESCE(b.ans, 0) as comment_count,
-               COALESCE(c.ans, 0) as support_count
-        from `table` as a
-                 left join (select table_id as id, count(1) as ans from `comment` GROUP BY table_id) as b
-                           on b.id = a.id
-                 left join (select table_id as id, count(1) as ans from `support` GROUP BY table_id) as c
-                           on c.id = a.id
-                 left join `user` as u on a.user_id = u.id
+        select `table`.id,
+               `table`.user_id,
+               `table`.sender,
+               `table`.sender_sex,
+               `table`.recipient,
+               `table`.recipient_sex,
+               `table`.create_time,
+               `table`.anonymous,
+               `table`.content,
+               `table`.images,
+               `table`.notify_email,
+               `table`.status,
+               #{userId}                  as select_user_id,
+               COALESCE(`comment`.ans, 0) as comment_count,
+               COALESCE(`support`.ans, 0) as support_count
+        from `table`
+                 left join (select table_id as id, count(1) as ans from `comment` GROUP BY table_id) as `comment`
+                           on `comment`.id = `table`.id
+                 left join (select table_id as id, count(1) as ans from `support` GROUP BY table_id) as `support`
+                           on `support`.id = `table`.id
+                 left join `user` on `table`.user_id = `user`.id
     </sql>
 
     <!--获取分页帖子-->
     <select id="getTablesLimit" resultMap="PojoTableMap">
         <include refid="selectTable"></include>
-        where (a.status = 0 or a.user_id = #{userId})
-        and u.status = 0
-        order by a.create_time DESC limit #{startIndex}, #{pageSize};
+        where (`table`.status = 0 or `table`.user_id = #{userId})
+        and `user`.status = 0
+        order by `table`.create_time DESC limit #{startIndex}, #{pageSize};
     </select>
 
     <!--获取单个帖子内容-->
     <select id="getTable" parameterType="_int" resultMap="PojoTableMap">
         <include refid="selectTable"></include>
-        where a.id = #{id}
-        and (a.status = 0 or a.user_id = #{userId})
-        and u.status = 0
-        group by a.id;
+        where `table`.id = #{id}
+        and (`table`.status = 0 or `table`.user_id = #{userId})
+        and `user`.status = 0
+        group by `table`.id;
     </select>
 
     <!--搜索帖子-->
     <select id="getSearchTablesLimit" resultMap="PojoTableMap">
         <include refid="selectTable"></include>
-        where (a.sender like "%"#{keyword}"%"
-        or a.recipient like "%"#{keyword}"%"
-        or a.content like "%"#{keyword}"%")
-        and (a.status = 0 or a.user_id = #{userId})
-        and u.status = 0
-        group by a.id
-        order by a.create_time DESC limit #{startIndex}, #{pageSize};
+        where (`table`.sender like "%"#{keyword}"%"
+        or `table`.recipient like "%"#{keyword}"%"
+        or `table`.content like "%"#{keyword}"%")
+        or (`table`.anonymous = 0 and `user`.name like "%"#{keyword}"%")
+        and (`table`.status = 0 or `table`.user_id = #{userId})
+        and `user`.status = 0
+        group by `table`.id
+        order by `table`.create_time DESC limit #{startIndex}, #{pageSize};
     </select>
 
     <!--点赞-->
@@ -96,16 +98,17 @@
         where (`table`.sender like "%"#{keyword}"%"
             or `table`.recipient like "%"#{keyword}"%"
             or `table`.content like "%" #{keyword}"%")
-          and (`table`.status = 0 or `table`.user_id = #{userId})
-          and `user`.status = 0;
+           or (`table`.anonymous = 0 and `user`.name like "%"#{keyword}"%")
+            and (`table`.status = 0 or `table`.user_id = #{userId})
+            and `user`.status = 0;
     </select>
 
     <!--发布表白-->
     <insert id="addTable">
         insert into `table` (user_id, anonymous, sender, sender_sex, recipient,
-                             recipient_sex, create_time, content, images, status)
+                             recipient_sex, create_time, content, images, notify_email, status)
             value (#{userId}, #{anonymous}, #{sender}, #{senderSex}, #{recipient},
-                   #{recipientSex}, now(), #{content}, #{images}, #{status});
+                   #{recipientSex}, now(), #{content}, #{images}, #{notifyEmail}, #{status});
     </insert>
 
     <!--获取帖子的用户信息-->

@@ -1,7 +1,7 @@
 package cn.conststar.wall.utils;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import lombok.SneakyThrows;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
@@ -16,6 +16,8 @@ import java.util.Properties;
 @Component
 @PropertySource("classpath:/email.properties")
 public class UtilsEmail {
+
+    static Logger logger = Logger.getLogger(UtilsEmail.class);
 
     static private String emailAccount;
 
@@ -59,6 +61,24 @@ public class UtilsEmail {
         UtilsEmail.sendName = sendName;
     }
 
+    //异步发送邮箱
+    public static void sendAsync(String subject, String content, String receiveMail, String receiveName) {
+        try {
+            Thread t = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        UtilsEmail.send(subject, content, receiveMail, receiveName);
+                    } catch (Exception ex) {
+                        logger.error(ex.toString());
+                    }
+                }
+            };
+            t.start();
+        } catch (Exception ex) {
+            logger.error(ex.toString());
+        }
+    }
 
     /**
      * @param subject     主题
@@ -127,7 +147,7 @@ public class UtilsEmail {
         message.setSubject(subject, "UTF-8");
 
         // 5. Content: 邮件正文（可以使用html标签）
-        message.setContent(content, "text/html;charset=UTF-8");
+        message.setContent(content, "text/plain;charset=UTF-8");
         // 6. 设置发件时间
         message.setSentDate(new Date());
 

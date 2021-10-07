@@ -1,7 +1,7 @@
 # 星愿墙
 接口文档
 
-***版本: 1.2.1***
+***版本: 1.2.6***
 
 **联系方式:**  
 开发者邮箱  
@@ -47,7 +47,7 @@ admin@conststar.cn
 
 POST: /api/comment/add
 
-##### 描述:
+##### 描述
 
 发布评论，不返回内容
 
@@ -71,9 +71,9 @@ POST: /api/comment/add
 
 GET: /api/comment/count
 
-##### 描述:
+##### 描述
 
-获取帖子评论总数，返回评论总数
+获取帖子评论总数，返回评论总数，用来计算页数
 
 ##### 参数
 
@@ -93,7 +93,7 @@ GET: /api/comment/count
 
 GET: /api/comment/pageList
 
-##### 描述:
+##### 描述
 
 获取帖子分页评论列表，返回评论列表
 
@@ -119,7 +119,7 @@ GET: /api/comment/pageList
 
 POST: /api/file/image
 
-##### 描述:
+##### 描述
 
 上传图片，返回上传的图片名
 
@@ -140,7 +140,7 @@ POST: /api/file/image
 
 GET: /api/file/image/{image}
 
-##### 描述:
+##### 描述
 
 获取图片，返回图片文件
 
@@ -163,7 +163,7 @@ GET: /api/file/image/{image}
 
 POST: /api/table/add
 
-##### 描述:
+##### 描述
 
 发布表白，不返回内容
 
@@ -178,6 +178,7 @@ POST: /api/table/add
 | anonymous | query | 是否匿名 | Yes | boolean |
 | content | query | 表白内容 | Yes | string |
 | images | query | 图片列表 | Yes | string |
+| notifyEmail | query | 是否邮箱通知 | Yes | boolean |
 | token | header | token | No | string |
 
 ##### 响应
@@ -191,9 +192,9 @@ POST: /api/table/add
 
 GET: /api/table/count
 
-##### 描述:
+##### 描述
 
-获取帖子总数，返回帖子总数
+获取帖子总数，返回帖子总数，用来计算页数
 
 ##### 参数
 
@@ -212,7 +213,7 @@ GET: /api/table/count
 
 GET: /api/table/pageList
 
-##### 描述:
+##### 描述
 
 获取帖子分页列表，返回帖子列表
 
@@ -235,7 +236,7 @@ GET: /api/table/pageList
 
 GET: /api/table/searchCount
 
-##### 描述:
+##### 描述
 
 获取搜索帖子总数，返回帖子数量
 
@@ -257,7 +258,7 @@ GET: /api/table/searchCount
 
 GET: /api/table/searchList
 
-##### 描述:
+##### 描述
 
 搜索帖子，返回帖子列表
 
@@ -281,7 +282,7 @@ GET: /api/table/searchList
 
 PUT: /api/table/support
 
-##### 描述:
+##### 描述
 
 点赞，不返回内容
 
@@ -303,7 +304,7 @@ PUT: /api/table/support
 
 DELETE: /api/table/support
 
-##### 描述:
+##### 描述
 
 取消点赞，不返回内容
 
@@ -325,7 +326,7 @@ DELETE: /api/table/support
 
 GET: /api/table/table
 
-##### 描述:
+##### 描述
 
 获取单个帖子内容，返回单个帖子
 
@@ -345,13 +346,13 @@ GET: /api/table/table
 
 ### 账号操作
 
-#### 注册
+#### 通过邮箱注册
 
-POST: /api/user/add
+POST: /api/user/addByEmail
 
-##### 描述:
+##### 描述
 
-注册账号，不返回内容
+通过邮箱注册账号，不返回内容
 
 ##### 参数
 
@@ -359,9 +360,8 @@ POST: /api/user/add
 | ---- | ---------- | ----------- | -------- | ---- |
 | email | query | 邮箱 | Yes | string |
 | password | query | 密码 | Yes | string |
-| name | query | 姓名 | Yes | string |
-| imageCode | query | 图片验证码 | Yes | string |
-| emailCode | query | 邮箱验证 | Yes | string |
+| name | query | 名称 | Yes | string |
+| emailCode | query | 邮箱验证码 | Yes | string |
 
 ##### 响应
 | 状态码 | 描述 | 请求头 | 返回类型 |
@@ -370,11 +370,122 @@ POST: /api/user/add
 
 
 
+#### 通过微信注册
+
+POST: /api/user/addByWeChat
+
+##### 描述
+
+通过微信注册账号，不返回内容
+
+##### 参数
+
+| 参数名 | 参数位于 | 描述 | 必须 | 参数类型 |
+| ---- | ---------- | ----------- | -------- | ---- |
+| code | query | 临时登录凭证 | Yes | string |
+| password | query | 密码 | Yes | string |
+| name | query | 名称 | Yes | string |
+
+##### 响应
+| 状态码 | 描述 | 请求头 | 返回类型 |
+| ---- | ----------- | ------ |------ |
+| 200 | OK | application/json;charset=UTF-8 | [统一响应实体«object»](#统一响应实体«object») |
+
+
+
+#### 绑定邮箱
+
+POST: /api/user/bindEmail
+
+##### 描述
+
+绑定微信,会覆盖之前绑定的微信，不返回内容
+
+##### 参数
+
+| 参数名 | 参数位于 | 描述 | 必须 | 参数类型 |
+| ---- | ---------- | ----------- | -------- | ---- |
+| email | query | 邮箱 | Yes | string |
+| emailCode | query | 邮箱验证码 | Yes | string |
+| token | header | token | No | string |
+
+##### 响应
+| 状态码 | 描述 | 请求头 | 返回类型 |
+| ---- | ----------- | ------ |------ |
+| 200 | OK | application/json;charset=UTF-8 | [统一响应实体«object»](#统一响应实体«object») |
+
+
+
+#### 绑定微信
+
+POST: /api/user/bindWeChatByCode
+
+##### 描述
+
+绑定微信,会覆盖之前绑定的微信，不返回内容
+
+##### 参数
+
+| 参数名 | 参数位于 | 描述 | 必须 | 参数类型 |
+| ---- | ---------- | ----------- | -------- | ---- |
+| code | query | 临时登录凭证 | Yes | string |
+| token | header | token | No | string |
+
+##### 响应
+| 状态码 | 描述 | 请求头 | 返回类型 |
+| ---- | ----------- | ------ |------ |
+| 200 | OK | application/json;charset=UTF-8 | [统一响应实体«object»](#统一响应实体«object») |
+
+
+
+#### 获取邮箱验证码
+
+GET: /api/user/emailCode
+
+##### 描述
+
+获取邮箱验证码，不返回内容
+
+##### 参数
+
+| 参数名 | 参数位于 | 描述 | 必须 | 参数类型 |
+| ---- | ---------- | ----------- | -------- | ---- |
+| email | query | 邮箱 | Yes | string |
+| angle | query | 旋转验证码度数 | Yes | integer |
+
+##### 响应
+| 状态码 | 描述 | 请求头 | 返回类型 |
+| ---- | ----------- | ------ |------ |
+| 200 | OK | application/json;charset=UTF-8 | [统一响应实体«object»](#统一响应实体«object») |
+
+
+
+#### 是否通过微信注册过
+
+GET: /api/user/isAddedByWeChat
+
+##### 描述
+
+是否通过微信注册过，返回true/false
+
+##### 参数
+
+| 参数名 | 参数位于 | 描述 | 必须 | 参数类型 |
+| ---- | ---------- | ----------- | -------- | ---- |
+| code | query | 临时登录凭证 | Yes | string |
+
+##### 响应
+| 状态码 | 描述 | 请求头 | 返回类型 |
+| ---- | ----------- | ------ |------ |
+| 200 | OK | application/json;charset=UTF-8 | [统一响应实体«boolean»](#统一响应实体«boolean») |
+
+
+
 #### 登录
 
 POST: /api/user/login
 
-##### 描述:
+##### 描述
 
 登录用户，返回token
 
@@ -382,7 +493,7 @@ POST: /api/user/login
 
 | 参数名 | 参数位于 | 描述 | 必须 | 参数类型 |
 | ---- | ---------- | ----------- | -------- | ---- |
-| email | query | 邮箱 | Yes | string |
+| id | query | 用户id或邮箱 | Yes | string |
 | password | query | 密码 | Yes | string |
 
 ##### 响应
@@ -392,11 +503,32 @@ POST: /api/user/login
 
 
 
+#### 微信登录
+
+POST: /api/user/loginByWeChat
+
+##### 描述
+
+微信登录，返回token
+
+##### 参数
+
+| 参数名 | 参数位于 | 描述 | 必须 | 参数类型 |
+| ---- | ---------- | ----------- | -------- | ---- |
+| code | query | 临时登录凭证 | Yes | string |
+
+##### 响应
+| 状态码 | 描述 | 请求头 | 返回类型 |
+| ---- | ----------- | ------ |------ |
+| 200 | OK | application/json;charset=UTF-8 | [统一响应实体«object»](#统一响应实体«object») |
+
+
+
 #### 退出登录
 
 POST: /api/user/logout
 
-##### 描述:
+##### 描述
 
 退出登录，不返回内容
 
@@ -413,11 +545,32 @@ POST: /api/user/logout
 
 
 
+#### 获取旋转验证码
+
+GET: /api/user/rotateCode
+
+##### 描述
+
+获取旋转验证码，返回图片base64
+
+##### 参数
+
+| 参数名 | 参数位于 | 描述 | 必须 | 参数类型 |
+| ---- | ---------- | ----------- | -------- | ---- |
+| email | query | 邮箱 | Yes | string |
+
+##### 响应
+| 状态码 | 描述 | 请求头 | 返回类型 |
+| ---- | ----------- | ------ |------ |
+| 200 | OK | application/json;charset=UTF-8 | [统一响应实体«string»](#统一响应实体«string») |
+
+
+
 #### 获取登录用户信息
 
 GET: /api/user/user
 
-##### 描述:
+##### 描述
 
 获取登录用户信息，返回用户公开信息
 
@@ -438,7 +591,7 @@ GET: /api/user/user
 
 GET: /api/user/userPublic
 
-##### 描述:
+##### 描述
 
 获取用户公开信息，返回用户公开信息
 
@@ -456,53 +609,6 @@ GET: /api/user/userPublic
 
 
 
-#### 获取邮箱验证码
-
-GET: /api/user/verifyEmail
-
-##### 描述:
-
-获取邮箱验证码，不返回内容
-
-##### 参数
-
-| 参数名 | 参数位于 | 描述 | 必须 | 参数类型 |
-| ---- | ---------- | ----------- | -------- | ---- |
-| email | query | 邮箱 | Yes | string |
-| imageCode | query | 图形验证码 | Yes | string |
-
-##### 响应
-| 状态码 | 描述 | 请求头 | 返回类型 |
-| ---- | ----------- | ------ |------ |
-| 200 | OK | application/json;charset=UTF-8 | [统一响应实体«object»](#统一响应实体«object») |
-
-
-
-#### 获取图片验证码
-
-GET: /api/user/verifyImage
-
-##### 描述:
-
-获取图片验证码，返回图片base64
-
-验证过的图片验证码需要重新获取
-
-建议：在输入邮箱后、获取邮箱验证码后、点击注册后 都要重新获取一下图片验证码
-
-##### 参数
-
-| 参数名 | 参数位于 | 描述 | 必须 | 参数类型 |
-| ---- | ---------- | ----------- | -------- | ---- |
-| email | query | 邮箱 | Yes | string |
-
-##### 响应
-| 状态码 | 描述 | 请求头 | 返回类型 |
-| ---- | ----------- | ------ |------ |
-| 200 | OK | application/json;charset=UTF-8 | [统一响应实体«string»](#统一响应实体«string») |
-
-
-
 ## 返回类型
 
 
@@ -516,6 +622,7 @@ GET: /api/user/verifyImage
 | createTime | dateTime | 创建时间 | No |
 | id | integer | 帖子id | No |
 | images | string | 图片列表 | No |
+| notifyEmail | boolean | 是否邮箱通知 | No |
 | recipient | string | 被表白者姓名 | No |
 | recipientSex | integer | 被表白者性别 | No |
 | sender | string | 表白者姓名 | No |
@@ -570,6 +677,16 @@ GET: /api/user/verifyImage
 | ---- | ---- | ----------- | -------- |
 | code | integer | 状态码 | Yes |
 | data | [ [评论实体](#评论实体) ] | 数据 | No |
+| message | string | 消息 | Yes |
+
+
+
+#### 统一响应实体«boolean»
+
+| 参数名 | 类型 | 描述 | 必须 |
+| ---- | ---- | ----------- | -------- |
+| code | integer | 状态码 | Yes |
+| data | boolean | 数据 | No |
 | message | string | 消息 | Yes |
 
 

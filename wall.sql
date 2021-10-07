@@ -42,15 +42,17 @@ CREATE TABLE IF NOT EXISTS `table` (
   `images` varchar(255) DEFAULT NULL COMMENT '图像列表',
   `user_id` int(11) DEFAULT NULL COMMENT '用户id',
   `anonymous` bit(1) NOT NULL COMMENT '是否为匿名',
-  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态 0为正常 1为待审核 -1为封禁'
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态 0为正常 1为待审核 -1为封禁',
+  `notify_email` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否邮箱通知'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL,
-  `email` char(30) NOT NULL COMMENT '邮箱',
-  `password` char(255) NOT NULL COMMENT '密码',
   `name` varchar(255) NOT NULL COMMENT '姓名',
+  `password` char(255) NOT NULL COMMENT '密码',
   `student_id` int(11) DEFAULT NULL COMMENT '学号',
+  `email` char(30) DEFAULT NULL COMMENT '邮箱',
+  `wechat` char(255) DEFAULT NULL COMMENT '微信',
   `create_time` datetime NOT NULL COMMENT '注册时间',
   `last_time` datetime NOT NULL COMMENT '最近登录时间',
   `token` char(255) DEFAULT NULL COMMENT 'token',
@@ -78,7 +80,8 @@ ALTER TABLE `user`
   ADD PRIMARY KEY (`id`) USING BTREE,
   ADD UNIQUE KEY `user_mail` (`email`) USING BTREE,
   ADD UNIQUE KEY `user_student_id` (`student_id`) USING BTREE,
-  ADD UNIQUE KEY `user_token` (`token`) USING BTREE;
+  ADD UNIQUE KEY `user_token` (`token`) USING BTREE,
+  ADD UNIQUE KEY `user_wechat` (`wechat`) USING BTREE;
 
 
 ALTER TABLE `comment`

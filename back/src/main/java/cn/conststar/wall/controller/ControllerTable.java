@@ -7,10 +7,8 @@ import cn.conststar.wall.response.ResponseFormat;
 import cn.conststar.wall.response.ResponseGeneric;
 import cn.conststar.wall.service.ServiceTable;
 import cn.conststar.wall.service.ServiceUser;
-import cn.conststar.wall.utils.UtilsMain;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
+import cn.conststar.wall.utils.UtilsText;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -19,8 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping(value = "/api/table", produces = {"application/json;charset=UTF-8"})
@@ -51,7 +49,7 @@ public class ControllerTable {
     }
 
     @GetMapping("/count")
-    @ApiOperation(value = "获取帖子总数", notes = "获取帖子总数，返回帖子总数")
+    @ApiOperation(value = "获取帖子总数", notes = "获取帖子总数，返回帖子总数，用来计算页数")
     public ResponseGeneric<Integer> getCount(
             @ApiParam("token") @RequestHeader(value = "token", required = false) String token) throws Exception {
 
@@ -109,20 +107,23 @@ public class ControllerTable {
             @ApiParam("是否匿名") @RequestParam("anonymous") boolean anonymous,
             @ApiParam("表白内容") @RequestParam("content") String content,
             @ApiParam("图片列表") @RequestParam("images") String images,
+            @ApiParam("是否邮箱通知") @RequestParam("notifyEmail") boolean notifyEmail,
             @ApiParam("token") @RequestHeader(value = "token", required = false) String token) throws Exception {
 
         PojoUser user = serviceUser.getUser(token); //验证用户登录状态
 
         //是否不需要审核
-        List<String> imageList = JSONArray.parseArray(images).toJavaList(String.class);
         int status = 0;
+
+        ObjectMapper mapper = new ObjectMapper();
+        List<String> imageList = Arrays.asList(mapper.readValue(images, String[].class));
         if (!imageList.isEmpty()
-                || UtilsMain.checkText(sender) || UtilsMain.checkText(recipient)
-                || UtilsMain.checkText(content)) {
+                || UtilsText.checkText(sender) || UtilsText.checkText(recipient)
+                || UtilsText.checkText(content)) {
             status = 1;
         }
 
-        serviceTable.addTable(user.getId(), anonymous, sender, senderSex, recipient, recipientSex, content, images, status);
+        serviceTable.addTable(user.getId(), anonymous, sender, senderSex, recipient, recipientSex, content, images, notifyEmail, status);
 
         if (status == 1)
             return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, null, "发布成功，等待审核中");

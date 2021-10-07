@@ -7,7 +7,6 @@ import cn.conststar.wall.response.ResponseGeneric;
 import cn.conststar.wall.service.ServiceFile;
 import cn.conststar.wall.service.ServiceUser;
 import cn.conststar.wall.utils.UtilsMain;
-import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -54,7 +53,7 @@ public class ControllerFile {
             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         //要下载的图片地址
-        String path = UtilsMain.getImagePath();
+        String path = UtilsMain.getDataImagePath();
 
         File file = new File(path, image);
         //读取文件--输入流

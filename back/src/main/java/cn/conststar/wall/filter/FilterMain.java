@@ -1,15 +1,14 @@
 package cn.conststar.wall.filter;
 
-import cn.conststar.wall.exception.ExceptionMain;
-import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 import java.io.IOException;
-import java.util.Locale;
+import java.util.Arrays;
+import java.util.List;
 
 public class FilterMain implements Filter {
     Logger logger = Logger.getLogger(FilterMain.class);
@@ -38,7 +37,9 @@ public class FilterMain implements Filter {
         String method = req.getMethod();
         String origin = req.getHeader("Origin");
         String token = req.getHeader("token");
-        String parameter = JSONObject.toJSONString(req.getParameterMap());
+
+        ObjectMapper mapper = new ObjectMapper();
+        String parameter = mapper.writeValueAsString(req.getParameterMap());
 
         String requestInfo = "\n"
                 + method + ":" + url

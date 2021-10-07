@@ -4,12 +4,8 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.Arrays;
-import java.util.Map;
 import java.util.Random;
 
 
@@ -262,15 +258,32 @@ public class UtilsVerifyCode {
         }
     }
 
-    public static void main(String[] args) throws IOException {
 
-        for (int i = 0; i < 20; i++) {
-            File dir = new File("E:/img/");
-            int w = 200, h = 80;
-            String verifyCode = generateVerifyCode(4);
-            File file = new File(dir, verifyCode + ".jpg");
-            outputImage(w, h, file, verifyCode);
-        }
+    //获取旋转图片验证码
+    public static int getRotateImage(ByteArrayOutputStream out) throws IOException {
+        File imageDirectory = UtilsMain.getConfCodeImageDirectory();
 
+        String[] list = imageDirectory.list((dir, name) -> {
+            if (!new File(dir, name).isFile())
+                return false;
+
+            if (!name.toLowerCase().endsWith(".png"))
+                return false;
+
+            return true;
+        });
+
+        Random r = new Random();
+
+        int index = r.nextInt(list.length);
+        File imageFile = new File(imageDirectory, list[index]);
+
+        //30~330度以内
+        int angel = r.nextInt(300) + 30;
+        BufferedImage image = UtilsImage.rotate(imageFile, angel);
+
+        ImageIO.write(image, "png", out);
+
+        return angel;
     }
 }
