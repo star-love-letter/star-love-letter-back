@@ -10,6 +10,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.*;
 import java.util.Date;
 import java.util.Properties;
 
@@ -30,6 +31,25 @@ public class UtilsEmail {
     static private Boolean ssl;
 
     static private String sendName;
+
+    static private String template;
+
+    static {
+        try {
+            InputStream path = UtilsEmail.class.getResourceAsStream("/email-template.html");
+            assert path != null : "email-template.html文件不存在";
+
+            int len = path.available();
+            byte[] bytes = new byte[len];
+            path.read(bytes);
+            path.close();
+            template = new String(bytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+
+        }
+    }
 
     @Value("${emailAccount}")
     public void setEmailAccount(String emailAccount) {
@@ -82,11 +102,13 @@ public class UtilsEmail {
 
     /**
      * @param subject     主题
-     * @param content     内容
+     * @param body        替换的内容
      * @param receiveMail 收件人
      * @param receiveName 收件人名称
      */
-    public static void send(String subject, String content, String receiveMail, String receiveName) throws Exception {
+    public static void send(String subject, String body, String receiveMail, String receiveName) throws Exception {
+
+        String content = template.replaceAll("\\{CODE\\}", body);
 
         // 配置并创建会话对象
         Session session = createSession(emailSMTPHost, ssl, port);
@@ -147,7 +169,7 @@ public class UtilsEmail {
         message.setSubject(subject, "UTF-8");
 
         // 5. Content: 邮件正文（可以使用html标签）
-        message.setContent(content, "text/plain;charset=UTF-8");
+        message.setContent(content, "text/html;charset=UTF-8");
         // 6. 设置发件时间
         message.setSentDate(new Date());
 

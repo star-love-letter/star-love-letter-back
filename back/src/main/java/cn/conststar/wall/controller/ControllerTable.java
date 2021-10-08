@@ -2,6 +2,7 @@ package cn.conststar.wall.controller;
 
 import cn.conststar.wall.pojo.PojoTable;
 import cn.conststar.wall.pojo.PojoUser;
+import cn.conststar.wall.pojo.PojoVerifyCode;
 import cn.conststar.wall.response.ResponseCodeEnums;
 import cn.conststar.wall.response.ResponseFormat;
 import cn.conststar.wall.response.ResponseGeneric;
