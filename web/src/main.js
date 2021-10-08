@@ -8,39 +8,13 @@ import './assets/css/global.css'
 import './assets/Iconiconfont/css/all.css'
 import {vueBaberrage} from 'vue-baberrage'
 import qs from 'qs';
-import RVerify from "rverify";
-import "rverify/dist/RVerify.min.css";
+import {VueMasonryPlugin} from 'vue-masonry';
+Vue.use(VueMasonryPlugin)
+
 //将qs挂载到全局
 Vue.prototype.$qs = qs;
 
 
-// 使用RVerify
-Vue.use(RVerify);
-//配置RVerify
-RVerify.configure({
-  //验证容差范围
-  tolerance: 10,
-  //验证框延迟关闭时间
-  duration: 500,
-  mask: 0.5,
-  // 验证框标题
-  title: "身份验证",
-  //验证框提示文本
-  text: "拖动滑块，使图片角度为正",
-  //设置扩展功能
-  extra: "睡了吗徐爽",
-  //扩展功能文本颜色
-  extraColor: '#1ca280',
-  //设置扩展功能跳转链接
-  extraLink: 'https://www.baidu.com',
-  // 验证框图片显示的相册集
-  album: [
-    "http://att3.citysbs.com/200x200/hangzhou/2020/04/15/11/dd6719bd4287d9efd49434c43563a032_v2_.jpg",
-    "https://c-ssl.duitang.com/uploads/item/201707/10/20170710210234_y3Kf5.thumb.1000_0.jpeg",
-    "http://pic2.zhimg.com/50/v2-be54dda1c19aaeab4f90bcb699057d03_hd.jpg",
-    "http://5b0988e595225.cdn.sohucs.com/q_70,c_zoom,w_640/images/20181226/97d5877e0ac1445980e755225514efc5.jpeg"
-  ]
-});
 
 //挂载全局
 Vue.prototype.$http = http;

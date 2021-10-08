@@ -1,26 +1,26 @@
-@media screen and (max-width: 1600px) and (min-width: 1000px) {
-    .post, .block, .more-comment, .comment, .input-comment {
-        width: 30rem;
-    }
-}
+/*@media screen and (max-width: 1600px) and (min-width: 1000px) {*/
+/*    .post, .block, .more-comment, .comment, .input-comment {*/
+/*        width: 30rem;*/
+/*    }*/
+/*}*/
 
-@media screen and (max-width: 1000px) {
-    .posts {
-        width: 100%;
-        height: 100%;
-    }
-}
+/*@media screen and (max-width: 1000px) {*/
+/*    .posts {*/
+/*        width: 100%;*/
+/*        height: 100%;*/
+/*    }*/
+/*}*/
 
-.post {
-    height: auto !important;
-}
+/*.post {*/
+/*    height: auto !important;*/
+/*}*/
 
-/* 页码样式 */
-.block {
-    background-color: #fff;
-    display: flex;
-    justify-content: center;
-    margin: 0.7rem 0 0.7rem 0;
-    padding: 0.3rem 0 0.3rem 0;
-    border-radius: 0.3rem;
-}
+/*!* 页码样式 *!*/
+/*.block {*/
+/*    background-color: #fff;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    margin: 0.7rem 0 0.7rem 0;*/
+/*    padding: 0.3rem 0 0.3rem 0;*/
+/*    border-radius: 0.3rem;*/
+/*}*/

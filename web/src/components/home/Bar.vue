@@ -1,17 +1,21 @@
 <template>
   <el-container class="home-container">
     <el-header v-if="isMobile==false">
-      <span style="margin-right: auto;margin-left: 3rem">星愿墙</span>
-      <el-menu class="menu" :default-active="activeIndex" mode="horizontal" @select="handleSelect">
-        <el-menu-item class="item" index="/TableList">
+      <span style="margin-right: auto;margin-left: 3rem">
+        <img src="../../assets/logo1.png" alt="" style="height: 60px;">
+      </span>
+      <el-menu class="menu" :default-active="activeIndex" mode="horizontal" @select="handleSelect" background-color="#FFFCD1"
+               text-color="#000"
+               active-text-color="#E79622">
+        <el-menu-item index="/TableList">
           <i class="ico fas fa-clipboard"></i>
           表白墙
         </el-menu-item>
-        <el-menu-item class="item" index="/Confession">
+        <el-menu-item index="/Confession">
           <i class="ico fas fa-heart"></i>
           我要表白
         </el-menu-item>
-        <el-menu-item class="item" index="/Help">
+        <el-menu-item index="/Help">
           <i class="ico fas fa-question"></i>
           帮助
         </el-menu-item>
@@ -65,37 +69,37 @@
       <el-button v-else type="primary" round size="small" @click="Login">登录用户</el-button>
 
     </el-header>
-    <el-header v-else>
-      <span style="margin-right: auto;margin-left: 3rem">星愿墙</span>
-      <span v-on:click="changeMenuState = !changeMenuState" class="btn-menu el-icon-menu"></span>
-    </el-header>
-    <transition name="fade">
-      <el-row v-if="changeMenuState" class="tac">
-        <el-col style="position: absolute;z-index: 3">
-          <el-menu
-            default-active="2"
-            text-color="#fff"
-            active-text-color="#ffd04b"
-            @select="handleSelect">
-            <el-menu-item index="/TableList">
-              <i class="ico fas fa-clipboard"></i>
-              <span slot="title">表白墙</span>
-            </el-menu-item>
-            <el-menu-item index="/Confession">
-              <i class="ico fas fa-heart"></i>
-              <span slot="title">我要表白</span>
-            </el-menu-item>
-            <el-menu-item index="/Help">
-              <i class="ico fas fa-question"></i>
-              <span slot="title">Help</span>
-            </el-menu-item>
-            <el-input v-model="SearchKeyword" @keyup.enter.native="goSearch" placeholder="请输入你想搜索的数据"
-                      style="width: 100%;margin-top:0.8rem;margin-bottom:0.4rem">
-            </el-input>
-          </el-menu>
-        </el-col>
-      </el-row>
-    </transition>
+<!--    <el-header v-else>-->
+<!--      <span style="margin-right: auto;margin-left: 3rem">星愿墙</span>-->
+<!--      <span v-on:click="changeMenuState = !changeMenuState" class="btn-menu el-icon-menu"></span>-->
+<!--    </el-header>-->
+<!--    <transition name="fade">-->
+<!--      <el-row v-if="changeMenuState" class="tac">-->
+<!--        <el-col style="position: absolute;z-index: 3">-->
+<!--          <el-menu-->
+<!--            default-active="2"-->
+<!--            text-color="#fff"-->
+<!--            active-text-color="#ffd04b"-->
+<!--            @select="handleSelect">-->
+<!--            <el-menu-item index="/TableList">-->
+<!--              <i class="ico fas fa-clipboard"></i>-->
+<!--              <span slot="title">表白墙</span>-->
+<!--            </el-menu-item>-->
+<!--            <el-menu-item index="/Confession">-->
+<!--              <i class="ico fas fa-heart"></i>-->
+<!--              <span slot="title">我要表白</span>-->
+<!--            </el-menu-item>-->
+<!--            <el-menu-item index="/Help">-->
+<!--              <i class="ico fas fa-question"></i>-->
+<!--              <span slot="title">Help</span>-->
+<!--            </el-menu-item>-->
+<!--            <el-input v-model="SearchKeyword" @keyup.enter.native="goSearch" placeholder="请输入你想搜索的数据"-->
+<!--                      style="width: 100%;margin-top:0.8rem;margin-bottom:0.4rem">-->
+<!--            </el-input>-->
+<!--          </el-menu>-->
+<!--        </el-col>-->
+<!--      </el-row>-->
+<!--    </transition>-->
     <el-container>
       <el-main>
         <router-view></router-view>
@@ -197,7 +201,6 @@ export default {
 .transition-box {
   width: 230px;
   height: 300px;
-  /*background-color: #808ECE;*/
   background-color: #fff;
   position: absolute;
   top: 30px;
@@ -206,6 +209,7 @@ export default {
   font-size: 16px;
   color: #555;
   overflow: hidden;
+  z-index: 998;
 
   ul {
     margin-top: 30px;
@@ -264,7 +268,7 @@ export default {
   box-shadow: 0 0 10px #999;
   background-color: #fff;
   cursor: pointer;
-  z-index: 20;
+  z-index: 999;
   position: absolute;
   top: -25px;
   right: 10px;
@@ -282,7 +286,8 @@ export default {
 
 .item, .el-header {
   font-size: 16px;
-  background-color: #3B6FA8;
+  /*background-color: #3B6FA8;*/
+  background-color: #FFFCD1;
 }
 
 .el-aside {
@@ -290,17 +295,21 @@ export default {
 }
 
 .el-main {
-  background-image: linear-gradient(94.3deg, rgba(126, 141, 206, 1) 10.9%, rgba(184, 166, 166, 1) 87.1%);
+  /*background-image: linear-gradient(94.3deg, rgba(126, 141, 206, 1) 10.9%, rgba(184, 166, 166, 1) 87.1%);*/
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: gainsboro;
 }
-
 @media screen and (max-width: 1600px) and (min-width: 1000px) {
   .menu {
-    border-bottom: none !important;
-    margin-left: 1.25rem;
-    margin-right: 1.25rem;
+    /*border-bottom: none;*/
+    /*margin-left: 1.25rem;*/
+    /*margin-right: 1.25rem;*/
+    /*background-color: #FFFCD1;*/
+    i{
+      color: #000;
+    }
   }
 
   .el-header {
@@ -311,88 +320,82 @@ export default {
     font-size: 1.25rem;
     padding-left: 5.5rem;
     padding-right: 5.5rem;
-    color: white;
   }
 
-  .el-menu--horizontal > .el-menu-item,
-  .el-menu--horizontal > .el-menu-item i {
-    color: #ffffff;
-  }
+  /*.el-menu--horizontal > .el-menu-item.is-active {*/
+  /*  border-bottom: 2px solid #D88333;*/
+  /*  color: #D88333*/
+  /*}*/
 
-  .el-menu--horizontal > .el-menu-item.is-active {
-    border-bottom: 2px solid #D88333;
-    color: #D88333
-  }
+  /*.el-menu--horizontal > .el-menu-item.is-active i {*/
+  /*  color: #D88333*/
+  /*}*/
 
-  .el-menu--horizontal > .el-menu-item.is-active i {
-    color: #D88333
-  }
-
-  .el-menu--horizontal .el-menu-item:not(.is-disabled):focus,
-  .el-menu--horizontal .el-menu-item:not(.is-disabled):hover,
-  .el-menu--horizontal .el-menu-item:not(.is-disabled):hover i {
-    outline: 0;
-    color: #D88333;
-    background-color: #5f79a8;
-  }
+  /*.el-menu--horizontal .el-menu-item:not(.is-disabled):focus,*/
+  /*.el-menu--horizontal .el-menu-item:not(.is-disabled):hover,*/
+  /*.el-menu--horizontal .el-menu-item:not(.is-disabled):hover i {*/
+  /*  outline: 0;*/
+  /*  color: #D88333;*/
+  /*  background-color: #fff5b4;*/
+  /*}*/
 }
 
-@media screen and (max-width: 1000px) {
-  .menu {
-    border-bottom: none !important;
-    display: flex;
-  }
+/*@media screen and (max-width: 1000px) {*/
+/*  .menu {*/
+/*    border-bottom: none;*/
+/*    display: flex;*/
+/*  }*/
 
-  .el-menu {
-    background-color: rgba(84, 92, 100, .95);
-  }
+/*  .el-menu {*/
+/*    background-color: rgba(84, 92, 100, .95);*/
+/*  }*/
 
-  .el-header {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    font-weight: bold;
-    font-size: 1.25rem;
-    color: white;
-  }
-}
+/*  .el-header {*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: flex-start;*/
+/*    font-weight: bold;*/
+/*    font-size: 1.25rem;*/
+/*    color: white;*/
+/*  }*/
+/*}*/
 
 
-.item {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-  /* 移入时鼠标变成小手 */
-  cursor: pointer;
-}
+/*.item {*/
+/*  display: flex;*/
+/*  align-items: center;*/
+/*  justify-content: center;*/
+/*  font-size: 1rem;*/
+/*  !* 移入时鼠标变成小手 *!*/
+/*  cursor: pointer;*/
+/*}*/
 
-.router-link-active {
-  color: #ffc107;
-  border-bottom: 0.3rem solid #ffc107;
-}
+/*.router-link-active {*/
+/*  color: #ffc107;*/
+/*  border-bottom: 0.3rem solid #ffc107;*/
+/*}*/
 
-.ico {
-  display: inline-block;
-  margin-right: 0.2rem;
-}
+/*.ico {*/
+/*  display: inline-block;*/
+/*  margin-right: 0.2rem;*/
+/*}*/
 
-/* 侧边导航栏 */
-.btn-menu {
-  cursor: pointer;
-}
+/*!* 侧边导航栏 *!*/
+/*.btn-menu {*/
+/*  cursor: pointer;*/
+/*}*/
 
-.tac {
-  width: 100%;
-  position: relative;
-}
+/*.tac {*/
+/*  width: 100%;*/
+/*  position: relative;*/
+/*}*/
 
-/* 有bug的动画样式 */
-.fade-enter-active, .fade-leave-active {
+/*!* 有bug的动画样式 *!*/
+/*.fade-enter-active, .fade-leave-active {*/
 
-}
+/*}*/
 
-.fade-enter, .fade-leave-to {
+/*.fade-enter, .fade-leave-to {*/
 
-}
+/*}*/
 </style>

@@ -22,8 +22,9 @@
       <div class="itemContent">
         {{ item.content }}
       </div>
-      <div :key="img" v-for="img in this.imgList" class="itemImg">
-        <img :src="httpImg + img" alt="详情图片">
+      <div class="itemImg">
+        <el-image :key="img" v-for="img in this.imgList"
+                  style="width: 100px; height: 100px" :src="httpImg + img" fit="cover"></el-image>
       </div>
     </div>
 
@@ -215,10 +216,19 @@ export default {
   margin-bottom: 20px;
 }
 
-/*图片样式*/
-.itemImg img {
-  width: 100%;
+
+.itemImg{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
+
+/*图片样式*/
+/*.itemImg img {*/
+/*  width: 30%;*/
+/*  height: 100%;*/
+/*  !*margin: 0 auto;*!*/
+/*}*/
 
 .el-breadcrumb {
   display: flex;
@@ -229,13 +239,12 @@ export default {
 
 /* 内容列表整体框的样式 */
 .post {
-  width: 100%;
-  height: auto !important;
+  width: 350px;
+  height: auto;
   background-color: #fff;
-  margin-top: 0.6rem;
-  margin-bottom: 1.25rem;
-  padding: 1.25rem;
-  border-radius: 0.6rem;
+  padding: 10px;
+  box-sizing: border-box;
+  /*border-radius: 0.6rem;*/
 }
 
 .post:last-child {
