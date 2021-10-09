@@ -92,7 +92,7 @@ public class ControllerComment {
             throw new ExceptionMain("帖子不存在");
 
         serviceComment.addComment(tableId, user.getId(), content, images, status);
-        table.sendNotifyEmail(content, imageList, status);
+        table.sendNotifyEmail(user.getName(), content, imageList, status);
 
 
         if (status == 1)

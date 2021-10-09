@@ -1,4 +1,5 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -7,48 +8,48 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 
-CREATE TABLE IF NOT EXISTS `admin` (
+CREATE TABLE `admin` (
   `user_id` int(11) NOT NULL COMMENT '用户id',
   `type` tinyint(4) NOT NULL COMMENT '管理级别'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `c3p0TestTable` (
+CREATE TABLE `c3p0TestTable` (
   `a` char(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `comment` (
+CREATE TABLE `comment` (
   `id` int(11) NOT NULL COMMENT '评论id',
   `table_id` int(11) DEFAULT NULL COMMENT '对应的帖子id',
   `user_id` int(11) DEFAULT NULL COMMENT '用户id',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `content` varchar(160) NOT NULL COMMENT '评论内容',
+  `content` varchar(160) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '评论内容',
   `images` varchar(255) DEFAULT NULL COMMENT '图像列表',
   `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态 0为正常 1为待审核 -1为封禁'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `support` (
+CREATE TABLE `support` (
   `user_id` int(11) NOT NULL COMMENT '用户id',
   `table_id` int(11) NOT NULL COMMENT '帖子id'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `table` (
+CREATE TABLE `table` (
   `id` int(11) NOT NULL COMMENT '表白id',
-  `sender` varchar(6) NOT NULL COMMENT '发送者',
+  `sender` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '发送者',
   `sender_sex` bit(2) NOT NULL COMMENT '发送者性别',
-  `recipient` varchar(6) NOT NULL COMMENT '被表白者',
+  `recipient` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '被表白者',
   `recipient_sex` bit(2) NOT NULL COMMENT '被表白者性别',
   `create_time` datetime NOT NULL COMMENT '创建时间',
-  `content` varchar(160) NOT NULL COMMENT '表白内容',
+  `content` varchar(160) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '表白内容',
   `images` varchar(255) DEFAULT NULL COMMENT '图像列表',
   `user_id` int(11) DEFAULT NULL COMMENT '用户id',
   `anonymous` bit(1) NOT NULL COMMENT '是否为匿名',
-  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态 0为正常 1为待审核 -1为封禁',
-  `notify_email` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否邮箱通知'
+  `notify_email` bit(1) NOT NULL DEFAULT b'0' COMMENT '是否邮箱通知',
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态 0为正常 1为待审核 -1为封禁'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `user` (
+CREATE TABLE `user` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL COMMENT '姓名',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '姓名',
   `password` char(255) NOT NULL COMMENT '密码',
   `student_id` int(11) DEFAULT NULL COMMENT '学号',
   `email` char(30) DEFAULT NULL COMMENT '邮箱',
@@ -86,10 +87,13 @@ ALTER TABLE `user`
 
 ALTER TABLE `comment`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '评论id';
+
 ALTER TABLE `table`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '表白id';
+
 ALTER TABLE `user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 
 ALTER TABLE `admin`
   ADD CONSTRAINT `admin_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -104,6 +108,7 @@ ALTER TABLE `support`
 
 ALTER TABLE `table`
   ADD CONSTRAINT `table_user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

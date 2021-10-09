@@ -65,27 +65,34 @@ public class PojoTable implements Serializable {
     private int status;
 
     //获取并发送邮箱验证码
-    public void sendNotifyEmail(String content, List<String> images, int status) throws Exception {
+    public void sendNotifyEmail(String name, String content, List<String> images, int status) throws Exception {
         if (!this.notifyEmail)
             return;
 
         StringBuilder messageBuilder = new StringBuilder();
-        messageBuilder.append("刚刚有人评论了你的表白\n");
-        messageBuilder.append("\n评论内容: " + content);
+        messageBuilder.append("<div class=\"content_head\"><span>刚刚有人评论了你的表白</span></div><div class=\"content_body\"><div>");
+        messageBuilder.append("<p>评论者: " + name + "</p>");
+        messageBuilder.append("<p>评论内容: " + content);
         if (images != null) {
             for (String image : images) {
                 messageBuilder.append("[图片]");
             }
         }
+        messageBuilder.append("</p>");
 
         if (status == 1)
-            messageBuilder.append("\n帖子状态: 待审核");
+            messageBuilder.append("<p>评论状态: 待审核</p>");
         else if (status == -1)
-            messageBuilder.append("\n帖子状态: 已封禁");
+            messageBuilder.append("<p>评论状态: 已封禁</p>");
+
 
         //待优化
-        messageBuilder.append("\n帖子地址: https://wall.conststar.cn/#/TableDetail/" + this.id);
+        messageBuilder.append("<p>帖子地址: <a href=\"https://wall.conststar.cn/#/TableDetail/" + this.id + "\">打开帖子</a></p>");
+        messageBuilder.append("</div></div>");
 
-        UtilsEmail.sendAsync("刚刚有人评论了你的表白", messageBuilder.toString(), this.userPublic.getEmail(), "星愿表白墙");
+        String email = this.userPublic.getEmail();
+        UtilsEmail.sendAsync("刚刚有人评论了你的表白",
+                messageBuilder.toString(),
+                email, "星愿表白墙");
     }
 }

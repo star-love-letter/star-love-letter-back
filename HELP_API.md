@@ -1,7 +1,7 @@
 # 星愿墙
 接口文档
 
-***版本: 1.2.6***
+***版本: 1.2.7***
 
 **联系方式:**  
 开发者邮箱  
@@ -11,7 +11,7 @@ admin@conststar.cn
 
 
 ## 通用响应内容
-| 状态码 | 描述 |
+ | 状态码 | 描述 |
 | ---- | ----------- |
 | 201 | 操作失败 |
 | 1000 | 服务器错误 |
@@ -42,7 +42,7 @@ admin@conststar.cn
 
 ## 接口列表
 ### 评论内容
-
+ 
 #### 发布评论
 
 POST: /api/comment/add
@@ -114,7 +114,7 @@ GET: /api/comment/pageList
 
 
 ### 文件操作
-
+ 
 #### 上传图片
 
 POST: /api/file/image
@@ -158,7 +158,7 @@ GET: /api/file/image/{image}
 
 
 ### 帖子内容
-
+ 
 #### 发布表白
 
 POST: /api/table/add
@@ -345,7 +345,7 @@ GET: /api/table/table
 
 
 ### 账号操作
-
+ 
 #### 通过邮箱注册
 
 POST: /api/user/addByEmail
