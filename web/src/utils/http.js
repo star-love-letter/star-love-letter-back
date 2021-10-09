@@ -30,7 +30,7 @@ function checkStatus(response) {
 }
 
 // 如果code异常(这里已经包括网络错误，服务器错误，后端抛出的错误)，可以弹出一个错误提示，告诉用户
-function checkCode(data) {
+export function checkCode(data) {
 
   //成功状态码 200
   if (data.code === 200) {
@@ -40,10 +40,8 @@ function checkCode(data) {
   //抛出异常 相当于=>设置本次请求错误 并 间接调用error函数
   throw data;
 }
-
-//错误信息
-function error(data){
-  //非异常错误（正常的错误） 201-299
+export function showError(data){
+//非异常错误（正常的错误） 201-299
   if (201 <= data.code && data.code <= 299)
     Vue.prototype.$message.warning(data.message)
 
@@ -84,7 +82,11 @@ function error(data){
   //状态码不在设定之内
   else
     Vue.prototype.$message.error("非法的状态码")
+}
 
+//错误信息
+function error(data){
+  showError(data)
 
   throw '我是个假的错误';
 }

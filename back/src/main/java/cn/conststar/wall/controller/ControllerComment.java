@@ -83,8 +83,12 @@ public class ControllerComment {
         int status = 0;
 
         ObjectMapper mapper = new ObjectMapper();
-        List<String> imageList = Arrays.asList(mapper.readValue(images, String[].class));
-        if (!imageList.isEmpty() || UtilsText.checkText(content)) {
+        List<String> imageList = null;
+        if (!images.isEmpty())
+            imageList = Arrays.asList(mapper.readValue(images, String[].class));
+
+        if ((imageList != null && !imageList.isEmpty())
+                || UtilsText.checkText(content)) {
             status = 1;
         }
         PojoTable table = serviceTable.getTable(tableId, user.getId());

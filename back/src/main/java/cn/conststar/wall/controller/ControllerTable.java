@@ -117,8 +117,11 @@ public class ControllerTable {
         int status = 0;
 
         ObjectMapper mapper = new ObjectMapper();
-        List<String> imageList = Arrays.asList(mapper.readValue(images, String[].class));
-        if (!imageList.isEmpty()
+        List<String> imageList = null;
+        if (!images.isEmpty())
+            imageList = Arrays.asList(mapper.readValue(images, String[].class));
+
+        if ((imageList != null && !imageList.isEmpty())
                 || UtilsText.checkText(sender) || UtilsText.checkText(recipient)
                 || UtilsText.checkText(content)) {
             status = 1;

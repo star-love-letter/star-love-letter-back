@@ -18,26 +18,28 @@
         <div v-else><i class="fas fa-genderless"></i></div>
       </el-breadcrumb-item>
     </el-breadcrumb>
+
+    <!--非详情页点击内容会进入详情页-->
     <div v-if="!isDetail" @click="goTableDetail(item.id)" class="post-content" style="cursor: pointer;">
-      <div class="itemContent">
+      <div class="item-content">
         {{ item.content }}
       </div>
-      <div class="itemImg">
-        <el-image :key="img" v-for="img in this.imgList"
-                  style="width: 100px; height: 100px" :src="httpImg + img" fit="cover"></el-image>
+    </div>
+    <div v-else class="post-content">
+      <div class="item-content">
+        {{ item.content }}
       </div>
     </div>
 
-
-    <div v-if="isDetail" class="post-content">
-      <div class="itemContent">
-        {{ item.content }}
-      </div>
-      <div :key="img" v-for="img in this.imgList" class="itemImg">
-        <img :src="httpImg + img" alt="详情图片">
-      </div>
+    <div class="itemImg">
+      <el-image :key="img" v-for="img in this.imgList" style="width: 100px; height: 100px" :src="httpImg + img"
+                fit="cover"></el-image>
     </div>
-    <div class="create-time">{{ this.toDates(item.createTime) }}</div>
+
+    <div class="info">
+      <div v-if="item.userPublic!=undefined" class="user">表白者：{{ item.userPublic.name }}</div>
+      <div class="create-time">{{ this.toDates(item.createTime) }}</div>
+    </div>
 
     <el-button-group>
       <!--   点赞   -->
@@ -57,7 +59,7 @@
       </el-button>
       <!--  评论  -->
       <el-button v-if="isDetail===false" icon="fas fa-comment-alt" @click="goTableDetail">
-                {{ item.commentCount }}
+        {{ item.commentCount }}
       </el-button>
       <!--  分享  -->
       <el-button icon="fas fa-share-square" @click="showQrCode"></el-button>
@@ -212,23 +214,20 @@ export default {
   color: red;
 }
 
-.itemContent {
+.post-content, .itemImg {
+  padding: 0.8rem;
+}
+
+.item-content {
+  min-height: 60px;
+  padding-bottom: 10px;
   margin-bottom: 20px;
 }
 
 
-.itemImg{
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+.image-box {
+  display: inline-block;
 }
-
-/*图片样式*/
-/*.itemImg img {*/
-/*  width: 30%;*/
-/*  height: 100%;*/
-/*  !*margin: 0 auto;*!*/
-/*}*/
 
 .el-breadcrumb {
   display: flex;
@@ -236,15 +235,19 @@ export default {
   padding-bottom: 1.25rem;
   border-bottom: 0.05rem solid #999;
 }
+.el-image {
+  margin: 2px;
+}
 
 /* 内容列表整体框的样式 */
 .post {
-  width: 350px;
+  width: 360px;
   height: auto;
   background-color: #fff;
   padding: 10px;
   box-sizing: border-box;
-  /*border-radius: 0.6rem;*/
+  box-shadow: 0 0 1px #000 inset;
+  display: block;
 }
 
 .post:last-child {
@@ -254,10 +257,9 @@ export default {
 /* 一个内容的样式 */
 .post-content {
   margin-top: 1.25rem;
-  padding: 0.8rem;
   width: 100%;
   height: 45%;
-  background-color: #f4f4f48a;
+  background-color: #fff;
   word-wrap: break-word;
 }
 
@@ -267,14 +269,27 @@ export default {
   justify-content: center;
 }
 
+.info {
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* 表白者用户信息 */
+.user {
+  display: inline-block;
+  color: #ff8686;
+  font-size: 0.8rem;
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+  margin-left: 0.6rem;
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+}
+
 /* 创建时间的样式 */
 .create-time {
   color: #999;
   font-size: 0.8rem;
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 1.25rem;
-  margin-bottom: 1.25rem;
+  margin: 1.25rem 0.6rem 1.25rem auto;
   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
 }
 

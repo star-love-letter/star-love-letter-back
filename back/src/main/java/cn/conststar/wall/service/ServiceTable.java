@@ -5,7 +5,6 @@ import cn.conststar.wall.mapper.MapperTable;
 import cn.conststar.wall.pojo.PojoTable;
 import cn.conststar.wall.pojo.PojoUserPublic;
 import cn.conststar.wall.response.ResponseCodeEnums;
-import cn.conststar.wall.utils.UtilsImage;
 import cn.conststar.wall.utils.UtilsMain;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
@@ -80,8 +79,11 @@ public class ServiceTable implements MapperTable {
             throw new ExceptionMain("内容不得超过160个字符");
 
         ObjectMapper mapper = new ObjectMapper();
-        List<String> imageList = Arrays.asList(mapper.readValue(images, String[].class));
-        if (imageList.isEmpty())
+        List<String> imageList = null;
+        if (!images.isEmpty())
+            imageList = Arrays.asList(mapper.readValue(images, String[].class));
+
+        if (imageList == null || imageList.isEmpty())
             images = null;
         else if (imageList.size() > 6)
             throw new ExceptionMain("图片最多上传6个");

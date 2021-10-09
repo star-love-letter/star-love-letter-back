@@ -8,15 +8,9 @@
     <div id="inputComment" class="input-comment">
       <div style="margin-bottom: 0.7rem;">发布评论</div>
       <div class="text-comment">
-        <span style="color: #828282">您的名字：</span>
-        <input
-          v-model="CommentName"
-          type="text"
-          style="border-radius: 0.3rem;border: 0.05rem solid #999;height: 1.55rem;padding: 0.7rem"
-          @keyup.enter="addComment">
         <textarea
-          v-model="CommentContent"
-          placeholder="请在此处填写评论"
+          v-model="InputContent"
+          placeholder="评论内容"
           name="inputComment"
           rows="8"></textarea>
       </div>
@@ -27,7 +21,7 @@
       <ul :data="TableComment">
         <li>
           <div v-for="(item,index) in TableComment" :key="item.id" style="padding-bottom: 10px">
-            <a href="/">{{ item.name }}：</a>
+            <a href="/">{{ item.userPublic.name }}：</a>
             <div style="font-size: 0.9rem">{{ item.content }}</div>
             <div style="font-size: 0.75rem">{{ toDates(item.createTime) }}</div>
           </div>
@@ -54,10 +48,10 @@ export default {
       page_size: 10,
       // 评论总数
       CommentTotal: '',
-      // 评论人名字
-      CommentName: '',
-      // 评论内容
-      CommentContent: '',
+      // 发布的评论内容
+      InputContent: '',
+      // 发布的图片列表
+      InputImages: [],
       // 当前页面地址
       TableDetailHref: ''
     }
@@ -91,7 +85,7 @@ export default {
     //发布评论
     async addComment() {
       let name = this.CommentName
-      let content = this.CommentContent
+      let content = this.InputContent
       if (name === '' || content === '') {
         this.$message.error('请输入名字或者评论内容')
         return
@@ -99,10 +93,8 @@ export default {
 
       await this.$http.post('/api/comment/add', {
         tableId: this.TableData.id,
-        name: name,
-        anonymous:true,
-        images:'',
-        content: content
+        content: content,
+        images:JSON.stringify(this.InputImages)
       }).then((data) => {
         this.$message.success('发布成功')
       })
@@ -170,7 +162,8 @@ export default {
 /*  background-color: #fff;*/
 /*}*/
 .input-comment {
-  margin-top: 0.6rem;
+  width: 350px;
+  margin-top:10px;
   background-color: #fff;
   text-align: center;
   padding: 1.25rem;
@@ -179,7 +172,6 @@ export default {
 
 .input-comment textarea {
   height: 6.25rem;
-  width: 90%;
   /* 规定能否拉伸样式 */
   resize: none;
   border: 0.05rem solid #999;

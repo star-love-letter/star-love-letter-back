@@ -171,7 +171,7 @@ export default {
 }
 
 .login_container {
-  background-color: #6e79b8;
+  background-color: #FF7F50;
   height: 100%;
 }
 

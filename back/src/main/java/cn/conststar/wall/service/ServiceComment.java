@@ -45,8 +45,11 @@ public class ServiceComment implements MapperComment {
             throw new ExceptionMain("内容不得超过160个字符");
 
         ObjectMapper mapper = new ObjectMapper();
-        List<String> imageList = Arrays.asList(mapper.readValue(images, String[].class));
-        if (imageList.isEmpty())
+        List<String> imageList = null;
+        if (!images.isEmpty())
+            imageList = Arrays.asList(mapper.readValue(images, String[].class));
+
+        if (imageList == null || imageList.isEmpty())
             images = null;
         else if (imageList.size() > 3)
             throw new ExceptionMain("图片最多上传3个");
