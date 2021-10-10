@@ -1,5 +1,5 @@
 <template>
-  <div @click="goTableDetail(item.id)" class="post" ref="postRef">
+  <div class="post" ref="postRef">
     <el-breadcrumb separator="❤">
       <el-breadcrumb-item class="gender">
         <div v-if="item.senderSex === 1"><i class="fas fa-mars" style="color: #3B6FA8"></i></div>
@@ -19,15 +19,15 @@
       </el-breadcrumb-item>
     </el-breadcrumb>
 
-    <div class="post-content">
+    <div @click="goTableDetail(item.id)" class="content-box">
       <div class="item-content">
         {{ item.content }}
       </div>
-    </div>
-    <div class="itemImg">
-      <el-image :key="img" v-for="img in this.imgList" style="width: 100px; height: 100px"
-                :src="imagePath + img"
-                fit="cover"></el-image>
+      <div class="image-box">
+        <el-image :key="img" v-for="img in this.imgList" style="width: 100px; height: 100px"
+                  :src="imagePath + img"
+                  fit="cover"></el-image>
+      </div>
     </div>
 
     <div class="info">
@@ -211,7 +211,7 @@ export default {
   color: red;
 }
 
-.post-content, .itemImg {
+.content-box {
   padding: 0.8rem;
 }
 
@@ -253,12 +253,12 @@ export default {
 }
 
 /* 一个内容的样式 */
-.post-content {
+.content-box {
   margin-top: 1.25rem;
   width: 100%;
   height: 45%;
-  background-color: #fff;
   word-wrap: break-word;
+  box-shadow: 1px 1px 5px #CCCCCC70;
 }
 
 /* 内容里面的按钮数组 */
