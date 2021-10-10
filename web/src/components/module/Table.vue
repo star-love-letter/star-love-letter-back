@@ -1,5 +1,5 @@
 <template>
-  <div class="post" ref="postRef">
+  <div @click="goTableDetail(item.id)" class="post" ref="postRef">
     <el-breadcrumb separator="❤">
       <el-breadcrumb-item class="gender">
         <div v-if="item.senderSex === 1"><i class="fas fa-mars" style="color: #3B6FA8"></i></div>
@@ -19,20 +19,14 @@
       </el-breadcrumb-item>
     </el-breadcrumb>
 
-    <!--非详情页点击内容会进入详情页-->
-    <div v-if="!isDetail" @click="goTableDetail(item.id)" class="post-content" style="cursor: pointer;">
+    <div class="post-content">
       <div class="item-content">
         {{ item.content }}
       </div>
     </div>
-    <div v-else class="post-content">
-      <div class="item-content">
-        {{ item.content }}
-      </div>
-    </div>
-
     <div class="itemImg">
-      <el-image :key="img" v-for="img in this.imgList" style="width: 100px; height: 100px" :src="httpImg + img"
+      <el-image :key="img" v-for="img in this.imgList" style="width: 100px; height: 100px"
+                :src="imagePath + img"
                 fit="cover"></el-image>
     </div>
 
@@ -103,6 +97,7 @@ import QRCode from 'qrcodejs2'
 export default {
   data() {
     return {
+      imagePath: axios.defaults.baseURL + '/api/file/image/',
       QRVisible: false,
       TableId: '',
       url: '',
@@ -151,6 +146,8 @@ export default {
     },
     // 打开详情页
     goTableDetail() {
+      if (this.isDetail)
+        return;
       this.$router.push({
         name: 'TableDetail',
         params: {'id': this.item.id}
@@ -235,6 +232,7 @@ export default {
   padding-bottom: 1.25rem;
   border-bottom: 0.05rem solid #999;
 }
+
 .el-image {
   margin: 2px;
 }
