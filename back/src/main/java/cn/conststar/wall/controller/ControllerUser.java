@@ -156,7 +156,7 @@ public class ControllerUser {
             @ApiParam("邮箱验证码") @RequestParam("emailCode") String emailCode,
             @ApiParam("token") @RequestHeader(value = "token", required = false) String token) throws Exception {
 
-        int userId = serviceUser.getUserId(token);
+        int userId = serviceUser.getUser(token).getId();
         serviceUser.bindEmailCode(userId, email, emailCode);
 
         return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, null, "绑定成功");
@@ -168,8 +168,8 @@ public class ControllerUser {
             @ApiParam("临时登录凭证") @RequestParam("code") String code,
             @ApiParam("token") @RequestHeader(value = "token", required = false) String token) throws Exception {
 
-        int userId = serviceUser.getUserId(token);
-        serviceUser.bindWeChatByCode(code, userId);
+        int userId = serviceUser.getUser(token).getId();
+        serviceUser.bindWeChatByCode(userId,code);
 
         return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, null, "绑定成功");
     }

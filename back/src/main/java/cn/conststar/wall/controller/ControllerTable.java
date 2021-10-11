@@ -43,7 +43,7 @@ public class ControllerTable {
             @ApiParam("页大小") @RequestParam("pageSize") int pageSize,
             @ApiParam("token") @RequestHeader(value = "token", required = false) String token) throws Exception {
 
-        int userId = serviceUser.getUserId(token);
+        int userId = serviceUser.getUserIdNoException(token);
         List<PojoTable> tables = serviceTable.getTablesPage(pageIndex, pageSize, userId);
 
         return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, tables);
@@ -54,7 +54,7 @@ public class ControllerTable {
     public ResponseGeneric<Integer> getCount(
             @ApiParam("token") @RequestHeader(value = "token", required = false) String token) throws Exception {
 
-        int userId = serviceUser.getUserId(token);
+        int userId = serviceUser.getUserIdNoException(token);
         int count = serviceTable.getCount(userId);
 
         return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, count);
@@ -66,7 +66,7 @@ public class ControllerTable {
             @ApiParam("帖子id") @RequestParam("id") int id,
             @ApiParam("token") @RequestHeader(value = "token", required = false) String token) throws Exception {
 
-        int userId = serviceUser.getUserId(token);
+        int userId = serviceUser.getUserIdNoException(token);
         PojoTable table = serviceTable.getTable(id, userId);
 
         return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, table);
@@ -80,7 +80,7 @@ public class ControllerTable {
             @ApiParam("页大小") @RequestParam("pageSize") int pageSize,
             @ApiParam("token") @RequestHeader(value = "token", required = false) String token) throws Exception {
 
-        int userId = serviceUser.getUserId(token);
+        int userId = serviceUser.getUserIdNoException(token);
         List<PojoTable> tables = serviceTable.getSearchTablesPage(keyword, pageIndex, pageSize, userId);
 
         return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, tables, "搜索成功");
@@ -92,7 +92,7 @@ public class ControllerTable {
             @ApiParam("关键词") @RequestParam("keyword") String keyword,
             @ApiParam("token") @RequestHeader(value = "token", required = false) String toekn) throws Exception {
 
-        int userId = serviceUser.getUserId(toekn);
+        int userId = serviceUser.getUserIdNoException(toekn);
         int count = serviceTable.getSearchCount(keyword, userId);
 
         return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, count);

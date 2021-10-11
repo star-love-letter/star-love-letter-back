@@ -104,7 +104,7 @@ public class ServiceUser implements MapperUser {
     //获取用户id
     //获取错误返回 -1
     //不抛出异常
-    public int getUserId(String token) {
+    public int getUserIdNoException(String token) {
         try {
             return getUser(token).getId();
         } catch (Exception ignored) {
@@ -266,7 +266,7 @@ public class ServiceUser implements MapperUser {
 
 
     //绑定微信 会覆盖之前绑定的微信
-    public void bindWeChatByCode(String code, int userId) throws Exception {
+    public void bindWeChatByCode(int userId,String code) throws Exception {
         Map weChat = getWeChat(code);
         String openid = (String) weChat.get("openid");
         bindWeChat(userId, openid);
