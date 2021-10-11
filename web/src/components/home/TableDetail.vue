@@ -4,31 +4,32 @@
       <Table :item="TableData" :is-detail="true">
       </Table>
     </div>
-
-    <div id="inputComment" class="input-comment">
-      <div style="margin-bottom: 0.7rem;">发布评论</div>
-      <div class="text-comment">
+    <div class="publish">
+      <div id="inputComment" class="input-comment">
+        <div style="margin-bottom: 0.7rem;">发布评论</div>
+        <div class="text-comment">
         <textarea
           v-model="InputContent"
           placeholder="评论内容"
           name="inputComment"
           rows="8"></textarea>
+        </div>
+        <button @click="addComment">发布评论</button>
       </div>
-      <button @click="addComment">发布评论</button>
+      <div class="comment">
+        <div class="comment-title">评论(共{{ CommentTotal }}条)</div>
+        <ul :data="TableComment">
+          <li>
+            <div v-for="(item,index) in TableComment" :key="item.id" style="padding-bottom: 10px">
+              <a href="/">{{ item.userPublic.name }}：</a>
+              <div style="font-size: 0.9rem">{{ item.content }}</div>
+              <div style="font-size: 0.75rem">{{ toDates(item.createTime) }}</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="more-comment">暂无更多评论</div>
     </div>
-    <div class="comment">
-      <div class="comment-title">评论(共{{ CommentTotal }}条)</div>
-      <ul :data="TableComment">
-        <li>
-          <div v-for="(item,index) in TableComment" :key="item.id" style="padding-bottom: 10px">
-            <a href="/">{{ item.userPublic.name }}：</a>
-            <div style="font-size: 0.9rem">{{ item.content }}</div>
-            <div style="font-size: 0.75rem">{{ toDates(item.createTime) }}</div>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div class="more-comment">暂无更多评论</div>
   </div>
 </template>
 
@@ -147,7 +148,7 @@ export default {
 
 .more-comment {
   background-color: #fff;
-  border-radius: 0 0 0.6rem 0.6rem;
+  /*border-radius: 0 0 0.6rem 0.6rem;*/
   display: flex;
   justify-content: center;
   padding-top: 1.25rem;
@@ -157,17 +158,12 @@ export default {
   font-weight: bold;
 }
 
-/* 输入框的样式 */
-/*.inputCommentAll{*/
-/*  background-color: #fff;*/
-/*}*/
 .input-comment {
   width: 350px;
-  margin-top:10px;
   background-color: #fff;
   text-align: center;
   padding: 1.25rem;
-  border-radius: 0.7rem 0.7rem 0 0;
+  /*border-radius: 0.7rem 0.7rem 0 0;*/
 }
 
 .input-comment textarea {
@@ -193,6 +189,7 @@ export default {
   cursor: pointer;
 }
 
-.text-comment {
+.posts{
+  display: flex;
 }
 </style>

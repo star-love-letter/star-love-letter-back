@@ -142,6 +142,7 @@ export default {
     },
     // 解析图片列表
     getImgList() {
+      if(!this.item.images) return
       this.imgList = JSON.parse(this.item.images)
     },
     // 打开详情页

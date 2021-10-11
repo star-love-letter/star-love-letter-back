@@ -13,7 +13,7 @@
 
 <style>
   html {
-    overflow-y: auto;
-    overflow-x: hidden;
+    /*overflow-y: auto;*/
+    /*overflow-x: hidden;*/
   }
 </style>
