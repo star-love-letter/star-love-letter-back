@@ -23,8 +23,13 @@
       <div class="item-content">
         {{ item.content }}
       </div>
-      <div class="image-box">
+      <div class="image-box" v-if="isDetail===false">
         <el-image :key="img" v-for="img in this.imgList" style="width: 100px; height: 100px"
+                  :src="imagePath + img"
+                  fit="cover"></el-image>
+      </div>
+      <div class="image-box" v-else>
+        <el-image :key="img" v-for="img in this.imgList" style="width: 222px; height: 222px"
                   :src="imagePath + img"
                   fit="cover"></el-image>
       </div>
@@ -212,10 +217,6 @@ export default {
   color: red;
 }
 
-.content-box {
-  padding: 0.8rem;
-}
-
 .item-content {
   min-height: 60px;
   padding-bottom: 10px;
@@ -240,7 +241,6 @@ export default {
 
 /* 内容列表整体框的样式 */
 .post {
-  width: 360px;
   height: auto;
   background-color: #fff;
   padding: 10px;
@@ -255,6 +255,7 @@ export default {
 
 /* 一个内容的样式 */
 .content-box {
+  padding: 0.8rem;
   margin-top: 1.25rem;
   width: 100%;
   height: 45%;

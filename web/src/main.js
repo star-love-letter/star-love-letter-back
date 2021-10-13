@@ -28,6 +28,7 @@ import Table from './components/module/Table'
 
 Vue.component('barrages', Barrages);
 Vue.component('Table', Table);
+Vue.component('Comment', Comment);
 
 // 使用模块
 Vue.use(vueBaberrage);

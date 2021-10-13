@@ -1,15 +1,17 @@
 <template>
-  <div style="width: 100%;margin: 0 auto;">
+  <div style="width: 100%; margin: 0 auto">
     <div class="container" style="max-width: 1113px">
       <ul :data="posts" v-masonry>
-        <li v-for="(item,index) in posts" :key="item.id" v-masonry-tile style="margin-left: 0.5rem;">
-          <Table :item="item" :is-detail="false">
-          </Table>
-        </li>
-        <li>
-          <div class="bottom-tip">{{bottomTip}}</div>
+        <li
+          v-for="item in posts"
+          :key="item.id"
+          v-masonry-tile
+          style="margin-left: 0.5rem;width: 360px"
+        >
+          <Table :item="item" :is-detail="false"> </Table>
         </li>
       </ul>
+      <div class="bottom-tip">{{ bottomTip }}</div>
     </div>
   </div>
 </template>
@@ -27,45 +29,48 @@ export default {
       // 总条目数
       page_total: 0,
       // 分页样式
-      page_layout: '',
+      page_layout: "",
       // 后端数据存放在这里
       posts: [],
-      genders: '',
+      genders: "",
       LoadingStatus: false,
       immediate: false,
-      bottomTip:''
-    }
+      bottomTip: "",
+    };
   },
   created() {
     //获取当前是否为手机端
-    this.isMobile = this.getIsMobile()
+    this.isMobile = this.getIsMobile();
 
-    this.getTableTotal()
-    this.getTableList()
+    this.getTableTotal();
+    this.getTableList();
   },
   mounted() {
-    window.addEventListener('scroll', this.handleScroll, true)
+    window.addEventListener("scroll", this.handleScroll, true);
   },
   watch: {
     isMobile(newValue, oldValue) {
       //根据分辨率设置分页样式
       if (newValue) {
-        this.page_layout = 'prev, pager, next'
+        this.page_layout = "prev, pager, next";
       } else {
-        this.page_layout = 'prev, pager, next, jumper'
+        this.page_layout = "prev, pager, next, jumper";
       }
-    }
+    },
   },
   methods: {
     handleScroll() {
       //滚动条距离顶部的距离
-      let scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+      let scrollTop =
+        document.body.scrollTop || document.documentElement.scrollTop;
       //窗口高度
-      var windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
+      var windowHeight =
+        document.documentElement.clientHeight || document.body.clientHeight;
       //页面高度
-      var scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
-      if ((windowHeight + scrollTop + 10) >= scrollHeight) {
-        this.onScrollBottom()
+      var scrollHeight =
+        document.documentElement.scrollHeight || document.body.scrollHeight;
+      if (windowHeight + scrollTop + 10 >= scrollHeight) {
+        this.onScrollBottom();
       }
     },
     //函数节流
@@ -78,42 +83,44 @@ export default {
           fn.apply(this);
           canRun = true;
         }, interval);
-      }
+      };
     },
     //页面滑动到底部事件
     onScrollBottom() {
       if (this.page_total > this.page_size * this.page_index) {
         this.bottomTip = "加载中...";
-        this.throttle(()=>{
+        this.throttle(() => {
           this.addTableList();
           this.bottomTip = "";
-        })()
-      }else{
+        })();
+      } else {
         this.bottomTip = "没有更多内容了";
       }
     },
-    addTableList(){
-      this.page_index += 1
-      this.getTableList()
+    addTableList() {
+      this.page_index += 1;
+      this.getTableList();
     },
     //获取帖子列表
     async getTableList() {
-      await this.$http.get('/api/table/pageList', {
-        pageIndex: this.page_index,
-        pageSize: this.page_size
-      }).then((data) => {
-        this.posts = this.posts.concat(data.data)
-        console.log(this.posts)
-      })
+      await this.$http
+        .get("/api/table/pageList", {
+          pageIndex: this.page_index,
+          pageSize: this.page_size,
+        })
+        .then((data) => {
+          this.posts = this.posts.concat(data.data);
+          console.log(this.posts);
+        });
     },
     // 获取帖子总数量
     async getTableTotal() {
-      await this.$http.get('/api/table/count').then((data) => {
-        this.page_total = data.data
-      })
-    }
-  }
-}
+      await this.$http.get("/api/table/count").then((data) => {
+        this.page_total = data.data;
+      });
+    },
+  },
+};
 </script>
 
 <!--<style src="../../assets/css/posts.css"></style>-->
@@ -123,6 +130,9 @@ export default {
 }
 
 .bottom-tip {
-  font-size: xxx-large;
+  font-size: 16px;
+  text-align: center;
+  color: #999;
+  margin-bottom: 20px;
 }
 </style>
