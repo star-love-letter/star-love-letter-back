@@ -150,9 +150,6 @@ export default {
   mounted() {
   },
   methods: {
-    handlePictureExceed() {
-      this.$message.warning("最多只能上传9张图片");
-    },
     submitForm(formName) {
       this.$refs[formName].validate(async (valid) => {
         if (!valid) {
@@ -194,8 +191,6 @@ export default {
         checkCode(data)
         //添加到图片键值对
         this.addLove.uploadImageMap[file.uid] = data.data;
-        console.log(file)
-        console.log(this.addLove.uploadImageMap)
       } catch {
         //显示错误信息
         showError(data)
@@ -212,6 +207,9 @@ export default {
           break;
         }
       }
+    },
+    handlePictureExceed() {
+      this.$message.warning("最多只能上传" + this.$refs.upload.limit + "张图片");
     }
   }
 }

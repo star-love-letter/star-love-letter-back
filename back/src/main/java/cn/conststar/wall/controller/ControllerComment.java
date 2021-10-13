@@ -51,7 +51,7 @@ public class ControllerComment {
             @ApiParam("页大小") @RequestParam("pageSize") int pageSize,
             @ApiParam("token") @RequestHeader(value = "token", required = false) String token) throws Exception {
 
-        int userId = serviceUser.getUserId(token);
+        int userId = serviceUser.getUserIdNoException(token);
         List<PojoComment> comments = serviceComment.getCommentsPage(tableId, pageIndex, pageSize, userId);
 
         return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, comments);
@@ -63,7 +63,7 @@ public class ControllerComment {
             @ApiParam("帖子id") @RequestParam("tableId") int tableId,
             @ApiParam("token") @RequestHeader(value = "token", required = false) String token) throws Exception {
 
-        int userId = serviceUser.getUserId(token);
+        int userId = serviceUser.getUserIdNoException(token);
         int count = serviceComment.getCount(tableId, userId);
 
         return ResponseFormat.retParam(ResponseCodeEnums.CODE_200, count);

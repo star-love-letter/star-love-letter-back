@@ -25,7 +25,7 @@ export default {
       // 当前页
       page_index: 1,
       // 每个页面的内容数量
-      page_size: 10,
+      page_size: 30,
       // 总条目数
       page_total: 0,
       // 分页样式
@@ -42,7 +42,6 @@ export default {
     //获取当前是否为手机端
     this.isMobile = this.getIsMobile();
 
-    this.getTableTotal();
     this.getTableList();
   },
   mounted() {
@@ -110,7 +109,7 @@ export default {
         })
         .then((data) => {
           this.posts = this.posts.concat(data.data);
-          console.log(this.posts);
+          this.getTableTotal();
         });
     },
     // 获取帖子总数量

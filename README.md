@@ -24,7 +24,7 @@
 
 ### 演示📌
 
-[演示页面（功能不完整）](http://wall.conststar.cn)
+[演示页面（待完善）](http://wall.conststar.cn)
 
 
 
@@ -134,7 +134,7 @@
 
 ##### 后端 
 
-- [@conststar](https://github.com/conststar)
+- [@constStar](https://github.com/constStar)
 
 ##### 前端
 

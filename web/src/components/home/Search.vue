@@ -37,7 +37,7 @@ export default {
       // 当前页
       page_index: 1,
       // 每个页面的内容数量
-      page_size: 4,
+      page_size: 30,
       // 查询帖子数量
       page_total: 0,
       // 分页样式
@@ -78,7 +78,6 @@ export default {
         })
         .then((data) => {
           this.posts = data.data;
-          this.$message.success(data.message);
           this.getSearchTotal();
         });
     },

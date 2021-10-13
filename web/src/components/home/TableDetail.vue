@@ -2,7 +2,7 @@
   <div style="width: 100%; margin: 0px auto">
     <div class="container">
       <div>
-        <Table :item="TableData" :is-detail="true"> </Table>
+        <Table :item="TableData" :is-detail="true"></Table>
       </div>
       <div style="border: 1px solid rgb(193 193 193)">
         <div id="inputComment" class="input-comment" v-if="inputCommentShow">
@@ -40,7 +40,7 @@
                 <i class="el-icon-plus"></i>
               </el-upload>
               <el-dialog :visible.sync="dialogVisible">
-                <img width="100%" :src="dialogImageUrl" alt="" />
+                <img width="100%" :src="dialogImageUrl" alt=""/>
               </el-dialog>
             </el-form-item>
             <button @click="addComment('inputCommentRef')">发布评论</button>
@@ -56,7 +56,8 @@
                 @click="inputCommentShow = !inputCommentShow"
                 type="primary"
                 plain
-                >发布评论</el-button
+              >发布评论
+              </el-button
               >
             </div>
             <Comment v-for="item in TableComment" :key="item.id" :item="item">
@@ -70,11 +71,12 @@
 </template>
 
 <script>
-import { checkCode, showError } from "../../utils/http";
+import {checkCode, showError} from "../../utils/http";
 import axios from "axios";
 import Comment from "../module/Comment.vue";
+
 export default {
-  components: { Comment },
+  components: {Comment},
   data() {
     return {
       // 接收从post传过来的单个帖子id
@@ -132,7 +134,6 @@ export default {
           pageSize: this.page_size,
         })
         .then((data) => {
-          console.log(data);
           this.TableComment = data.data;
         });
     },
@@ -163,7 +164,6 @@ export default {
             ),
           })
           .then((data) => {
-            console.log(data);
             this.getComment();
             this.$message.success("发布成功");
           });
@@ -196,8 +196,6 @@ export default {
         checkCode(data);
         //添加到图片键值对
         this.inputComment.uploadImageMap[file.uid] = data.data;
-        console.log(file);
-        console.log(this.inputComment.uploadImageMap);
       } catch {
         //显示错误信息
         showError(data);
@@ -216,7 +214,7 @@ export default {
       }
     },
     handlePictureExceed() {
-      this.$message.warning("最多只能上传9张图片");
+      this.$message.warning("最多只能上传" + this.$refs.upload.limit + "张图片");
     },
   },
 };
