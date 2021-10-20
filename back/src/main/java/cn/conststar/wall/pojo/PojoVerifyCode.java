@@ -46,7 +46,7 @@ public class PojoVerifyCode {
     public static final int EMAIL_VERIFY_EXCEED = 5;
 
     //旋转验证码精度
-    public static final int ROTATE_VERIFY_ANGLE = 5;
+    public static final int ROTATE_VERIFY_ANGLE = 20;
 
     //构造函数
     public PojoVerifyCode() {
@@ -67,6 +67,8 @@ public class PojoVerifyCode {
 
     //判断 旋转验证码
     public boolean isVerifyRotateCode(int code) {
+        code = (code + 360) % 360;
+
         if (code == rotateCode)
             return true;
 
@@ -163,11 +165,11 @@ public class PojoVerifyCode {
 
         UtilsEmail.sendAsync("星愿表白墙-验证码",
                 "<div class=\"content_head\"><span>邮箱验证码</span></div>" +
-                "<div class=\"content_body\">" +
-                "<p>您请求的邮箱验证码为：<span class=\"code\">" + code + "</span></p>" +
-                "<p>请在网页中填写，完成验证。</p>" +
-                "<p>(验证码2小时内有效)</p>" +
-                "<p style=\"margin-top:15px;\">如果此验证码非您本人所请求，请直接忽视。</p></div>",
+                        "<div class=\"content_body\">" +
+                        "<p>您请求的邮箱验证码为：<span class=\"code\">" + code + "</span></p>" +
+                        "<p>请在网页中填写，完成验证。</p>" +
+                        "<p>(验证码2小时内有效)</p>" +
+                        "<p style=\"margin-top:15px;\">如果此验证码非您本人所请求，请直接忽视。</p></div>",
                 email, "星愿表白墙");
 
         //累加获取次数

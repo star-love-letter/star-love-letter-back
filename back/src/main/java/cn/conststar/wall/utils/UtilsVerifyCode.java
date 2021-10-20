@@ -284,6 +284,7 @@ public class UtilsVerifyCode {
 
         ImageIO.write(image, "png", out);
 
-        return angel;
+        //返回逆向的数值作为验证码
+        return 360 - angel;
     }
 }
