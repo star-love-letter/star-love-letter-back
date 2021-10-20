@@ -118,7 +118,7 @@
 
 ### 开源许可证📝
 
-[GPL-3.0 license](/LICENSE)
+[MIT License](/LICENSE)
 
 
 
