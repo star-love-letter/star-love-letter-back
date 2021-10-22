@@ -36,7 +36,7 @@
     </div>
 
     <div class="info">
-      <div v-if="item.userPublic!=undefined" class="user">表白者：{{ item.userPublic.name }}</div>
+      <div v-if="item.userPublic!==undefined" class="user">表白者：{{ item.userPublic.name }}</div>
       <div class="create-time">{{ this.toDates(item.createTime) }}</div>
     </div>
 
