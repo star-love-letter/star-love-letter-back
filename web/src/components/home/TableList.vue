@@ -129,9 +129,10 @@ export default {
 }
 
 .bottom-tip {
-  font-size: 16px;
+  font-size: 14px;
   text-align: center;
   color: #999;
   margin-bottom: 20px;
+  font-weight: bold;
 }
 </style>
