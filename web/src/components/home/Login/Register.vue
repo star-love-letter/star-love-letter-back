@@ -29,7 +29,7 @@
             <!--     按钮弹出框       -->
             <el-popover
               placement="top"
-              title="标题"
+              :title="popoverTitle"
               width="400"
               trigger="manual"
               v-model="showPopper">
@@ -76,6 +76,7 @@
       };
       return {
         flag: false,
+        popoverTitle: '获取邮箱验证码，拖动滑块，使图片角度为正',
         //是否显示旋转验证码
         showRotateCode: true,
         //显示弹出框
@@ -141,15 +142,16 @@
           angle: this.rotateAngle
         }).then((data) => {
           this.$message.success(data.message);
-          console.log(data);
           setTimeout(() => {
-            this.showRotateCode = false
+            this.showRotateCode = false;
+            this.popoverTitle='请输入邮箱验证码'
           }, 1000)
         }).catch(() => {
           this.rotateAngle = 0;
           this.sliderValue = 0;
           this.flag = false;
           this.minusAngle = false;
+          this.getRotateCode()
         })
       },
       //获取旋转验证码
@@ -159,7 +161,6 @@
             await this.$http.get('/api/user/rotateCode', {
               email: this.RegisterFrom.email
             }).then((data) => {
-              console.log(data);
               this.rotateCodeUrl = data.data;
               this.showPopper = true
             });
@@ -185,8 +186,8 @@
             name: this.RegisterFrom.userName,
             emailCode: this.RegisterFrom.emailCode
           }).then((data) => {
-            console.log(data);
-            this.$message.success(data.message)
+            this.$message.success(data.message);
+            this.$router.push('./Login')
           })
       },
     },
