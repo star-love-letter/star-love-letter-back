@@ -1,5 +1,8 @@
 package cn.conststar.wall.utils;
 
+import cn.conststar.wall.exception.ExceptionMain;
+import cn.conststar.wall.response.ResponseCodeEnums;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -273,8 +276,12 @@ public class UtilsVerifyCode {
             return true;
         });
 
-        Random r = new Random();
+        assert list != null;
+        if(list.length==0){
+            throw new ExceptionMain("图片库为空", ResponseCodeEnums.CODE_50001);
+        }
 
+        Random r = new Random();
         int index = r.nextInt(list.length);
         File imageFile = new File(imageDirectory, list[index]);
 
