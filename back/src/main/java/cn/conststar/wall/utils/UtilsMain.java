@@ -4,47 +4,59 @@ import cn.conststar.wall.exception.ExceptionMain;
 import cn.conststar.wall.response.ResponseCodeEnums;
 import org.apache.log4j.Logger;
 
-import java.io.File;
+import java.io.*;
+import java.net.URL;
+import java.nio.file.Files;
 import java.util.*;
 
 public class UtilsMain {
 
     public static Logger logger = Logger.getLogger(UtilsMain.class);
 
+    static {
+        //检测初始资源
+        File imageDirectory = UtilsMain.getConfCodeImageDirectory();
+        String[] imageList = imageDirectory.list((dir, name) -> {
+            if (!new File(dir, name).isFile())
+                return false;
 
-//    public static String _key;
-//
-//    static {
-//        _key = UUID.randomUUID().toString() + new Random().nextLong();
-//    }
+            if (!name.toLowerCase().endsWith(".png"))
+                return false;
+
+            return true;
+        });
+
+        assert imageList != null;
+        //如果旋转验证码图片为空 则导出默认图片
+        if (imageList.length == 0) {
+            URL resource = UtilsMain.class.getResource("/data/codeImage");
+            assert resource != null;
+            File dir = new File(resource.getFile());
+            System.out.println(Arrays.toString(dir.list()));
+            for (File image : Objects.requireNonNull(dir.listFiles())) {
+                if (image.isFile()) {
+                    try {
+                        Files.copy(image.toPath(), new File(imageDirectory, image.getName()).toPath());
+                    } catch (IOException e) {
+                        logger.error("资源初始化错误:" + image.getName());
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+
+        System.out.println("资源初始化完成!");
+    }
 
     public static String getUUID() {
         return UUID.randomUUID().toString().replaceAll("-", "");
     }
 
-//    public static String HMACSHA256(String data) throws Exception {
-//        return HMACSHA256(data, _key);
-//    }
-//
-//    public static String HMACSHA256(String data, String key) throws Exception {
-//        Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
-//        SecretKeySpec secret_key = new SecretKeySpec(key.getBytes("UTF-8"), "HmacSHA256");
-//        sha256_HMAC.init(secret_key);
-//
-//        byte[] array = sha256_HMAC.doFinal(data.getBytes("UTF-8"));
-//        StringBuilder sb = new StringBuilder();
-//        for (byte item : array) {
-//            sb.append(Integer.toHexString((item & 0xFF) | 0x100).substring(1, 3));
-//        }
-//        return sb.toString().toUpperCase();
-//
-//    }
-//
-    public static String base64(String src){
+    public static String base64(String src) {
         return Base64.getEncoder().encodeToString(src.getBytes());
     }
 
-    public static String deBase64(String src){
+    public static String deBase64(String src) {
         return new String(Base64.getDecoder().decode(src));
     }
 
@@ -90,7 +102,7 @@ public class UtilsMain {
     }
 
     //获取配置图片验证码目录
-    public static String getConfCodeImagePath(){
+    public static String getConfCodeImagePath() {
         return getConfPath() + "/codeImage";
 //        return "D:\\用户文档\\图片\\codeImage"; //test
     }
@@ -109,7 +121,6 @@ public class UtilsMain {
     public static String getDataImagePath() {
         return getDataPath() + "/image";
     }
-
 
 
     //将图片 从临时文件夹 添加到 数据文件夹

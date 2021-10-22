@@ -12,7 +12,7 @@
     </select>
 
     <sql id="whereid">
-            (email = #{id} or CAST(id AS char) = #{id})
+            (email = #{id} or CAST (id AS char) = #{id})
     </sql>
 
 
@@ -24,7 +24,7 @@
 
     <insert id="addUserByEmail">
         insert into `user` (email, password, name, status, last_time, create_time)
-        values (#{email}, password(#{password}), #{status}, #{name}, now(), now());
+        values (#{email}, password(#{password}), #{name}, #{status}, now(), now());
     </insert>
 
     <insert id="addUserByWeChat">

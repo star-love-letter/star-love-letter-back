@@ -91,7 +91,7 @@ public class ServiceTable implements MapperTable {
 
         int line = mapperTable.addTable(userId, anonymous, sender, senderSex, recipient, recipientSex, content, images, notifyEmail, status);
         if (line != 1) {
-            throw new ExceptionMain("数据库操作失败，数据库添加行数为" + line, ResponseCodeEnums.CODE_50002); //wait
+            throw new ExceptionMain("数据库操作失败，数据库添加行数为" + line, ResponseCodeEnums.CODE_50002);
         }
 
         //发布成功后移动图片

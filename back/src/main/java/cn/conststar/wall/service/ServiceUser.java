@@ -198,7 +198,7 @@ public class ServiceUser implements MapperUser {
         int line = mapperUser.addUserByEmail(email, password, name, status);
 
         if (line != 1) {
-            throw new ExceptionMain("数据库操作失败，数据库添加行数为" + line, ResponseCodeEnums.CODE_50002); //wait
+            throw new ExceptionMain("数据库操作失败，数据库添加行数为" + line, ResponseCodeEnums.CODE_50002);
         }
         return line;
     }
@@ -222,7 +222,7 @@ public class ServiceUser implements MapperUser {
         int line = mapperUser.addUserByWeChat(openId, password, name, status);
 
         if (line != 1) {
-            throw new ExceptionMain("数据库操作失败，数据库添加行数为" + line, ResponseCodeEnums.CODE_50002); //wait
+            throw new ExceptionMain("数据库操作失败，数据库添加行数为" + line, ResponseCodeEnums.CODE_50002);
         }
         return line;
     }
