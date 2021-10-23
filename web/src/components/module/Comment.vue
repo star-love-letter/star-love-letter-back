@@ -35,7 +35,6 @@ export default {
     getImgList() {
       if (!this.item.images) return;
       this.imgList = JSON.parse(this.item.images);
-      console.log(this.imgList);
     },
   },
 };

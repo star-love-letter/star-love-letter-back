@@ -60,7 +60,7 @@
       <!--   是否邮箱通知     -->
       <div class="notify_email">
         <span style="margin-right: 10px">是否开启邮箱通知</span>
-        <el-switch v-model="notifyEmail"></el-switch>
+        <el-switch v-model="addLove.notifyEmail"></el-switch>
       </div>
     </div>
     <div class="button">
@@ -223,6 +223,7 @@ h3 {
   margin-bottom: 20px;
   padding-bottom: 20px;
   border-bottom: 1px solid #9e9e9e;
+  font-weight: bold;
 }
 
 .el-form-item__label {

@@ -28,15 +28,20 @@
                   :src="imagePath + img"
                   fit="cover"></el-image>
       </div>
-      <div class="image-box" v-else>
-        <el-image :key="img" v-for="img in this.imgList" style="width: 222px; height: 222px"
+      <div class="image-box" v-else :key="img" v-for="img in this.imgList">
+        <el-image style="width: 222px; height: 222px"
                   :src="imagePath + img"
-                  fit="cover"></el-image>
+                  fit="cover" @click="imgVisible = true"></el-image>
+        <el-dialog :visible.sync="imgVisible">
+          <img width="100%" :src="imagePath + img" alt="">
+        </el-dialog>
       </div>
     </div>
 
+
     <div class="info">
-      <div v-if="item.userPublic!==undefined" class="user">表白者：{{ item.userPublic.name }}</div>
+      <div v-if="item.anonymous===true" class="user">表白者：[匿名]</div>
+      <div v-else class="user">表白者：{{ item.userPublic.name }}</div>
       <div class="create-time">{{ this.toDates(item.createTime) }}</div>
     </div>
 
@@ -97,250 +102,251 @@
 </template>
 
 <script>
-import QRCode from 'qrcodejs2'
+  import QRCode from 'qrcodejs2'
 
-export default {
-  data() {
-    return {
-      imagePath: axios.defaults.baseURL + '/api/file/image/',
-      QRVisible: false,
-      TableId: '',
-      url: '',
-      flag: true,
-      CommentTotal: '',
-      //  图片列表
-      imgList: []
-    }
-  },
-  name: 'Table',
-
-  //item 内容
-  //isDetail 是否为详情页
-  //          详情页没有点击进入详情页功能
-  props: ['item', 'isDetail', 'id'],
-  methods: {
-    // 点击喜欢按钮
-    async thumbs_up() {
-      await this.$http.put('/api/table/support', {
-        tableId: this.item.id
-      }).then((data) => {
-        this.$message.success(data.message)
-        this.getTableData()
-      })
-    },
-    // 点击取消喜欢按钮
-    async un_thumbs_up() {
-      await this.$http.delete('/api/table/support', {
-        tableId: this.item.id
-      }).then((data) => {
-        this.$message.success(data.message)
-        this.getTableData()
-      })
-    },
-    //根据id获取帖子数据
-    async getTableData() {
-      await this.$http.get('/api/table/table', {
-        id: this.item.id
-      }).then((data) => {
-        this.item = data.data
-      })
-    },
-    // 解析图片列表
-    getImgList() {
-      if(!this.item.images) return
-      this.imgList = JSON.parse(this.item.images)
-    },
-    // 打开详情页
-    goTableDetail() {
-      if (this.isDetail)
-        return;
-      this.$router.push({
-        name: 'TableDetail',
-        params: {'id': this.item.id}
-      })
-    },
-    //搜索
-    goSearch(keyword) {
-      this.$router.push({
-        name: 'Search',
-        params: {keyword: keyword}
-      })
-    },
-    // 显示分享页面
-    showQrCode() {
-      this.QRVisible = true
-      this.TableId = this.item.id
-    },
-    // 创建二维码的函数
-    creatQrCode() {
-      this.$nextTick(() => {
-        // 获取不带路径的url地址
-        var origin = window.location.origin
-        const url = origin + '/#/TableDetail/' + this.TableId
-        this.url = url
-        this.$refs.qrCodeUrl.innerHTML = '' //清空原有的二维码
-        var qrcode = new QRCode(this.$refs.qrCodeUrl, {
-          text: url, // 需要转换为二维码的内容
-          width: 100,
-          height: 100,
-          colorDark: '#0099ce',
-          colorLight: '#ffffff',
-          correctLevel: QRCode.CorrectLevel.H
-        })
-      })
-    },
-    copyUrl() {
-      var ele = this.$refs.urlText
-      ele.select()
-      document.execCommand('Copy')
-      this.$message.success('复制链接成功！')
-    }
-  },
-  created() {
-    this.getImgList()
-  },
-  watch: {
-    QRVisible: function (val, oldVal) {
-      if (val === true) {
-        this.creatQrCode()
+  export default {
+    data() {
+      return {
+        imgVisible: false,
+        imagePath: axios.defaults.baseURL + '/api/file/image/',
+        QRVisible: false,
+        TableId: '',
+        url: '',
+        flag: true,
+        CommentTotal: '',
+        //  图片列表
+        imgList: []
       }
     },
-    item: function (val, oldVal) {
+    name: 'Table',
+
+    //item 内容
+    //isDetail 是否为详情页
+    //          详情页没有点击进入详情页功能
+    props: ['item', 'isDetail', 'id'],
+    methods: {
+      // 点击喜欢按钮
+      async thumbs_up() {
+        await this.$http.put('/api/table/support', {
+          tableId: this.item.id
+        }).then((data) => {
+          this.$message.success(data.message)
+          this.getTableData()
+        })
+      },
+      // 点击取消喜欢按钮
+      async un_thumbs_up() {
+        await this.$http.delete('/api/table/support', {
+          tableId: this.item.id
+        }).then((data) => {
+          this.$message.success(data.message)
+          this.getTableData()
+        })
+      },
+      //根据id获取帖子数据
+      async getTableData() {
+        await this.$http.get('/api/table/table', {
+          id: this.item.id
+        }).then((data) => {
+          this.item = data.data
+        })
+      },
+      // 解析图片列表
+      getImgList() {
+        if (!this.item.images) return
+        this.imgList = JSON.parse(this.item.images)
+      },
+      // 打开详情页
+      goTableDetail() {
+        if (this.isDetail)
+          return;
+        this.$router.push({
+          name: 'TableDetail',
+          params: {'id': this.item.id}
+        })
+      },
+      //搜索
+      goSearch(keyword) {
+        this.$router.push({
+          name: 'Search',
+          params: {keyword: keyword}
+        })
+      },
+      // 显示分享页面
+      showQrCode() {
+        this.QRVisible = true
+        this.TableId = this.item.id
+      },
+      // 创建二维码的函数
+      creatQrCode() {
+        this.$nextTick(() => {
+          // 获取不带路径的url地址
+          var origin = window.location.origin
+          const url = origin + '/#/TableDetail/' + this.TableId
+          this.url = url
+          this.$refs.qrCodeUrl.innerHTML = '' //清空原有的二维码
+          var qrcode = new QRCode(this.$refs.qrCodeUrl, {
+            text: url, // 需要转换为二维码的内容
+            width: 100,
+            height: 100,
+            colorDark: '#0099ce',
+            colorLight: '#ffffff',
+            correctLevel: QRCode.CorrectLevel.H
+          })
+        })
+      },
+      copyUrl() {
+        var ele = this.$refs.urlText
+        ele.select()
+        document.execCommand('Copy')
+        this.$message.success('复制链接成功！')
+      }
+    },
+    created() {
       this.getImgList()
+    },
+    watch: {
+      QRVisible: function (val, oldVal) {
+        if (val === true) {
+          this.creatQrCode()
+        }
+      },
+      item: function (val, oldVal) {
+        this.getImgList()
+      }
     }
   }
-}
 </script>
 
 <style scoped>
-/deep/ .el-breadcrumb__separator {
-  color: red;
-}
+  /deep/ .el-breadcrumb__separator {
+    color: red;
+  }
 
-.item-content {
-  min-height: 60px;
-  padding-bottom: 10px;
-  margin-bottom: 20px;
-}
+  .item-content {
+    min-height: 60px;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
 
 
-.image-box {
-  display: inline-block;
-}
+  .image-box {
+    display: inline-block;
+  }
 
-.el-breadcrumb {
-  display: flex;
-  justify-content: center;
-  padding-bottom: 1.25rem;
-  border-bottom: 0.05rem solid #999;
-}
+  .el-breadcrumb {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 1.25rem;
+    border-bottom: 0.05rem solid #999;
+  }
 
-.el-image {
-  margin: 2px;
-}
+  .el-image {
+    margin: 2px;
+  }
 
-/* 内容列表整体框的样式 */
-.post {
-  height: auto;
-  background-color: #fff;
-  padding: 10px;
-  box-sizing: border-box;
-  box-shadow: 0 0 1px #000 inset;
-  display: block;
-}
+  /* 内容列表整体框的样式 */
+  .post {
+    height: auto;
+    background-color: #fff;
+    padding: 10px;
+    box-sizing: border-box;
+    box-shadow: 0 0 1px #000 inset;
+    display: block;
+  }
 
-.post:last-child {
-  margin-bottom: 0.6rem;
-}
+  .post:last-child {
+    margin-bottom: 0.6rem;
+  }
 
-/* 一个内容的样式 */
-.content-box {
-  padding: 0.8rem;
-  margin-top: 1.25rem;
-  width: 100%;
-  height: 45%;
-  word-wrap: break-word;
-  box-shadow: 1px 1px 5px #CCCCCC70;
-}
+  /* 一个内容的样式 */
+  .content-box {
+    padding: 0.8rem;
+    margin-top: 1.25rem;
+    width: 100%;
+    height: 45%;
+    word-wrap: break-word;
+    box-shadow: 1px 1px 5px #CCCCCC70;
+  }
 
-/* 内容里面的按钮数组 */
-.el-button-group {
-  display: flex;
-  justify-content: center;
-}
+  /* 内容里面的按钮数组 */
+  .el-button-group {
+    display: flex;
+    justify-content: center;
+  }
 
-.info {
-  display: flex;
-  justify-content: flex-start;
-}
+  .info {
+    display: flex;
+    justify-content: flex-start;
+  }
 
-/* 表白者用户信息 */
-.user {
-  display: inline-block;
-  color: #ff8686;
-  font-size: 0.8rem;
-  margin-top: 1.25rem;
-  margin-bottom: 1.25rem;
-  margin-left: 0.6rem;
-  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
-}
+  /* 表白者用户信息 */
+  .user {
+    display: inline-block;
+    color: #ff8686;
+    font-size: 0.8rem;
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+    margin-left: 0.6rem;
+    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  }
 
-/* 创建时间的样式 */
-.create-time {
-  color: #999;
-  font-size: 0.8rem;
-  margin: 1.25rem 0.6rem 1.25rem auto;
-  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
-}
+  /* 创建时间的样式 */
+  .create-time {
+    color: #999;
+    font-size: 0.8rem;
+    margin: 1.25rem 0.6rem 1.25rem auto;
+    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  }
 
-.gender div {
-  display: inline-block;
-  vertical-align: -0.187rem;
-}
+  .gender div {
+    display: inline-block;
+    vertical-align: -0.187rem;
+  }
 
-.gender div i {
-  font-size: 1.25rem;
-}
+  .gender div i {
+    font-size: 1.25rem;
+  }
 
-/deep/ .el-dialog__body {
-  display: flex;
-  justify-content: center;
-}
+  /deep/ .el-dialog__body {
+    display: flex;
+    justify-content: center;
+  }
 
-.name {
-  font-weight: bold;
-  color: #303133;
-  cursor: pointer;
+  .name {
+    font-weight: bold;
+    color: #303133;
+    cursor: pointer;
 
-  display: inline-block;
-  margin-left: 0.6rem;
-  margin-right: 0.6rem;
-}
+    display: inline-block;
+    margin-left: 0.6rem;
+    margin-right: 0.6rem;
+  }
 
-#thumbsFalse {
-  /*color: #606266;*/
-  /*border-color: #DCDFE6;*/
-  /*background-color: #FFF;*/
-  color: #409EFF;
-  border-color: #c6e2ff;
-  background-color: #ecf5ff;
-}
+  #thumbsFalse {
+    /*color: #606266;*/
+    /*border-color: #DCDFE6;*/
+    /*background-color: #FFF;*/
+    color: #409EFF;
+    border-color: #c6e2ff;
+    background-color: #ecf5ff;
+  }
 
-#thumbsFalse:hover {
-  color: #409EFF;
-  border-color: #c6e2ff;
-  background-color: #ecf5ff;
-}
+  #thumbsFalse:hover {
+    color: #409EFF;
+    border-color: #c6e2ff;
+    background-color: #ecf5ff;
+  }
 
-#thumbsTrue:focus {
-  color: #606266;
-  border-color: #DCDFE6;
-  background-color: #FFF;
-}
+  #thumbsTrue:focus {
+    color: #606266;
+    border-color: #DCDFE6;
+    background-color: #FFF;
+  }
 
-#thumbsTrue:hover {
-  color: #409EFF;
-  border-color: #c6e2ff;
-  background-color: #ecf5ff;
-}
+  #thumbsTrue:hover {
+    color: #409EFF;
+    border-color: #c6e2ff;
+    background-color: #ecf5ff;
+  }
 </style>

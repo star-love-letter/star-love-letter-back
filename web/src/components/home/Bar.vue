@@ -193,6 +193,8 @@ export default {
   color: #555;
   overflow: hidden;
   z-index: 998;
+  box-shadow: 5px 5px 10px #999;
+  border: 1px solid #e4e4e4;
 
   ul {
     margin-top: 30px;

@@ -47,16 +47,6 @@ export default {
   mounted() {
     window.addEventListener("scroll", this.handleScroll, true);
   },
-  watch: {
-    isMobile(newValue, oldValue) {
-      //根据分辨率设置分页样式
-      if (newValue) {
-        this.page_layout = "prev, pager, next";
-      } else {
-        this.page_layout = "prev, pager, next, jumper";
-      }
-    },
-  },
   methods: {
     handleScroll() {
       //滚动条距离顶部的距离
