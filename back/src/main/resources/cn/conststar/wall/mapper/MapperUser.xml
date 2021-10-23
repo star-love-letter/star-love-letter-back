@@ -5,16 +5,16 @@
 
 <mapper namespace="cn.conststar.wall.mapper.MapperUser">
 
+    <sql id="whereid">
+        (email = #{id} or CAST(id AS char) = #{id})
+    </sql>
+
+
     <select id="getUser" resultType="PojoUser">
         select *
         from `user`
         where token = #{token};
     </select>
-
-    <sql id="whereid">
-            (email = #{id} or CAST (id AS char) = #{id})
-    </sql>
-
 
     <select id="getUserPublic" resultType="PojoUserPublic">
         select *
@@ -75,14 +75,14 @@
     <update id="loginByWeChat">
         update `user`
         set `last_time`= now(),
-            `token`    = #{token}
+        `token` = #{token}
         where wechat = #{openId};
     </update>
 
     <update id="logout">
         update `user`
         set `last_time`= now(),
-            token      = null
+        token = null
         where token = #{token};
     </update>
 </mapper>
