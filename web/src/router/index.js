@@ -22,7 +22,10 @@ VueRouter.prototype.push = function push(location) {
 const routes = [
   {
     path: '/',
-    redirect: '/TableList'
+    redirect: '/TableList',
+    meta:{
+      title: '首页'
+    }
   },
   {
     path: '/Login',

@@ -38,6 +38,14 @@ Vue.use(vueBaberrage);
 
 Vue.config.productionTip = false;
 
+
+Vue.directive('title', {
+  inserted: function (el, binding) {
+    document.title = el.dataset.title
+  }
+})
+
+
 // 定义全局函数
 Vue.prototype.isNull = function (obj) {
   return obj === '' || obj === undefined || obj === null || (obj != null && obj.length === 0);
@@ -61,26 +69,6 @@ Vue.prototype.setToken = function (token) {
 
 // 全局变量
 Vue.prototype.g_token = '';
-
-
-//检查状态码
-Vue.prototype.code = function (res) {
-  if (res === 0) {
-    return true
-  }
-  if (res === 100) {
-    this.$message.info('默认错误')
-    return false
-  }
-  if (res === 101) {
-    this.$message.error('账号或密码错误')
-    return false
-  }
-  if (res === 200) {
-    this.$message.error('致命')
-    return false;
-  }
-};
 
 // 将时间戳转换为时间
 Vue.prototype.toDates = function (times) {

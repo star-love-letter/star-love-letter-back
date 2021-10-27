@@ -48,7 +48,9 @@
     </div>
 
     <div class="info">
-      <div v-if="item.anonymous === true || item.userPublic === undefined" class="user">表白者：[匿名]</div>
+      <div v-if="item.anonymous === true || item.userPublic === undefined" class="user">
+        表白者：<span style="color: #999;font-weight: bold">[匿名]</span>
+      </div>
       <div v-else class="user">表白者：{{ item.userPublic.name }}</div>
       <div class="create-time">{{ this.toDates(item.createTime) }}</div>
     </div>
@@ -168,7 +170,7 @@
         let imgSrc = JSON.parse(this.item.images);
 
         for (let i = 0; i < imgSrc.length; i++) {
-            this.imgList.push(this.imagePath + imgSrc[i]);
+          this.imgList.push(this.imagePath + imgSrc[i]);
         }
       },
       // 打开详情页

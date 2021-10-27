@@ -1,5 +1,5 @@
 <template>
-  <el-container class="home-container">
+  <el-container class="home-container" v-title data-title="你的校园小情书 — 星愿墙">
     <el-header v-if="isMobile==false">
       <img src="../../assets/logo1.png" alt="" class="logo">
       <el-menu class="menu" :default-active="activeIndex" mode="horizontal" @select="handleSelect"

@@ -1,5 +1,5 @@
 <template>
-  <div class="login_container">
+  <div class="login_container" v-title data-title="登录 — 星愿墙">
     <div class="login_box">
       <!--   头像区域   -->
       <div class="avatar_box">
