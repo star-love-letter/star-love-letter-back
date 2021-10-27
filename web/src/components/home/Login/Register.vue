@@ -36,18 +36,15 @@
                 <div class="popover-close" @click="showPopper = false">+</div>
                 <div class="popover-title">
                   <div class="popover-title-top">
-                    获取邮箱验证码
+                    {{popoverTitle}}
                   </div>
-                  {{popoverTitle}}
                 </div>
-                <el-image class="rotate-code" :style="{transform:'rotate('+rotateAngle + 'deg)'}" :src="rotateCodeUrl"
-                          fit="cover"></el-image>
-                <el-slider v-model="sliderValue" :show-tooltip="false" max="90"
-                           @change="sliderChange"></el-slider>
+                <Slider :mouseupFun="getEmailCode" :status="rangeStatus" :img-url="rotateCodeUrl"
+                        @rotateAngle='(data)=> rotateAngle = parseInt(data)'></Slider>
               </div>
               <div class="popover-container popover-emailCode" v-else>
                 <div class="popover-close" @click="showPopper = false">+</div>
-                <div class="popover-title">
+                <div class="popover-title-top">
                   {{popoverTitle}}
                 </div>
                 <el-input
@@ -89,8 +86,10 @@
         }
       };
       return {
-        flag: false,
+        //判断图片是否为正
+        rangeStatus: false,
         timer: null,
+        // status: false,
         //倒计时
         countDown: 60,
         //是否显示倒计时获取邮箱按钮
@@ -98,21 +97,15 @@
         //获取邮箱验证码的按钮文字
         getRotateCodeBtnTxt: '获取邮箱验证码',
         //弹出框的标题
-        popoverTitle: '获取邮箱验证码，拖动滑块，使图片角度为正',
+        popoverTitle: '获取邮箱验证码',
         //是否显示旋转验证码
         showRotateCode: true,
         //显示弹出框
         showPopper: false,
-        //是否减角度
-        minusAngle: false,
         //旋转度数
         rotateAngle: 0,
-        //每次增加的度数
-        everyAngle: 4,
         //图片base64
         rotateCodeUrl: '',
-        //滑块的值
-        sliderValue: '',
         RegisterFrom: {
           userName: '',
           password: '',
@@ -144,29 +137,16 @@
         },
       }
     },
-    watch: {
-      //监听滑块数据的改变
-      sliderValue: function (val, oldVal) {
-        //第一次不执行
-        if (this.flag) {
-          if (oldVal > val && this.minusAngle) {
-            this.rotateAngle -= this.everyAngle
-          } else {
-            this.rotateAngle += this.everyAngle;
-            this.minusAngle = true
-          }
-        }
-        this.flag = true
-      }
-    },
     methods: {
-      //鼠标拖拽松开时触发
-      async sliderChange() {
+      //获取邮箱验证码
+      async getEmailCode() {
+        this.rangeStatus = false;
         await this.$http.get('/api/user/emailCode', {
           email: this.RegisterFrom.email,
           angle: this.rotateAngle
         }).then((data) => {
           this.$message.success(data.message);
+          this.rangeStatus = true;
           setTimeout(() => {
             this.showRotateCode = false;
             this.popoverTitle = '请输入邮箱验证码';
@@ -180,19 +160,18 @@
                 this.showCountDownRotateCode = false;
               }
             }, 1000)
-          }, 1000)
+          }, 1000);
         }).catch(() => {
           this.rotateAngle = 0;
-          this.sliderValue = 0;
-          this.flag = false;
-          this.minusAngle = false;
-          this.getRotateCode()
+          this.rangeStatus = false;
+          this.getRotateCode();
         })
       },
       //获取旋转验证码
       async getRotateCode() {
+        this.rangeStatus = false;
         this.countDown = 60;
-        this.popoverTitle = '获取邮箱验证码，拖动滑块，使图片角度为正';
+        this.popoverTitle = '获取邮箱验证码';
         this.$refs.RegisterFromRef.validate(async (valid) => {
           if (valid) {
             await this.$http.get('/api/user/rotateCode', {
@@ -202,9 +181,6 @@
               this.showPopper = true
             });
             this.rotateAngle = 0;
-            this.sliderValue = 0;
-            this.flag = false;
-            this.minusAngle = false;
             this.showRotateCode = true
           }
         });
@@ -271,12 +247,6 @@
     padding-top: 20px;
   }
 
-  .rotate-code {
-    width: 150px;
-    height: 150px;
-    text-align: center;
-  }
-
   .popover-container {
     text-align: center;
     height: 280px;
@@ -297,7 +267,7 @@
 
   .popover-title-top {
     font-size: 16px;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
     font-weight: bold;
   }
 
@@ -309,12 +279,14 @@
     font-size: 30px;
     cursor: pointer;
   }
-  .go-login{
+
+  .go-login {
     color: #999;
     text-decoration: none;
     border-bottom: 1px solid #fff;
   }
-  .go-login:hover{
+
+  .go-login:hover {
     border-bottom: 1px solid #999;
   }
 </style>

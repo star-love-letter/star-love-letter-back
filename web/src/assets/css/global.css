@@ -3,4 +3,10 @@ html, body, #app {
     margin: 0;
     padding: 0;
     min-width: 1366px;
+    overflow-x: hidden;
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }

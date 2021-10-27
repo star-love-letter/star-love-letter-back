@@ -19,28 +19,36 @@
       </el-breadcrumb-item>
     </el-breadcrumb>
 
-    <div @click="goTableDetail(item.id)" class="content-box">
+    <div @click="goTableDetail(item.id)" class="content-box" v-if="!isDetail">
       <div class="item-content">
         {{ item.content }}
       </div>
-      <div class="image-box" v-if="isDetail===false">
-        <el-image :key="img" v-for="img in this.imgList" style="width: 100px; height: 100px"
-                  :src="imagePath + img"
-                  fit="cover"></el-image>
+      <el-image
+        style="width: 100px; height: 100px"
+        v-for="(item,index) in imgList"
+        :key="index"
+        :src="item"
+        fit="cover"
+      >
+      </el-image>
+    </div>
+    <div @click="goTableDetail(item.id)" class="content-box" v-else>
+      <div class="item-content">
+        {{ item.content }}
       </div>
-      <div class="image-box" v-else :key="img" v-for="img in this.imgList">
-        <el-image style="width: 222px; height: 222px"
-                  :src="imagePath + img"
-                  fit="cover" @click="imgVisible = true"></el-image>
-        <el-dialog :visible.sync="imgVisible">
-          <img width="100%" :src="imagePath + img" alt="">
-        </el-dialog>
-      </div>
+      <el-image
+        style="width: 222px; height: 222px"
+        v-for="(item,index) in imgList"
+        :key="index"
+        :src="item"
+        fit="cover"
+        :preview-src-list="imgList"
+      >
+      </el-image>
     </div>
 
-
     <div class="info">
-      <div v-if="item.anonymous===true" class="user">表白者：[匿名]</div>
+      <div v-if="item.anonymous === true || item.userPublic === undefined" class="user">表白者：[匿名]</div>
       <div v-else class="user">表白者：{{ item.userPublic.name }}</div>
       <div class="create-time">{{ this.toDates(item.createTime) }}</div>
     </div>
@@ -112,7 +120,7 @@
         QRVisible: false,
         TableId: '',
         url: '',
-        flag: true,
+        flag: false,
         CommentTotal: '',
         //  图片列表
         imgList: []
@@ -139,7 +147,7 @@
         await this.$http.delete('/api/table/support', {
           tableId: this.item.id
         }).then((data) => {
-          this.$message.success(data.message)
+          this.$message.success(data.message);
           this.getTableData()
         })
       },
@@ -153,8 +161,15 @@
       },
       // 解析图片列表
       getImgList() {
-        if (!this.item.images) return
-        this.imgList = JSON.parse(this.item.images)
+        if (!this.item.images) {
+          return
+        }
+        // 解析json
+        let imgSrc = JSON.parse(this.item.images);
+
+        for (let i = 0; i < imgSrc.length; i++) {
+            this.imgList.push(this.imagePath + imgSrc[i]);
+        }
       },
       // 打开详情页
       goTableDetail() {
@@ -324,9 +339,6 @@
   }
 
   #thumbsFalse {
-    /*color: #606266;*/
-    /*border-color: #DCDFE6;*/
-    /*background-color: #FFF;*/
     color: #409EFF;
     border-color: #c6e2ff;
     background-color: #ecf5ff;

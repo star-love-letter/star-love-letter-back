@@ -9,11 +9,11 @@ import './assets/Iconiconfont/css/all.css'
 import {vueBaberrage} from 'vue-baberrage'
 import qs from 'qs';
 import {VueMasonryPlugin} from 'vue-masonry';
-Vue.use(VueMasonryPlugin)
+
+Vue.use(VueMasonryPlugin);
 
 //将qs挂载到全局
 Vue.prototype.$qs = qs;
-
 
 
 //挂载全局
@@ -25,10 +25,13 @@ Vue.prototype.$http = http;
 import Barrages from './components/module/Vue-Baberrage'
 // 帖子
 import Table from './components/module/Table'
+//滑块
+import Slider from './components/module/Slider'
 
 Vue.component('barrages', Barrages);
 Vue.component('Table', Table);
 Vue.component('Comment', Comment);
+Vue.component('Slider', Slider);
 
 // 使用模块
 Vue.use(vueBaberrage);
@@ -37,8 +40,8 @@ Vue.config.productionTip = false;
 
 // 定义全局函数
 Vue.prototype.isNull = function (obj) {
-  return obj == '' || obj == undefined || obj == null || (obj != null && obj.length == 0);
-}
+  return obj === '' || obj === undefined || obj === null || (obj != null && obj.length === 0);
+};
 
 //获取token
 Vue.prototype.getToken = function (token) {
@@ -48,16 +51,16 @@ Vue.prototype.getToken = function (token) {
   }
 
   return Vue.prototype.g_token
-}
+};
 
 //设置token
 Vue.prototype.setToken = function (token) {
   Vue.prototype.g_token = token
   window.localStorage.setItem("token", token)
-}
+};
 
 // 全局变量
-Vue.prototype.g_token = ''
+Vue.prototype.g_token = '';
 
 
 //检查状态码
@@ -77,7 +80,7 @@ Vue.prototype.code = function (res) {
     this.$message.error('致命')
     return false;
   }
-}
+};
 
 // 将时间戳转换为时间
 Vue.prototype.toDates = function (times) {
