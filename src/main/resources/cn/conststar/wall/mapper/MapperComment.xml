@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.conststar.wall.mapper.MapperComment">
+
+    <resultMap id="PojoCommentMap" type="PojoComment" autoMapping="true">
+        <id column="id" property="id"/>
+        <association property="userPublic" column="id" javaType="PojoUserPublic" select="getUser"/>
+    </resultMap>
+
+    <!--获取帖子分页评论列表-->
+    <select id="getCommentsLimit" resultMap="PojoCommentMap">
+        select `comment`.*
+        from `comment`
+                 left join `user` on `user`.id = `comment`.user_id
+        where `table_id` = #{tableId}
+          and (`comment`.status = 0 or user_id = #{userId})
+          and `user`.status = 0
+        order by `comment`.create_time DESC limit #{startIndex}, #{pageSize};
+    </select>
+
+    <!--获取帖子评论总数量-->
+    <select id="getCount" resultType="_int">
+        select count(1)
+        from `comment`
+                 left join `user` on `user`.id = `comment`.user_id
+        where table_id = #{tableId}
+          and (`comment`.status = 0 or `comment`.user_id = #{userId})
+          and `user`.status = 0;
+    </select>
+
+    <!--添加帖子评论-->
+    <insert id="addComment">
+        insert into `comment` (table_id, user_id, create_time, content, images, status)
+            value (#{tableId},#{userId},now(),#{content},#{images},#{status});
+    </insert>
+
+    <!--获取评论的用户信息-->
+    <select id="getUser" resultType="PojoUserPublic">
+        select `user`.*
+        from `comment`
+                 left join `user` on `comment`.user_id = `user`.id
+            where `comment`.id = #{id};
+    </select>
+
+</mapper>

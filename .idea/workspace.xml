@@ -1,34 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="wall:war exploded" />
+    </artifacts-to-build>
+  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="03d388c4-5f17-4607-b507-06f2fa75c8fa" name="Default Changelist" comment="" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <list default="true" id="e4d9780b-30db-4267-aa53-b676409446c3" name="Default Changelist" comment="合并前端代码">
+      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="FxmlFile" />
+        <option value="Jsp File" />
+        <option value="JavaFXApplication" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="625" />
-    <option name="y" value="10" />
-    <option name="width" value="980" />
-    <option name="height" value="1040" />
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
-  <component name="ProjectId" id="1uD4m4NToPAu42fBBQPLkNP96JL" />
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="ProjectPane" />
-      <pane id="Scope" />
-    </panes>
+  <component name="LogFilters">
+    <option name="FILTER_ERRORS" value="false" />
+    <option name="FILTER_WARNINGS" value="false" />
+    <option name="FILTER_INFO" value="true" />
+    <option name="FILTER_DEBUG" value="true" />
+    <option name="CUSTOM_FILTER" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="D:\Program Files\apache-maven-3.8.1\repo" />
+        <option name="mavenHome" value="$PROJECT_DIR$/../../../../Program Files/apache-maven-3.8.1" />
+        <option name="userSettingsFile" value="D:\Program Files\apache-maven-3.8.1\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1u7MVfDN8QHKAp9FJFHXDE9OZvo" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
@@ -36,68 +64,823 @@
     <option name="showVisibilityIcons" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="mysql" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/web" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.37214887" />
+    <property name="settings.editor.selected.configurable" value="SQL Dialects" />
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
+  <component name="Push.Settings">
+    <force-push-targets>
+      <force-push-target remote-path="origin" branch="main" />
+    </force-push-targets>
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\code\IdeaProjects\wall\src\main\resources" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\code\IdeaProjects\wall\back\web" />
+      <recent name="D:\code\IdeaProjects\wall\back\src\main\resources" />
+      <recent name="D:\code\IdeaProjects\wall\back\web\WEB-INF" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="cn.conststar.wall.pojo" />
+      <recent name="cn.conststar.wall.utils" />
+      <recent name="cn.conststar.wall.filter" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Tomcat Server.Tomcat 9.0.53">
+    <configuration name="MyTest.Test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="back" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="MyTest" />
+      <option name="METHOD_NAME" value="Test" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="TomeeConfiguration" factoryName="Local" ALTERNATIVE_JRE_ENABLED="false">
+      <deployment />
+      <server-settings>
+        <option name="BASE_DIRECTORY_NAME" value="c26288bf-3b1f-48b4-8698-c71ee2d732e3" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="Tomcat" />
+      <predefined_log_file enabled="true" id="Tomcat Catalina" />
+      <predefined_log_file id="Tomcat Manager" />
+      <predefined_log_file id="Tomcat Host Manager" />
+      <predefined_log_file id="Tomcat Localhost Access" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="10516" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Profile">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Tomcat 9.0.53" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.53" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
+      <option name="OPEN_IN_BROWSER" value="false" />
+      <option name="UPDATING_POLICY" value="restart-server" />
+      <deployment>
+        <artifact name="wall:war exploded">
+          <settings>
+            <option name="CONTEXT_PATH" value="/" />
+          </settings>
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="BASE_DIRECTORY_NAME" value="701cb786-825d-4fcd-9ef9-f30cee4b8fc6" />
+        <option name="HTTP_PORT" value="18080" />
+        <option name="JNDI_PORT" value="19099" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="Tomcat" />
+      <predefined_log_file enabled="true" id="Tomcat Catalina" />
+      <predefined_log_file id="Tomcat Manager" />
+      <predefined_log_file id="Tomcat Host Manager" />
+      <predefined_log_file id="Tomcat Localhost Access" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="9457" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Profile">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="wall:war exploded" />
+        </option>
+      </method>
+    </configuration>
+    <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" ALTERNATIVE_JRE_ENABLED="false">
+      <deployment />
+      <server-settings />
+      <predefined_log_file enabled="true" id="Tomcat" />
+      <predefined_log_file enabled="true" id="Tomcat Catalina" />
+      <predefined_log_file id="Tomcat Manager" />
+      <predefined_log_file id="Tomcat Host Manager" />
+      <predefined_log_file id="Tomcat Localhost Access" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="JUnit.MyTest.Test" />
+      <item itemvalue="Tomcat Server.Tomcat 9.0.53" />
+    </list>
+    <recent_temporary>
       <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
+        <item itemvalue="JUnit.MyTest.Test" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e4d9780b-30db-4267-aa53-b676409446c3" name="Default Changelist" comment="" />
+      <created>1624012198337</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1624012198337</updated>
+      <workItem from="1624012201221" duration="3716000" />
+      <workItem from="1624070090470" duration="21530000" />
+      <workItem from="1624153387712" duration="5085000" />
+      <workItem from="1624161954177" duration="7888000" />
+      <workItem from="1624170868091" duration="1058000" />
+      <workItem from="1624174556786" duration="104000" />
+      <workItem from="1624176530313" duration="2399000" />
+      <workItem from="1624185473008" duration="819000" />
+      <workItem from="1624186315388" duration="5707000" />
+      <workItem from="1624415774989" duration="863000" />
+      <workItem from="1624498722942" duration="325000" />
+      <workItem from="1624499983263" duration="2294000" />
+      <workItem from="1624590727768" duration="7192000" />
+      <workItem from="1624601629243" duration="6431000" />
+      <workItem from="1624610052958" duration="334000" />
+      <workItem from="1624610403829" duration="11000" />
+      <workItem from="1624610722208" duration="289000" />
+      <workItem from="1624622601666" duration="2568000" />
+      <workItem from="1624627505407" duration="3830000" />
+      <workItem from="1624668178037" duration="8271000" />
+      <workItem from="1624687382803" duration="9281000" />
+      <workItem from="1624708340859" duration="1061000" />
+      <workItem from="1624759173532" duration="106000" />
+      <workItem from="1624759387222" duration="503000" />
+      <workItem from="1624759908049" duration="61000" />
+      <workItem from="1624760006806" duration="9984000" />
+      <workItem from="1624865581835" duration="9081000" />
+      <workItem from="1624953213902" duration="11621000" />
+      <workItem from="1624967732699" duration="513000" />
+      <workItem from="1626163859446" duration="5654000" />
+      <workItem from="1627267501913" duration="1113000" />
+      <workItem from="1627445475276" duration="322000" />
+      <workItem from="1627446060272" duration="597000" />
+      <workItem from="1627478564124" duration="3392000" />
+      <workItem from="1627531038556" duration="2136000" />
+      <workItem from="1627533574094" duration="4352000" />
+      <workItem from="1627546797826" duration="313000" />
+      <workItem from="1627547128135" duration="36000" />
+      <workItem from="1627547254095" duration="1664000" />
+      <workItem from="1627549089718" duration="99000" />
+      <workItem from="1627549316609" duration="60000" />
+      <workItem from="1627550772923" duration="426000" />
+      <workItem from="1627553234823" duration="596000" />
+      <workItem from="1627560489064" duration="2972000" />
+      <workItem from="1627572087730" duration="2008000" />
+      <workItem from="1628501115286" duration="5000" />
+      <workItem from="1628567296956" duration="71000" />
+      <workItem from="1628571093763" duration="1473000" />
+      <workItem from="1628586173083" duration="773000" />
+      <workItem from="1628587652165" duration="156000" />
+      <workItem from="1629191054081" duration="3024000" />
+      <workItem from="1629265754375" duration="908000" />
+      <workItem from="1629270183820" duration="1108000" />
+      <workItem from="1629272851958" duration="2159000" />
+      <workItem from="1629430370797" duration="114000" />
+      <workItem from="1629430852786" duration="76000" />
+      <workItem from="1629542319934" duration="7546000" />
+      <workItem from="1629556130976" duration="453000" />
+      <workItem from="1629589343693" duration="455000" />
+      <workItem from="1629613907186" duration="959000" />
+      <workItem from="1629789646272" duration="1863000" />
+      <workItem from="1629868379867" duration="3149000" />
+      <workItem from="1629872050387" duration="603000" />
+      <workItem from="1630294506959" duration="6814000" />
+      <workItem from="1630306117074" duration="104000" />
+      <workItem from="1630306434884" duration="6300000" />
+      <workItem from="1630634099496" duration="1545000" />
+      <workItem from="1630635675063" duration="2851000" />
+      <workItem from="1630657334722" duration="1606000" />
+      <workItem from="1630659474905" duration="28000" />
+      <workItem from="1630659667450" duration="3220000" />
+      <workItem from="1630897840173" duration="645000" />
+      <workItem from="1630909855824" duration="1403000" />
+      <workItem from="1630975678113" duration="11176000" />
+      <workItem from="1630999926950" duration="682000" />
+      <workItem from="1631063389791" duration="1882000" />
+      <workItem from="1631149097663" duration="7712000" />
+      <workItem from="1631191764833" duration="3110000" />
+      <workItem from="1631195634757" duration="5616000" />
+      <workItem from="1631201389600" duration="49000" />
+      <workItem from="1631253449529" duration="314000" />
+      <workItem from="1631265222546" duration="1377000" />
+      <workItem from="1631267326178" duration="29000" />
+      <workItem from="1631348884077" duration="4510000" />
+      <workItem from="1631354060545" duration="4951000" />
+      <workItem from="1631406960313" duration="10420000" />
+      <workItem from="1631423991005" duration="4482000" />
+      <workItem from="1631432960455" duration="126000" />
+      <workItem from="1631434101418" duration="206000" />
+      <workItem from="1631596855119" duration="1913000" />
+      <workItem from="1631603584249" duration="1697000" />
+      <workItem from="1631606062225" duration="5009000" />
+      <workItem from="1631689019741" duration="3881000" />
+      <workItem from="1631770560168" duration="4124000" />
+      <workItem from="1631839891203" duration="621000" />
+      <workItem from="1631857691798" duration="7122000" />
+      <workItem from="1631871538345" duration="538000" />
+      <workItem from="1631872404862" duration="138000" />
+      <workItem from="1631937423635" duration="17597000" />
+      <workItem from="1632012190560" duration="4355000" />
+      <workItem from="1632018755199" duration="631000" />
+      <workItem from="1632020706215" duration="1116000" />
+      <workItem from="1632022042357" duration="11000" />
+      <workItem from="1632023813905" duration="53000" />
+      <workItem from="1632099141215" duration="4310000" />
+      <workItem from="1632103801643" duration="6186000" />
+      <workItem from="1632121673612" duration="982000" />
+      <workItem from="1632126648259" duration="1753000" />
+      <workItem from="1632378865761" duration="1884000" />
+      <workItem from="1632644327034" duration="3454000" />
+      <workItem from="1632701033666" duration="21000" />
+      <workItem from="1633074242187" duration="16125000" />
+      <workItem from="1633133802190" duration="2408000" />
+      <workItem from="1633136306489" duration="19000" />
+      <workItem from="1633137113866" duration="1387000" />
+      <workItem from="1633178405590" duration="4000" />
+      <workItem from="1633304259701" duration="10720000" />
+      <workItem from="1633319334073" duration="4690000" />
+      <workItem from="1633325519296" duration="6000" />
+      <workItem from="1633349978787" duration="2006000" />
+      <workItem from="1633352808295" duration="3860000" />
+      <workItem from="1633392892528" duration="26000" />
+      <workItem from="1633392974649" duration="66000" />
+      <workItem from="1633393065640" duration="71000" />
+      <workItem from="1633393234602" duration="31000" />
+      <workItem from="1633393312591" duration="64000" />
+      <workItem from="1633393404217" duration="77000" />
+      <workItem from="1633393886153" duration="3322000" />
+      <workItem from="1633407757765" duration="1145000" />
+      <workItem from="1633408946894" duration="131000" />
+      <workItem from="1633409118706" duration="326000" />
+      <workItem from="1633432392578" duration="25000" />
+      <workItem from="1633432627601" duration="752000" />
+      <workItem from="1633433649318" duration="685000" />
+      <workItem from="1633529187854" duration="952000" />
+      <workItem from="1633531420658" duration="2259000" />
+      <workItem from="1633575862203" duration="10488000" />
+      <workItem from="1633588238794" duration="74000" />
+      <workItem from="1633601339178" duration="7809000" />
+      <workItem from="1633610368423" duration="3430000" />
+      <workItem from="1633663128647" duration="6198000" />
+      <workItem from="1633763803162" duration="2744000" />
+      <workItem from="1633771782678" duration="8494000" />
+      <workItem from="1633830328716" duration="1868000" />
+      <workItem from="1633870252208" duration="1627000" />
+      <workItem from="1633874355054" duration="462000" />
+      <workItem from="1633957706313" duration="1224000" />
+      <workItem from="1634014225116" duration="1546000" />
+      <workItem from="1634134389883" duration="1556000" />
+      <workItem from="1634656066610" duration="475000" />
+      <workItem from="1634657032209" duration="1370000" />
+      <workItem from="1634736258656" duration="133000" />
+      <workItem from="1634907929933" duration="4903000" />
+      <workItem from="1634914803523" duration="405000" />
+      <workItem from="1634964012241" duration="1575000" />
+      <workItem from="1634989313570" duration="264000" />
+      <workItem from="1635328130293" duration="362000" />
+      <workItem from="1635341326113" duration="1459000" />
+      <workItem from="1635343980639" duration="8000" />
+      <workItem from="1635665475258" duration="5000" />
+      <workItem from="1652070278656" duration="83000" />
+    </task>
+    <task id="LOCAL-00006" summary=".gitignore">
+      <created>1624760313783</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1624760313783</updated>
+    </task>
+    <task id="LOCAL-00007" summary="添加了上传文件接口&#10;添加了获取用户公开信息接口&#10;更新了发布表白、发布评论接口">
+      <created>1624967355210</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1624967355210</updated>
+    </task>
+    <task id="LOCAL-00008" summary="update readme">
+      <created>1624968210104</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1624968210104</updated>
+    </task>
+    <task id="LOCAL-00009" summary="优化图片下载&#10;修复上传透明图片失败">
+      <created>1627268518255</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1627268518255</updated>
+    </task>
+    <task id="LOCAL-00010" summary="在获取帖子/评论中添加了用户公开信息&#10;删除了获取帖子/评论的用户信息接口">
+      <created>1627481591987</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1627481591987</updated>
+    </task>
+    <task id="LOCAL-00011" summary="修复了获取帖子/评论id为0的问题">
+      <created>1627531906658</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1627531906658</updated>
+    </task>
+    <task id="LOCAL-00012" summary="发送邮箱验证码前需要验证图片验证码">
+      <created>1628587789393</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1628587789393</updated>
+    </task>
+    <task id="LOCAL-00013" summary="添加了token">
+      <created>1629871511384</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1629871511384</updated>
+    </task>
+    <task id="LOCAL-00014" summary="优化了连接池设置&#10;优化了验证码用户标识">
+      <created>1630638206096</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1630638206097</updated>
+    </task>
+    <task id="LOCAL-00015" summary="优化日志">
+      <created>1630662164916</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1630662164916</updated>
+    </task>
+    <task id="LOCAL-00016" summary="更新文档接口参数">
+      <created>1630911183461</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1630911183461</updated>
+    </task>
+    <task id="LOCAL-00017" summary="获取帖子内容时返回用户是否点赞">
+      <created>1630993595202</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1630993595202</updated>
+    </task>
+    <task id="LOCAL-00018" summary="获取帖子内容时返回用户是否点赞">
+      <created>1630993968698</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1630993968698</updated>
+    </task>
+    <task id="LOCAL-00019" summary="修复帖子发布失败但图片已上传的问题&#10;限制图片上传数量">
+      <created>1631153265304</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1631153265304</updated>
+    </task>
+    <task id="LOCAL-00020" summary="添加了帖子/评论/用户状态">
+      <created>1631200846410</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1631200846410</updated>
+    </task>
+    <task id="LOCAL-00021" summary="添加了帖子/评论/用户状态">
+      <created>1631201084201</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1631201084201</updated>
+    </task>
+    <task id="LOCAL-00022" summary="用户被封禁后对应的帖子和评论不可访问">
+      <created>1631266372355</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1631266372355</updated>
+    </task>
+    <task id="LOCAL-00023" summary="添加了swagger生成接口文档&#10;封装了统一返回内容&#10;封装了异常处理内容">
+      <created>1631872064084</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1631872064084</updated>
+    </task>
+    <task id="LOCAL-00024" summary="README 数据库">
+      <created>1631872532483</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1631872532483</updated>
+    </task>
+    <task id="LOCAL-00025" summary="初始化web">
+      <created>1631965595278</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1631965595278</updated>
+    </task>
+    <task id="LOCAL-00026" summary="修复web路径">
+      <created>1632017679605</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1632017679606</updated>
+    </task>
+    <task id="LOCAL-00027" summary="修复web路径">
+      <created>1632018604583</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1632018604583</updated>
+    </task>
+    <task id="LOCAL-00028" summary="修复web路径">
+      <created>1632018629850</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1632018629850</updated>
+    </task>
+    <task id="LOCAL-00029" summary="README">
+      <created>1632018787149</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1632018787149</updated>
+    </task>
+    <task id="LOCAL-00030" summary="修复获取用户评论信息">
+      <created>1632021722638</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1632021722638</updated>
+    </task>
+    <task id="LOCAL-00031" summary="优化日志">
+      <created>1632100549961</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1632100549961</updated>
+    </task>
+    <task id="LOCAL-00032" summary="一些小问题">
+      <created>1632101124368</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1632101124368</updated>
+    </task>
+    <task id="LOCAL-00033" summary="修复注册账号和异常拦截">
+      <created>1632108965370</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1632108965370</updated>
+    </task>
+    <task id="LOCAL-00034" summary="小问题">
+      <created>1632109393189</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1632109393189</updated>
+    </task>
+    <task id="LOCAL-00035" summary="优化捕获异常和输出日志">
+      <created>1632128350510</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1632128350510</updated>
+    </task>
+    <task id="LOCAL-00036" summary="删除匿名评论">
+      <created>1632381155911</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1632381155912</updated>
+    </task>
+    <task id="LOCAL-00037" summary="添加了旋转验证码&#10;添加了微信登录">
+      <created>1633432970422</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1633432970422</updated>
+    </task>
+    <task id="LOCAL-00038" summary="README">
+      <created>1633433368075</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1633433368075</updated>
+    </task>
+    <task id="LOCAL-00039" summary="README">
+      <created>1633434385007</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1633434385007</updated>
+    </task>
+    <task id="LOCAL-00040" summary="README&#10;将“注册”改成“通过邮箱注册”">
+      <created>1633533917478</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1633533917478</updated>
+    </task>
+    <task id="LOCAL-00041" summary="添加了评论邮箱提醒&#10;添加了绑定邮箱接口&#10;搜索帖子可以搜索到用户名&#10;绑定微信改为使用token">
+      <created>1633587647541</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1633587647541</updated>
+    </task>
+    <task id="LOCAL-00042" summary="sql">
+      <created>1633588299847</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1633588299847</updated>
+    </task>
+    <task id="LOCAL-00043" summary="支持emoji表情&#10;异步发送邮件&#10;邮件HTML美化">
+      <created>1633669844735</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1633669844735</updated>
+    </task>
+    <task id="LOCAL-00044" summary="小问题">
+      <created>1633670723500</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1633670723500</updated>
+    </task>
+    <task id="LOCAL-00045" summary="完善了前端">
+      <created>1633787220392</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1633787220392</updated>
+    </task>
+    <task id="LOCAL-00046" summary="完善了前端">
+      <created>1633830985798</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1633830985799</updated>
+    </task>
+    <task id="LOCAL-00047" summary="完善了前端">
+      <created>1633833829749</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1633833829749</updated>
+    </task>
+    <task id="LOCAL-00048" summary="修复部分接口不报异常&#10;完善了前端">
+      <created>1633964937800</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1633964937800</updated>
+    </task>
+    <task id="LOCAL-00049" summary="完善了前端&#10;修复小问题">
+      <created>1634136066140</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1634136066140</updated>
+    </task>
+    <task id="LOCAL-00050" summary="README">
+      <created>1634736318414</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1634736318414</updated>
+    </task>
+    <task id="LOCAL-00051" summary="修复通过邮箱注册账号&#10;添加数据初始化">
+      <created>1634912794878</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1634912794878</updated>
+    </task>
+    <task id="LOCAL-00052" summary="合并前端代码">
+      <created>1634915135508</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1634915135508</updated>
+    </task>
+    <task id="LOCAL-00053" summary="修复登录">
+      <created>1634965527052</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1634965527052</updated>
+    </task>
+    <task id="LOCAL-00054" summary="合并前端代码">
+      <created>1635342010376</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1635342010392</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
       </list>
     </option>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
-  <component name="SvnConfiguration">
-    <configuration />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
-  <component name="TaskManager">
-    <task active="true" id="Default" summary="Default task">
-      <changelist id="03d388c4-5f17-4607-b507-06f2fa75c8fa" name="Default Changelist" comment="" />
-      <created>1624186982182</created>
-      <option name="number" value="Default" />
-      <option name="presentableId" value="Default" />
-      <updated>1624186982182</updated>
-      <workItem from="1624186984296" duration="4000" />
-      <workItem from="1633589760489" duration="48000" />
-      <workItem from="1633592680198" duration="23000" />
-    </task>
-    <servers />
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="添加了帖子/评论/用户状态" />
+    <MESSAGE value="用户被封禁后对应的帖子和评论不可访问" />
+    <MESSAGE value="添加了swagger生成接口文档&#10;封装了统一返回内容&#10;封装了异常处理内容" />
+    <MESSAGE value="README 数据库" />
+    <MESSAGE value="初始化web" />
+    <MESSAGE value="修复web路径" />
+    <MESSAGE value="修复获取用户评论信息" />
+    <MESSAGE value="优化日志" />
+    <MESSAGE value="一些小问题" />
+    <MESSAGE value="修复注册账号和异常拦截" />
+    <MESSAGE value="优化捕获异常和输出日志" />
+    <MESSAGE value="删除匿名评论" />
+    <MESSAGE value="添加了旋转验证码&#10;添加了微信登录" />
+    <MESSAGE value="README&#10;将“注册”改成“通过邮箱注册”" />
+    <MESSAGE value="添加了评论邮箱提醒&#10;添加了绑定邮箱接口&#10;搜索帖子可以搜索到用户名&#10;绑定微信改为使用token" />
+    <MESSAGE value="sql" />
+    <MESSAGE value="支持emoji表情&#10;异步发送邮件&#10;邮件HTML美化" />
+    <MESSAGE value="小问题" />
+    <MESSAGE value="完善了前端" />
+    <MESSAGE value="修复部分接口不报异常&#10;完善了前端" />
+    <MESSAGE value="完善了前端&#10;修复小问题" />
+    <MESSAGE value="README" />
+    <MESSAGE value="修复通过邮箱注册账号&#10;添加数据初始化" />
+    <MESSAGE value="修复登录" />
+    <MESSAGE value="合并前端代码" />
+    <option name="LAST_COMMIT_MESSAGE" value="合并前端代码" />
   </component>
-  <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="71000" />
+  <component name="XDebuggerManager">
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="org.apache.catalina.connector.Response" memberName="coyoteResponse" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
-  <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24966975" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="Terminal" order="9" />
-      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-    </layout>
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
