@@ -1,4 +1,6 @@
-## 后端
+<p align="center"><img src="https://github.com/star-love-letter/.github/blob/main/img/logo.png" height="80" alt="星愿墙"></p>
+
+## 校园小情书后端
 
 SpringBoot+MyBatis+shiro 完整的表白墙项目
 
@@ -39,9 +41,10 @@ https://github.com/star-love-letter
 
 
 ### 快速使用
-'''
+```shell
 docker run -d --name wall -p 8089:8089 -v /root/wall:/data wall
-'''
+```
+
 
 
 ### 主要的库
