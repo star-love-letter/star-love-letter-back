@@ -62,11 +62,13 @@ docker run -d --name wall -p 8089:8089 -v /root/wall:/data wall
 
 ### 更新日志
 
+[UPDATE_LOG.md](UPDATE_LOG.md)
+
 
 
 ### 协议
 
-MIT License
+[MIT License](LICENSE.txt)
 
 
 
