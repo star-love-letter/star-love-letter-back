@@ -42,7 +42,7 @@ https://github.com/star-love-letter
 
 ### 快速使用
 ```shell
-docker run -d --name wall -p 8089:8089 -v /root/wall:/data wall
+docker run -d --name wall -p 8089:8089 -v /root/wall:/data 1164442003/wall
 ```
 
 
