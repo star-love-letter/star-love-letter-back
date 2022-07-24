@@ -9,7 +9,37 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b9c1d948-74e7-464a-90af-6dc08fbfcff2" name="Changes" comment="" />
+    <list default="true" id="b9c1d948-74e7-464a-90af-6dc08fbfcff2" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/favicon.ico" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/fonts/element-icons.f1a45d74.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/fonts/element-icons.ff18efd1.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/fonts/fa-brands-400.14627482.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/fonts/fa-brands-400.1ddffb8e.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/fonts/fa-brands-400.20c5d853.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/fonts/fa-brands-400.f8740434.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/fonts/fa-regular-400.71d4b184.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/fonts/fa-regular-400.79dac627.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/fonts/fa-regular-400.9ec493ef.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/fonts/fa-regular-400.f49e57ac.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/fonts/fa-solid-900.631e7c26.woff2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/fonts/fa-solid-900.9384bfb4.eot" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/fonts/fa-solid-900.d8dbd7fc.ttf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/fonts/fa-solid-900.e2efc421.woff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/avatar.2e1225e8.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/fa-brands-400.ee871f24.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/fa-regular-400.2390df3a.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/img/fa-solid-900.685ff6c3.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/app-legacy.65f24b0f.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/app-legacy.65f24b0f.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/app.178d9d5b.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/app.178d9d5b.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/chunk-vendors-legacy.c886d0fa.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/chunk-vendors-legacy.c886d0fa.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/chunk-vendors.1be34b4a.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/chunk-vendors.1be34b4a.js.map" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -23,10 +53,14 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="29BgdbnwZrKa0sMPCLC9QRAzLxB" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
@@ -176,6 +210,7 @@
       <workItem from="1657861923716" duration="2492000" />
       <workItem from="1658406747247" duration="625000" />
       <workItem from="1658475700707" duration="1190000" />
+      <workItem from="1658664115881" duration="2551000" />
     </task>
     <servers />
   </component>
