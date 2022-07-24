@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.conststar.wall.dao.CommentDao">
+
+    <resultMap id="CommentMap" type="CommentDto" autoMapping="true">
+        <id column="id" property="id"/>
+        <association property="userPublic" column="id" javaType="UserInfoPublicDto"
+                     select="cn.conststar.wall.dao.UserDao.getUserInfoPublicByComment"/>
+    </resultMap>
+
+    <!--获取帖子分页评论列表-->
+    <select id="getComments" resultMap="CommentMap">
+        select `comment`.*
+        from `comment`
+        left join `user` on `user`.id = `comment`.user_id
+        where `table_id` = #{tableId}
+        and (`comment`.state = 0 or user_id = #{userId})
+        and `user`.state = 0
+        order by ${rankName}
+        <if test="rankType == false">
+            DESC
+        </if>
+        limit #{startIndex}, #{pageSize};
+    </select>
+
+    <!--获取帖子评论总数量-->
+    <select id="getCount" resultType="_int">
+        select count(1)
+        from `comment`
+                 left join `user` on `user`.id = `comment`.user_id
+        where table_id = #{tableId}
+          and (`comment`.state = 0 or `comment`.user_id = #{userId})
+          and `user`.state = 0;
+    </select>
+
+    <select id="getMyComments" resultMap="CommentMap">
+        select `comment`.*
+        from `comment`
+        where `comment`.user_id = #{userId}
+        order by ${rankName}
+        <if test="rankType == false">
+            DESC
+        </if>
+        limit #{startIndex}, #{pageSize};
+    </select>
+
+    <select id="getMyCount" resultType="_int">
+        select count(1)
+        from `comment`
+        where `comment`.user_id = #{userId}
+    </select>
+
+    <select id="getMySearchComments" resultMap="CommentMap">
+        select `comment`.*
+        from `comment`
+        where `comment`.user_id = #{userId}
+        and `comment`.content like '%' || #{keyword} || '%'
+        order by ${rankName}
+        <if test="rankType == false">
+            DESC
+        </if>
+        limit #{startIndex}, #{pageSize};
+    </select>
+
+    <select id="getMySearchCount" resultType="_int">
+        select count(1)
+        from `comment`
+        where `comment`.user_id = #{userId}
+          and `comment`.content like '%' || #{keyword} || '%';
+    </select>
+
+    <!--添加帖子评论-->
+    <insert id="addComment">
+        insert into `comment` (table_id, user_id, create_time, content, images, state)
+        values (#{tableId}, #{userId}, datetime(CURRENT_TIMESTAMP, 'localtime'), #{content}, #{images}, #{state});
+    </insert>
+
+    <delete id="deleteComment">
+        delete
+        from `comment`
+        where id = #{commentId}
+          and user_id = #{userId};
+    </delete>
+</mapper>

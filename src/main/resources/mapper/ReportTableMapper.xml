@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.conststar.wall.dao.ReportTableDao">
+
+    <insert id="report">
+        insert into report_table(table_id, user_id, type, content, create_time)
+        values (#{tableId}, #{userId}, #{type}, #{content}, datetime(CURRENT_TIMESTAMP, 'localtime'))
+    </insert>
+
+</mapper>

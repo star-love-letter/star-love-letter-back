@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.conststar.wall.dao.TableDao">
+
+    <resultMap id="TableMap" type="TableDto" autoMapping="true">
+        <id column="id" property="id"/>
+
+        <association property="support" column="{tableId=id,userId=select_user_id}" javaType="_boolean"
+                     select="isSupport"/>
+        <association property="userPublic" column="{tableId=id,userId=select_user_id}" javaType="UserInfoPublicDto"
+                     select="cn.conststar.wall.dao.UserDao.getUserInfoPublicByTable"/>
+    </resultMap>
+
+    <sql id="selectTable">
+        select `table`.id                 as id,
+               `table`.user_id            as user_id,
+               `table`.sender             as sender,
+               `table`.sender_gender      as sender_gender,
+               `table`.recipient          as recipient,
+               `table`.recipient_gender   as recipient_gender,
+               `table`.create_time        as create_time,
+               `table`.anonymous          as anonymous,
+               `table`.content            as content,
+               `table`.images             as images,
+               `table`.notify_email       as notify_email,
+               `table`.state              as state,
+               #{userId}                  as select_user_id,
+               COALESCE(`comment`.ans, 0) as comment_count,
+               COALESCE(`support`.ans, 0) as support_count
+        from `table`
+                 left join (select table_id as id, count(1) as ans
+                            from `comment`
+                                     left join `user` on `user`.id = `comment`.user_id
+                            where (`comment`.state = 0 or user_id = #{userId})
+                              and `user`.state = 0
+                            GROUP BY table_id) as `comment`
+                           on `comment`.id = `table`.id
+                 left join (select table_id as id, count(1) as ans from `support` GROUP BY table_id) as `support`
+                           on `support`.id = `table`.id
+                 left join `user` on `table`.user_id = `user`.id
+    </sql>
+
+    <!--获取分页帖子-->
+    <select id="getTables" resultMap="TableMap">
+        <include refid="selectTable"/>
+        where (`table`.state = 0 or `table`.user_id = #{userId})
+        and `user`.state = 0
+        order by ${rankName}
+        <if test="rankType == false">
+            DESC
+        </if>
+        limit #{startIndex}, #{pageSize};
+    </select>
+
+    <!--获取帖子总数量-->
+    <select id="getCount" resultType="_int">
+        select count(1)
+        from `table`
+                 left join `user` on `user`.id = `table`.user_id
+        where (`table`.state = 0 or `table`.user_id = #{userId})
+          and `user`.state = 0;
+    </select>
+
+    <!--搜索帖子-->
+    <select id="getSearchTables" resultMap="TableMap">
+        <include refid="selectTable"/>
+        where (`table`.sender like '%' || #{keyword} || '%'
+        or `table`.recipient like '%' || #{keyword} || '%'
+        or `table`.content like '%' || #{keyword} || '%'
+        or (`table`.anonymous = 0 and `user`.name like '%' || #{keyword} || '%'))
+        and (`table`.state = 0 or `table`.user_id = #{userId})
+        and `user`.state = 0
+        group by `table`.id
+        order by ${rankName}
+        <if test="rankType == false">
+            DESC
+        </if>
+        limit #{startIndex}, #{pageSize};
+    </select>
+
+    <!--获取帖子搜索总数量-->
+    <select id="getSearchCount" resultType="_int">
+        select count(1)
+        from `table`
+                 left join `user` on `user`.id = `table`.user_id
+        where (`table`.sender like '%' || #{keyword} || '%'
+            or `table`.recipient like '%' || #{keyword} || '%'
+            or `table`.content like '%' || #{keyword} || '%'
+            or (`table`.anonymous = 0 and `user`.name like '%' || #{keyword} || '%'))
+          and (`table`.state = 0 or `table`.user_id = #{userId})
+          and `user`.state = 0;
+    </select>
+
+    <select id="getMyTables" resultMap="TableMap">
+        <include refid="selectTable"/>
+        where `table`.user_id = #{userId}
+        order by ${rankName}
+        <if test="rankType == false">
+            DESC
+        </if>
+        limit #{startIndex}, #{pageSize};
+    </select>
+
+    <select id="getMyCount" resultType="_int">
+        select count(1)
+        from `table`
+        where `table`.user_id = #{userId}
+    </select>
+
+    <select id="getMySearchTables" resultMap="TableMap">
+        <include refid="selectTable"/>
+        where (`table`.sender like '%' || #{keyword} || '%'
+        or `table`.recipient like '%' || #{keyword} || '%'
+        or `table`.content like '%' || #{keyword} || '%'
+        or (`table`.anonymous = 0 and `user`.name like '%' || #{keyword} || '%'))
+        and `table`.user_id = #{userId}
+        group by `table`.id
+        order by ${rankName}
+        <if test="rankType == false">
+            DESC
+        </if>
+        limit #{startIndex}, #{pageSize};
+    </select>
+
+    <select id="getMySearchCount" resultType="_int">
+        select count(1)
+        from `table`
+                 left join `user` on `user`.id = `table`.user_id
+        where (`table`.sender like '%' || #{keyword} || '%'
+            or `table`.recipient like '%' || #{keyword} || '%'
+            or `table`.content like '%' || #{keyword} || '%'
+            or (`table`.anonymous = 0 and `user`.name like '%' || #{keyword} || '%'))
+          and `table`.user_id = #{userId};
+    </select>
+
+    <!--获取单个帖子内容-->
+    <select id="getTable" parameterType="_int" resultMap="TableMap">
+        <include refid="selectTable"/>
+        where `table`.id = #{id}
+        and (`table`.state = 0 or `table`.user_id = #{userId})
+        and `user`.state = 0
+        group by `table`.id;
+    </select>
+
+    <!--获取帖子实体-->
+    <select id="getTableDomain" resultType="TableDomain">
+        select *
+        from `table`
+        where id = #{id};
+    </select>
+
+    <!--点赞-->
+    <insert id="addSupport">
+        insert into `support` (table_id, user_id)
+        values (#{tableId}, #{userId});
+    </insert>
+
+    <!--取消点赞-->
+    <delete id="removeSupport">
+        delete
+        from `support`
+        where table_id = #{tableId}
+          and user_id = #{userId};
+    </delete>
+
+    <!--发布表白-->
+    <insert id="addTable">
+        insert into `table` (user_id, anonymous, sender, sender_gender, recipient,
+                             recipient_gender, create_time, content, images, notify_email, state)
+        values (#{userId}, #{anonymous}, #{sender}, #{senderGender}, #{recipient},
+                #{recipientGender}, datetime(CURRENT_TIMESTAMP, 'localtime'), #{content}, #{images}, #{notifyEmail},
+                #{state});
+    </insert>
+
+    <!--用户是否点过赞-->
+    <select id="isSupport" resultType="_boolean">
+        select count(1)
+        from `support`
+        where table_id = #{tableId}
+          and user_id = #{userId};
+    </select>
+
+    <delete id="deleteTable">
+        delete
+        from `table`
+        where id = #{tableId}
+          and user_id = #{userId};
+    </delete>
+</mapper>

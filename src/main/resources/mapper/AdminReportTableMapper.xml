@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.conststar.wall.dao.AdminReportTableDao">
+
+    <select id="getReportTables" resultType="TableDomain">
+        select `table`.*
+        from `table`,
+             `report_table`
+        where `table`.`id` = `report_table`.`table_id`
+          and `report_table`.state = #{state}
+        group by `report_table`.table_id
+        order by `report_table`.id
+            limit #{startIndex}, #{pageSize};
+    </select>
+
+    <select id="getReportTableCount" resultType="_int">
+        select count(c.id)
+        from (select `report_table`.table_id as id
+              from `table`,
+                   `report_table`
+              where `table`.`id` = `report_table`.`table_id`
+                and `report_table`.state = #{state}
+              group by `report_table`.table_id) as c;
+    </select>
+
+    <select id="getSearchReportTables" resultType="TableDomain">
+        select `table`.*
+        from `table`,
+             `report_table`
+        where `table`.`id` = `report_table`.`table_id`
+          and `report_table`.state = #{state}
+          and (`table`.sender like '%' || #{keyword} || '%'
+            or `table`.recipient like '%' || #{keyword} || '%'
+            or `table`.content like '%' || #{keyword} || '%')
+        group by `report_table`.table_id
+        order by `report_table`.id
+            limit #{startIndex}, #{pageSize};
+    </select>
+
+    <select id="getSearchReportTableCount" resultType="_int">
+        select count(c.id)
+        from (select `report_table`.table_id as id
+              from `table`,
+                   `report_table`
+              where `table`.`id` = `report_table`.`table_id`
+                and `report_table`.state = #{state}
+                and (`table`.sender like '%' || #{keyword} || '%'
+                  or `table`.recipient like '%' || #{keyword} || '%'
+                  or `table`.content like '%' || #{keyword} || '%')
+              group by `report_table`.table_id) as c;
+    </select>
+
+    <select id="getReportByTable" resultType="ReportTableDomain">
+        select *
+        from `report_table`
+        where table_id = #{tableId};
+    </select>
+
+    <select id="getReportByUser" resultType="ReportTableDomain">
+        select *
+        from `report_table`
+        where user_id = #{userId};
+    </select>
+
+    <update id="updateReportState">
+        update `report_table`
+        set state = #{state}
+        where table_id = #{tableId};
+    </update>
+</mapper>

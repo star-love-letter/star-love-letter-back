@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.conststar.wall.dao.ReportCommentDao">
+
+    <insert id="report">
+        insert into report_comment(comment_id, user_id, type, content, create_time)
+        values (#{commentId}, #{userId}, #{type}, #{content}, datetime(CURRENT_TIMESTAMP, 'localtime'))
+    </insert>
+
+</mapper>

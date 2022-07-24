@@ -1,15 +1,38 @@
-# Default ignored files
-/.idea/shelf/
-/.idea/workspace.xml
-# Datasource local storage ignored files
-/.idea/dataSources/
-/.idea/dataSources.local.xml
-# Editor-based HTTP Client requests
-/.idea/httpRequests/
-# 临时文件
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+out/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+## 数据文件
+/data/
 /log/
-# 生成文件
-/target/
-/out/
-/src/main/resources/db.properties
-/src/main/resources/email.properties
+/conf/

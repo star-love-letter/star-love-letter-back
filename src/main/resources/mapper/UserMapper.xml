@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.conststar.wall.dao.UserDao">
+
+    <sql id="selectUser">
+        SELECT `user`.*, `role`.name as role_name
+        FROM `user`
+                 LEFT JOIN `role` ON `user`.role_id = role.id
+    </sql>
+
+    <select id="getUserDomain" resultType="UserDomain">
+        <include refid="selectUser"/>
+        where `user`.id = #{userStr}
+        or `user`.email = #{userStr};
+    </select>
+
+    <update id="updateLoginTime">
+        update `user`
+        set `last_time` = datetime(CURRENT_TIMESTAMP, 'localtime')
+        where `user`.id = #{userStr}
+           or `user`.email = #{userStr};
+    </update>
+
+    <select id="getUserInfo" resultType="UserInfoDto">
+        <include refid="selectUser"></include>
+        where `user`.id = #{userStr}
+        or `user`.email = #{userStr};
+    </select>
+
+    <select id="getUserInfoPublic" resultType="UserInfoPublicDto">
+        <include refid="selectUser"></include>
+        where `user`.id = #{id};
+    </select>
+
+    <insert id="addUserByEmail">
+        insert into `user` (email, name, password, salt, state, last_time, create_time)
+        values (#{email}, #{name}, #{password}, #{salt}, #{state}, datetime(CURRENT_TIMESTAMP, 'localtime'),
+                datetime(CURRENT_TIMESTAMP, 'localtime'));
+    </insert>
+
+    <insert id="addUserByWeChat">
+        insert into `user` (wechat, name, state, last_time, create_time)
+        values (#{wechat}, #{name}, #{state}, datetime(CURRENT_TIMESTAMP, 'localtime'),
+                datetime(CURRENT_TIMESTAMP, 'localtime'));
+    </insert>
+
+    <select id="getUserByWeChat" resultType="UserDomain">
+        <include refid="selectUser"></include>
+        where `user`.wechat = #{openId};
+    </select>
+
+    <update id="updateBindWeChat">
+        update `user`
+        set wechat = #{openId}
+        where id = #{userId};
+    </update>
+
+    <update id="updateBindEmail">
+        update `user`
+        set email = #{email}
+        where id = #{userId};
+    </update>
+
+    <!--通过帖子获取用户公开信息-->
+    <select id="getUserInfoPublicByTable" resultType="UserInfoPublicDto">
+        SELECT `user`.*, `role`.name as roleName
+        FROM `user`
+                 left join `role` on `user`.role_id = `role`.id
+                 left join `table` on `user`.id = `table`.user_id
+        where `table`.id = #{tableId}
+          and ((`table`.anonymous = 0 and `table`.state = 0) or `table`.user_id = #{userId});
+    </select>
+
+
+    <!--通过评论获取用户公开信息-->
+    <select id="getUserInfoPublicByComment" resultType="UserInfoPublicDto">
+        SELECT `user`.*, `role`.name as roleName
+        FROM `user`
+                 left join `role` on `user`.role_id = `role`.id
+                 left join `comment` on `user`.id = `comment`.user_id
+        where `comment`.id = #{commentId};
+    </select>
+
+    <update id="updatePasswordByEmail">
+        update `user`
+        set password = #{password},
+            salt     = #{salt}
+        where email = #{email};
+    </update>
+
+    <update id="updateAvatar">
+        update `user`
+        set avatar = #{avatar}
+        where id = #{userId};
+    </update>
+</mapper>

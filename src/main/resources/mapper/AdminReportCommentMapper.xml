@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.conststar.wall.dao.AdminReportCommentDao">
+    <select id="getReportComments" resultType="CommentDomain">
+        select `comment`.*
+        from `comment`,
+             `report_comment`
+        where `comment`.`id` = `report_comment`.`comment_id`
+          and `report_comment`.state = #{state}
+        group by `report_comment`.comment_id
+        order by `report_comment`.id
+            limit #{startIndex}, #{pageSize};
+    </select>
+
+    <select id="getReportCommentCount" resultType="_int">
+        select count(c.id)
+        from (select `report_comment`.comment_id as id
+              from `comment`,
+                   `report_comment`
+              where `comment`.`id` = `report_comment`.`comment_id`
+                and `report_comment`.state = #{state}
+              group by `report_comment`.comment_id) as c;
+    </select>
+
+    <select id="getSearchReportComments" resultType="CommentDomain">
+        select `comment`.*
+        from `comment`,
+             `report_comment`
+        where `comment`.`id` = `report_comment`.`comment_id`
+          and `report_comment`.state = #{state}
+          and `comment`.content like '%' || #{keyword} || '%'
+        group by `report_comment`.comment_id
+        order by `report_comment`.id
+            limit #{startIndex}, #{pageSize};
+    </select>
+
+    <select id="getSearchReportCommentCount" resultType="_int">
+        select count(c.id)
+        from (select `report_comment`.comment_id as id
+              from `comment`,
+                   `report_comment`
+              where `comment`.`id` = `report_comment`.`comment_id`
+                and `report_comment`.state = #{state}
+                and `comment`.content like '%' || #{keyword} || '%'
+              group by `report_comment`.comment_id) as c;
+    </select>
+
+    <select id="getReportByComment" resultType="ReportCommentDomain">
+        select *
+        from `report_comment`
+        where comment_id = #{commentId};
+    </select>
+
+    <select id="getReportByUser" resultType="ReportCommentDomain">
+        select *
+        from `report_comment`
+        where user_id = #{userId};
+    </select>
+
+    <update id="updateReportState">
+        update `report_comment`
+        set state = #{state}
+        where comment_id = #{commentId};
+    </update>
+</mapper>

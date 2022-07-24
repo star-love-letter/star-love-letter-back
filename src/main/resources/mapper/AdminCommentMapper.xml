@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.conststar.wall.dao.AdminCommentDao">
+    <select id="getComments" resultType="CommentDomain">
+        select *
+        from `comment`
+        order by ${rankName}
+        <if test="rankType == false">
+            DESC
+        </if>
+        limit #{startIndex}, #{pageSize};
+    </select>
+
+    <select id="getCommentCount" resultType="_int">
+        select count(`id`)
+        from `comment`;
+    </select>
+
+    <select id="getSearchComments" resultType="CommentDomain">
+        select *
+        from `comment`
+        where `comment`.content like '%' || #{keyword} || '%'
+        order by ${rankName}
+        <if test="rankType == false">
+            DESC
+        </if>
+        limit #{startIndex}, #{pageSize};
+    </select>
+
+    <select id="getSearchCommentCount" resultType="_int">
+        select count(`id`)
+        from `comment`
+        where `comment`.content like '%' || #{keyword} || '%';
+    </select>
+
+    <select id="getCommentById" resultType="CommentDomain">
+        select *
+        from `comment`
+        where `id` = #{id};
+    </select>
+
+    <update id="updateComment">
+        update `comment`
+        set `content` = #{content},
+            `images`  = #{images},
+            `state`  = #{state}
+        where `id` = #{id};
+    </update>
+
+    <update id="deleteComment">
+        delete
+        from `comment`
+        where `id` = #{id};
+    </update>
+</mapper>

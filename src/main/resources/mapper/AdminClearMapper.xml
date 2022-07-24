@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.conststar.wall.dao.AdminClearDao">
+
+    <delete id="clearReportComment">
+        delete
+        from report_comment
+        where create_time &lt; datetime(#{time},'unixepoch', 'localtime')
+          and state != 0;
+    </delete>
+
+    <delete id="clearReportTable">
+        delete
+        from report_table
+        where create_time &lt; datetime(#{time},'unixepoch', 'localtime')
+          and state != 0;
+    </delete>
+
+</mapper>

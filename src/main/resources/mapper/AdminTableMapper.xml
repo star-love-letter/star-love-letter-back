@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.conststar.wall.dao.AdminTableDao">
+    <select id="getTables" resultType="TableDomain">
+        select *
+        from `table`
+        order by ${rankName}
+        <if test="rankType == false">
+            DESC
+        </if>
+        limit #{startIndex}, #{pageSize};
+    </select>
+
+    <select id="getTableCount" resultType="_int">
+        select count(`id`)
+        from `table`;
+    </select>
+
+    <select id="getSearchTables" resultType="TableDomain">
+        select *
+        from `table`
+        where `table`.sender like '%' || #{keyword} || '%'
+        or `table`.recipient like '%' || #{keyword} || '%'
+        or `table`.content like '%' || #{keyword} || '%'
+        order by ${rankName}
+        <if test="rankType == false">
+            DESC
+        </if>
+        limit #{startIndex}, #{pageSize};
+    </select>
+
+    <select id="getSearchTableCount" resultType="_int">
+        select count(`id`)
+        from `table`
+        where `table`.sender like '%' || #{keyword} || '%'
+           or `table`.recipient like '%' || #{keyword} || '%'
+           or `table`.content like '%' || #{keyword} || '%';
+    </select>
+
+    <select id="getTableById" resultType="TableDomain">
+        select *
+        from `table`
+        where `id` = #{id};
+    </select>
+
+    <update id="updateTable">
+        update `table`
+        set `sender`           = #{sender},
+            `sender_gender`    = #{senderGender},
+            `recipient`        = #{recipient},
+            `recipient_gender` = #{recipientGender},
+            `content`          = #{content},
+            `images`           = #{images},
+            `notify_email`     = #{notifyEmail},
+            `state`           = #{state}
+        where `id` = #{id};
+    </update>
+
+    <update id="deleteTable">
+        delete
+        from `table`
+        where `id` = #{id};
+    </update>
+</mapper>

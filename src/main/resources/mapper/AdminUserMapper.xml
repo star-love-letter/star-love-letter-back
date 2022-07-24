@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.conststar.wall.dao.AdminUserDao">
+    <select id="getUsers" resultType="UserDomain">
+        select *
+        from `user`
+        order by ${rankName}
+        <if test="rankType == false">
+            DESC
+        </if>
+        limit #{startIndex}, #{pageSize};
+    </select>
+
+    <select id="getUserCount" resultType="_int">
+        select count(`id`)
+        from `user`;
+    </select>
+
+    <select id="getSearchUsers" resultType="UserDomain">
+        select *
+        from `user`
+        where `user`.name like '%' || #{keyword} || '%'
+        or `user`.email like '%' || #{keyword} || '%'
+        order by ${rankName}
+        <if test="rankType == false">
+            DESC
+        </if>
+        limit #{startIndex}, #{pageSize};
+    </select>
+
+    <select id="getSearchUserCount" resultType="_int">
+        select count(`id`)
+        from `user`
+        where `user`.name like '%' || #{keyword} || '%'
+           or `user`.email like '%' || #{keyword} || '%';
+    </select>
+
+    <select id="getUserById" resultType="UserDomain">
+        select *
+        from `user`
+        where `id` = #{id};
+    </select>
+
+    <update id="updateUser">
+        update `user`
+        set `name`       = #{name},
+            `email`      = #{email},
+            `wechat`     = #{wechat},
+            `student_id` = #{studentId},
+            `state`     = #{state}
+        where `id` = #{id};
+    </update>
+
+    <update id="deleteUser">
+        delete
+        from `user`
+        where `id` = #{id};
+    </update>
+</mapper>

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="wall@39.107.228.202" uuid="e94a3979-01ed-4b68-9f4e-a0dc7f7ead90">
+    <data-source source="LOCAL" name="wall@39.107.228.202" uuid="1c8ed805-288f-4214-875e-e6bab011b0c2">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://39.107.228.202:3306/wall?userSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8</jdbc-url>
+      <jdbc-url>jdbc:mysql://39.107.228.202:3306/wall?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=utf-8</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="wall@localhost" uuid="f6ac1b00-2fb1-45e1-9941-1f6dd566439c">
-      <driver-ref>mysql.8</driver-ref>
+    <data-source source="LOCAL" name="sqlite.db" uuid="5156c290-12e6-489c-8542-5841b029e3db">
+      <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/wall</jdbc-url>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/data/sqlite.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
