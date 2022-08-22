@@ -45,6 +45,11 @@ public class AdminCommentServiceImpl implements AdminCommentService {
         return commentDao.getCommentById(commentId);
     }
 
+    @Override
+    public int getExamineCount() throws Exception {
+        return commentDao.getExamineCount();
+    }
+
     // 更新评论
     public void updateComment(CommentDomain comment) throws Exception {
         ObjectMapper mapper = new ObjectMapper();

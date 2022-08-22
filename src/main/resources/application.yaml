@@ -2,6 +2,10 @@ server:
   port: 8089
 
 spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    jackson.time-zone: GMT+8
+
   datasource:
     driver-class-name: org.sqlite.JDBC
     url: jdbc:sqlite:data/sqlite.db

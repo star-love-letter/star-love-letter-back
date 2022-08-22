@@ -81,19 +81,19 @@ public class AdminReportTableController {
         return FormatHandler.retParam(ResponseEnumConstant.CODE_200, reportTables);
     }
 
-    @GetMapping("/getReportByUser")
-    @ApiOperation("通过用户获取举报内容")
-    public GenericHandler<List<ReportTableDomain>> getReportByUser(
-            @ApiParam("用户id") @RequestParam("userId") int userId) throws Exception {
+    @GetMapping("/getReportByReportUser")
+    @ApiOperation("通过举报者获取举报内容")
+    public GenericHandler<List<ReportTableDomain>> getReportByReportUser(
+            @ApiParam("举报者的用户id") @RequestParam("reportUserId") int reportUserId) throws Exception {
 
-        List<ReportTableDomain> reportTables = adminReportTableService.getReportByUser(userId);
+        List<ReportTableDomain> reportTables = adminReportTableService.getReportByReportUser(reportUserId);
 
         return FormatHandler.retParam(ResponseEnumConstant.CODE_200, reportTables);
     }
 
     @PutMapping("/handleReport")
     @ApiOperation("处理举报帖子")
-    public GenericHandler<List<ReportTableDomain>> handleReport(
+    public GenericHandler<Object> handleReport(
             @ApiParam("帖子id") @RequestParam("tableId") int tableId,
             @ApiParam("是否同意举报") @RequestParam("agree") boolean agree) throws Exception {
 

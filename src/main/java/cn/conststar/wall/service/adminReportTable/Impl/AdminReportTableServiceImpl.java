@@ -55,8 +55,8 @@ public class AdminReportTableServiceImpl implements AdminReportTableService {
     }
 
     @Override
-    public List<ReportTableDomain> getReportByUser(int userId) throws Exception {
-        return adminReportTableDao.getReportByUser(userId);
+    public List<ReportTableDomain> getReportByReportUser(int reportUserId) throws Exception {
+        return adminReportTableDao.getReportByReportUser(reportUserId);
     }
 
     @Override

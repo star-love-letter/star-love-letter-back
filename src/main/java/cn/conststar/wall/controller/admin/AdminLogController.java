@@ -25,6 +25,16 @@ public class AdminLogController {
     @Autowired
     private AdminLogService adminLogService;
 
+    @GetMapping("/all")
+    @ApiOperation(value = "获取全部日志")
+    public GenericHandler<List<LogDomain>> all() throws Exception {
+
+        List<LogDomain> logs = adminLogService.all();
+
+        return FormatHandler.retParam(ResponseEnumConstant.CODE_200, logs);
+    }
+
+
     @GetMapping("/pageList")
     @ApiOperation(value = "获取日志分页列表")
     public GenericHandler<List<LogDomain>> pageList(

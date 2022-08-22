@@ -27,4 +27,6 @@ public interface AdminTableDao {
     void updateTable(TableDomain table) throws Exception;
 
     void deleteTable(@Param("id") int id) throws Exception;
+
+    int getExamineCount() throws Exception;
 }

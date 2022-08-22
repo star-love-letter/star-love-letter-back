@@ -54,6 +54,13 @@ public interface AdminCommentService {
     CommentDomain getCommentById(int commentId) throws Exception;
 
     /**
+     * 获取待审核评论的数量
+     *
+     * @return 数量
+     */
+    int getExamineCount() throws Exception;
+
+    /**
      * 更新评论
      *
      * @param comment 评论
@@ -66,4 +73,5 @@ public interface AdminCommentService {
      * @param commentId 评论id
      */
     void deleteComment(int commentId) throws Exception;
+
 }

@@ -7,6 +7,13 @@ import java.util.List;
 public interface AdminLogService {
 
     /**
+     * 获取全部日志
+     *
+     * @return 日志列表
+     */
+    List<LogDomain> all() throws Exception;
+
+    /**
      * 添加日志
      *
      * @param action 操作
@@ -57,4 +64,5 @@ public interface AdminLogService {
      * 清空过期的日志
      */
     void clearLogExpire() throws Exception;
+
 }

@@ -10,6 +10,11 @@ import java.util.List;
 @Mapper
 @Repository
 public interface AdminLogDao {
+
+    //获取全部日志
+    List<LogDomain> all() throws Exception;
+
+
     void addLog(LogDomain log);
 
 
@@ -26,4 +31,5 @@ public interface AdminLogDao {
 
     // 清空多余的日志
     void clearLog(@Param("logMaxNumber") int logMaxNumber) throws Exception;
+
 }

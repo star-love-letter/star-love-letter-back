@@ -5,14 +5,23 @@
 
 <mapper namespace="cn.conststar.wall.dao.AdminLogDao">
 
+    <select id="all" resultType="LogDomain">
+        select log.*,user.name as user_name
+        from `log`,`user`
+        where `log`.user_id=`user`.id;
+    </select>
+
+
     <insert id="addLog">
-        insert into log(action,data,user_id,create_time) values(#{action},#{data},#{userId},datetime(CURRENT_TIMESTAMP,'localtime'));
+        insert into log(action, data, user_id, create_time)
+        values (#{action}, #{data}, #{userId}, datetime(CURRENT_TIMESTAMP, 'localtime'));
     </insert>
 
     <select id="getLogs" resultType="LogDomain">
-        select *
-        from `log`
-        order by ${rankName}
+        select log.*,`user`.name as user_name
+        from `log`,`user`
+        where `log`.user_id=`user`.id
+        order by `log`.${rankName}
         <if test="rankType == false">
             DESC
         </if>
@@ -25,12 +34,13 @@
     </select>
 
     <select id="getSearchLogs" resultType="LogDomain">
-        select *
-        from `log`
-        where `log`.action like '%' || #{keyword} || '%'
+        select log.*,`user`.name as user_name
+        from `log`,`user`
+        where `log`.user_id =`user`.id
+        and ( `log`.action like '%' || #{keyword} || '%'
         or `log`.data like '%' || #{keyword} || '%'
-        or `log`.user_id like '%' || #{keyword} || '%'
-        order by ${rankName}
+        or `log`.user_id like '%' || #{keyword} || '%')
+        order by `log`.${rankName}
         <if test="rankType == false">
             DESC
         </if>
@@ -40,13 +50,15 @@
     <select id="getSearchLogCount" resultType="_int">
         select count(`id`)
         from `log`
-        where `log`.action like '%' || #{keyword} || '%'
+        where  `log`.action like '%' || #{keyword} || '%'
            or `log`.data like '%' || #{keyword} || '%'
            or `log`.user_id like '%' || #{keyword} || '%';
     </select>
 
 
     <delete id="clearLog">
-       delete from log where id <![CDATA[<=]]> (select max(id)-#{logMaxNumber} from log);
-   </delete>
+        delete
+        from log
+        where id <![CDATA[<=]]> (select max(id) - #{logMaxNumber} from log);
+    </delete>
 </mapper>

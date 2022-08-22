@@ -20,7 +20,7 @@ public class ReportTableServiceImpl implements ReportTableService {
     @Override
     public void report(ReportTableDomain reportTable) throws Exception {
         UserDomain user = userService.getUserBySubject();
-        reportTable.setUserId(user.getId());
+        reportTable.setReportUserId(user.getId());
 
         reportTableDao.report(reportTable);
     }

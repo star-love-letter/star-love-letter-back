@@ -53,6 +53,12 @@ public interface AdminTableService {
      */
     TableDomain getTableById(int tableId) throws Exception;
 
+    /**
+     * 获取待审核帖子的数量
+     *
+     * @return 数量
+     */
+    int getExamineCount() throws Exception;
 
     /**
      * 更新帖子

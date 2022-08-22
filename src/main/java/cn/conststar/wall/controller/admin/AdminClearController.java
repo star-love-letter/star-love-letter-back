@@ -39,6 +39,6 @@ public class AdminClearController {
 
         int ans = adminClearService.clearImage();
 
-        return FormatHandler.retParam(ResponseEnumConstant.CODE_200, ans, "清理完成");
+        return FormatHandler.retParam(ResponseEnumConstant.CODE_200, ans, "清理完成，总共清理"+ans+"张图片");
     }
 }

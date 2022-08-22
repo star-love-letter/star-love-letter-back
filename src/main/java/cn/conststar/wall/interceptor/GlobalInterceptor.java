@@ -22,7 +22,11 @@ public class GlobalInterceptor implements HandlerInterceptor {
 
         // 不受限制的路径
         String servletPath = request.getServletPath();
-        if (servletPath != null && (servletPath.equals("/api/view/getView") || servletPath.startsWith("/api/admin"))) {
+        if (servletPath != null && (servletPath.equals("/api/view/getView")
+                || servletPath.startsWith("/api/admin")
+                || servletPath.startsWith("/api/user/login")
+                || servletPath.startsWith("/api/user/user")
+                || servletPath.startsWith("/api/file/image"))) {
             return true;
         }
 

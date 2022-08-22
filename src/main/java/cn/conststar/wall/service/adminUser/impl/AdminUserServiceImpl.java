@@ -60,10 +60,19 @@ public class AdminUserServiceImpl implements AdminUserService {
         return adminUserDao.getUserById(userId);
     }
 
+    @Override
+    public int getExamineCount() throws Exception {
+        return adminUserDao.getExamineCount();
+    }
+
     // 更新用户
     public void updateUser(UserDomain user) throws Exception {
-        if (user.getRoleId() == 0)
-            throw new BusinessException("无法通过后台更新管理员用户", ResponseEnumConstant.CODE_70001);
+//        if (user.getRoleId() == 0)
+//            throw new BusinessException("无法通过后台更新管理员用户", ResponseEnumConstant.CODE_70001);
+
+        if (user.getEmail() == null && user.getWechat() == null) {
+            throw new BusinessException("邮箱或微信必须保留一个", ResponseEnumConstant.CODE_201);
+        }
 
         UserDomain admin = userService.getUserBySubject();
         adminLogService.addLog("更新用户", user.toString(), admin.getId());

@@ -29,7 +29,7 @@ public class UserInfoDto implements Serializable {
     private String avatar;
 
     @ApiModelProperty("学号")
-    private int studentId;
+    private String studentId;
 
     @ApiModelProperty("注册时间")
     private Date createTime;

@@ -27,7 +27,7 @@ public interface AdminReportCommentDao {
 
     List<ReportCommentDomain> getReportByComment(@Param("commentId") int commentId);
 
-    List<ReportCommentDomain> getReportByUser(@Param("userId") int userId);
+    List<ReportCommentDomain> getReportByReportUser(@Param("reportUserId") int reportUserId);
 
     void updateReportState(@Param("commentId") int commentId, @Param("state") int state);
 }

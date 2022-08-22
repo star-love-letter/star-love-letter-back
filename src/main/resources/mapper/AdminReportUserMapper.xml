@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.conststar.wall.dao.AdminReportUserDao">
+
+    <select id="getReportUsers" resultType="UserDomain">
+        select `user`.*, `user_state`.description as state_name
+        from `user`,
+             `report_user`,
+             `report_state`,
+             `user_state`
+        where `user`.`id` = `report_user`.user_id
+          and `user`.state = `user_state`.state
+          and `report_user`.state = `report_state`.state
+          and `report_user`.state = #{state}
+        group by `report_user`.user_id
+        order by `report_user`.id
+            limit #{startIndex}, #{pageSize};
+    </select>
+
+    <select id="getReportUserCount" resultType="_int">
+        select count(c.id)
+        from (select user_id as id
+              from `report_user`
+              where state = #{state}
+              group by user_id) as c;
+    </select>
+
+    <select id="getSearchReportUsers" resultType="UserDomain">
+        select `user`.*, `user_state`.description as state_name
+        from `user`,
+             `report_user`,
+             `report_state`,
+             `user_state`
+        where `user`.`id` = `report_user`.user_id
+          and `user`.state = `user_state`.state
+          and `report_user`.state = `report_state`.state
+          and `report_user`.state = #{state}
+          and (`user`.name like '%' || #{keyword} || '%'
+            or `user`.email like '%' || #{keyword} || '%'
+            or `user`.student_id like '%' || #{keyword} || '%')
+        group by `report_user`.user_id
+        order by `report_user`.id
+            limit #{startIndex}, #{pageSize};
+    </select>
+
+    <select id="getSearchReportUserCount" resultType="_int">
+        select count(c.id)
+        from (select `report_user`.user_id as id
+              from `user`,
+                   `report_user`
+              where `user`.`id` = `report_user`.user_id
+                and `report_user`.state = #{state}
+                and (`user`.name like '%' || #{keyword} || '%'
+                  or `user`.email like '%' || #{keyword} || '%'
+                  or `user`.student_id like '%' || #{keyword} || '%')
+              group by `report_user`.user_id) as c;
+    </select>
+
+    <select id="getReportByUser" resultType="ReportUserDomain">
+        select *,
+               `user`.name as report_user_name,
+               `report_state`.description as state_name,
+               `report_type`.description as type_name
+        from `report_user`,
+             `user`,
+             `report_state`,
+             `report_type`
+        where `report_user`.report_user_id = `user`.id
+          and `report_user`.user_id = #{userId}
+          and `report_user`.type = `report_type`.type
+          and `report_user`.state = `report_state`.state;
+    </select>
+
+    <select id="getReportByReportUser" resultType="ReportUserDomain">
+        select *,
+               `user`.name as report_user_name,
+               `report_state`.description as state_name,
+               `report_type`.description as type_name
+        from `report_user`,
+             `user`,
+             `report_state`,
+             `report_type`
+        where `report_user`.report_user_id = `user`.id
+          and `report_user`.report_user_id = #{reportUserId}
+          and `report_user`.type = `report_type`.type
+          and `report_user`.state = `report_state`.state;
+    </select>
+
+    <update id="updateReportState">
+        update `report_user`
+        set state = #{state}
+        where user_id = #{userId};
+    </update>
+</mapper>

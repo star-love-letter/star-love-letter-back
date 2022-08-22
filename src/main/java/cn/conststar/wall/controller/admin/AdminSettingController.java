@@ -10,8 +10,10 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -22,6 +24,36 @@ public class AdminSettingController {
 
     @Autowired
     private AdminSettingService adminSettingService;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    @PostMapping("/sqlForExecute")
+    @ApiOperation(value = "直接执行SQL execute")
+    public GenericHandler<Object> sqlForExecute(@ApiParam("SQL") @RequestParam("sql") String sql) throws Exception {
+
+        jdbcTemplate.execute(sql);
+
+        return FormatHandler.retParam(ResponseEnumConstant.CODE_200, null, "执行成功");
+    }
+
+    @PostMapping("/sqlForUpdate")
+    @ApiOperation(value = "直接执行SQL update")
+    public GenericHandler<Integer> sqlForUpdate(@ApiParam("SQL") @RequestParam("sql") String sql) throws Exception {
+
+        int line = jdbcTemplate.update(sql);
+
+        return FormatHandler.retParam(ResponseEnumConstant.CODE_200, null, "本次操作总共更新了" + line + "行");
+    }
+
+    @PostMapping("/sqlForQuery")
+    @ApiOperation(value = "直接执行SQL query")
+    public GenericHandler<List<Map<String, Object>>> sqlForQuery(@ApiParam("SQL") @RequestParam("sql") String sql) throws Exception {
+
+        List<Map<String, Object>> maps = jdbcTemplate.queryForList(sql);
+
+        return FormatHandler.retParam(ResponseEnumConstant.CODE_200, maps, "执行成功");
+    }
 
 
     @GetMapping("/getSettings")

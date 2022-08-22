@@ -78,28 +78,27 @@ public class AdminCommentController {
         return FormatHandler.retParam(ResponseEnumConstant.CODE_200, comment);
     }
 
+    @GetMapping("/getExamineCount")
+    @ApiOperation("获取待审核评论的数量")
+    public GenericHandler<Integer> getExamineCount() throws Exception {
+
+        int count = adminCommentService.getExamineCount();
+
+        return FormatHandler.retParam(ResponseEnumConstant.CODE_200, count);
+    }
+
     @PutMapping("/updateComment")
     @ApiOperation("更新评论")
     public GenericHandler<Object> updateComment(
             @ApiParam("帖子id") @RequestParam("commentId") int commentId,
-            @ApiParam("是否修改内容") @RequestParam("hasContent") boolean hasContent,
-            @ApiParam("内容") @RequestParam(value = "content", required = false) String content,
-            @ApiParam("是否修改图片列表") @RequestParam("hasImages") boolean hasImages,
-            @ApiParam("图片列表") @RequestParam(value = "images", required = false) String images,
-            @ApiParam("是否修改状态") @RequestParam("hasState") boolean hasState,
-            @ApiParam("状态") @RequestParam(value = "state", required = false) Integer state) throws Exception {
+            @ApiParam("内容") @RequestParam("content") String content,
+            @ApiParam("图片列表") @RequestParam("images") String images,
+            @ApiParam("状态") @RequestParam("state") Integer state) throws Exception {
 
         CommentDomain comment = adminCommentService.getCommentById(commentId);
-        if (hasContent) {
-            comment.setContent(content);
-        }
-        if (hasImages) {
-            comment.setImages(images);
-        }
-        if (hasState) {
-            comment.setState(state);
-        }
-
+        comment.setContent(content);
+        comment.setImages(images);
+        comment.setState(state);
 
         adminCommentService.updateComment(comment);
 

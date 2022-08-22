@@ -41,7 +41,7 @@ public class UserDomain {
     private String name;
 
     @ApiModelProperty("学号")
-    private int studentId;
+    private String studentId;
 
     @ApiModelProperty("注册时间")
     private Date createTime;
@@ -51,6 +51,9 @@ public class UserDomain {
 
     @ApiModelProperty(value = "状态", notes = "0:正常 1:待审核 -1:锁定 -2:禁言 详细请看src/main/java/cn/conststar/wall/constant/StateCodeConstant.java")
     private int state;
+
+    @ApiModelProperty("状态名称")
+    private String stateName;
 
     @ApiModelProperty("角色id")
     private int roleId;

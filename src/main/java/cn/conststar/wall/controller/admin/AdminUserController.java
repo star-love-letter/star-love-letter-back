@@ -78,37 +78,32 @@ public class AdminUserController {
         return FormatHandler.retParam(ResponseEnumConstant.CODE_200, user);
     }
 
+    @GetMapping("/getExamineCount")
+    @ApiOperation(value = "获取待审核用户的数量")
+    public GenericHandler<Integer> getExamineCount() throws Exception {
+
+        int count = adminUserService.getExamineCount();
+
+        return FormatHandler.retParam(ResponseEnumConstant.CODE_200, count);
+    }
+
     @PutMapping("/updateUser")
     @ApiOperation(value = "更新用户")
     public GenericHandler<Object> updateUser(
             @ApiParam("用户id") @RequestParam("userId") int userId,
-            @ApiParam("是否修改名称") @RequestParam("hasName") boolean hasName,
-            @ApiParam("名称") @RequestParam(value = "name", required = false) String name,
-            @ApiParam("是否修改邮箱") @RequestParam("hasEmail") boolean hasEmail,
+            @ApiParam("名称") @RequestParam("name") String name,
             @ApiParam("邮箱") @RequestParam(value = "email", required = false) String email,
-            @ApiParam("是否修改微信") @RequestParam("hasWechat") boolean hasWechat,
             @ApiParam("微信") @RequestParam(value = "wechat", required = false) String wechat,
-            @ApiParam("是否修改学号") @RequestParam("hasStudentId") boolean hasStudentId,
-            @ApiParam("学号") @RequestParam(value = "studentId", required = false) Integer studentId,
-            @ApiParam("是否修改状态") @RequestParam("hasState") boolean hasState,
-            @ApiParam("状态") @RequestParam(value = "state", required = false) Integer state) throws Exception {
+            @ApiParam("学号") @RequestParam(value = "studentId", required = false) String studentId,
+            @ApiParam("状态") @RequestParam("state") Integer state) throws Exception {
+
 
         UserDomain user = adminUserService.getUserById(userId);
-        if (hasName) {
-            user.setName(name.isEmpty() ? null : name);
-        }
-        if (hasEmail) {
-            user.setEmail(email.isEmpty() ? null : email);
-        }
-        if (hasWechat) {
-            user.setWechat(wechat.isEmpty() ? null : wechat);
-        }
-        if (hasStudentId) {
-            user.setStudentId(studentId);
-        }
-        if (hasState) {
-            user.setState(state == null ? 0 : state);
-        }
+        user.setName(name);
+        user.setEmail(email == null || email.isEmpty() ? null : email);
+        user.setWechat(wechat == null || wechat.isEmpty() ? null : wechat);
+        user.setStudentId(studentId);
+        user.setState(state);
 
         adminUserService.updateUser(user);
 

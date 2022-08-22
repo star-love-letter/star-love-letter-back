@@ -6,10 +6,14 @@
 <mapper namespace="cn.conststar.wall.dao.AdminReportTableDao">
 
     <select id="getReportTables" resultType="TableDomain">
-        select `table`.*
+        select `table`.*, `table_state`.description as state_name
         from `table`,
-             `report_table`
-        where `table`.`id` = `report_table`.`table_id`
+             `report_table`,
+             `report_state`,
+             `table_state`
+        where `table`.`id` = `report_table`.table_id
+          and `table`.state = `table_state`.state
+          and `report_table`.state = `report_state`.state
           and `report_table`.state = #{state}
         group by `report_table`.table_id
         order by `report_table`.id
@@ -20,17 +24,23 @@
         select count(c.id)
         from (select `report_table`.table_id as id
               from `table`,
-                   `report_table`
-              where `table`.`id` = `report_table`.`table_id`
+                   `report_table`,
+                   `report_state`
+              where `table`.`id` = `report_table`.table_id
+                and `report_table`.state = `report_state`.state
                 and `report_table`.state = #{state}
               group by `report_table`.table_id) as c;
     </select>
 
     <select id="getSearchReportTables" resultType="TableDomain">
-        select `table`.*
+        select `table`.*, `table_state`.description as state_name
         from `table`,
-             `report_table`
-        where `table`.`id` = `report_table`.`table_id`
+             `report_table`,
+             `report_state`,
+             `table_state`
+        where `table`.`id` = `report_table`.table_id
+          and `table`.state = `table_state`.state
+          and `report_table`.state = `report_state`.state
           and `report_table`.state = #{state}
           and (`table`.sender like '%' || #{keyword} || '%'
             or `table`.recipient like '%' || #{keyword} || '%'
@@ -44,8 +54,10 @@
         select count(c.id)
         from (select `report_table`.table_id as id
               from `table`,
-                   `report_table`
-              where `table`.`id` = `report_table`.`table_id`
+                   `report_table`,
+                   `report_state`
+              where `table`.`id` = `report_table`.table_id
+                and `report_table`.state = `report_state`.state
                 and `report_table`.state = #{state}
                 and (`table`.sender like '%' || #{keyword} || '%'
                   or `table`.recipient like '%' || #{keyword} || '%'
@@ -54,15 +66,33 @@
     </select>
 
     <select id="getReportByTable" resultType="ReportTableDomain">
-        select *
-        from `report_table`
-        where table_id = #{tableId};
+        select *,
+               `user`.name as report_user_name,
+               `report_state`.description as state_name,
+               `report_type`.description as type_name
+        from `report_table`,
+             `user`,
+             `report_state`,
+             `report_type`
+        where `report_table`.report_user_id = `user`.id
+          and `report_table`.table_id = #{tableId}
+          and `report_table`.type = `report_type`.type
+          and `report_table`.state = `report_state`.state;
     </select>
 
-    <select id="getReportByUser" resultType="ReportTableDomain">
-        select *
-        from `report_table`
-        where user_id = #{userId};
+    <select id="getReportByReportUser" resultType="ReportTableDomain">
+        select *,
+               `user`.name as report_user_name,
+               `report_state`.description as state_name,
+               `report_type`.description as type_name
+        from `report_table`,
+             `user`,
+             `report_state`,
+             `report_type`
+        where `report_table`.report_user_id = `user`.id
+          and `report_table`.report_user_id = #{reportUserId}
+          and `report_table`.type = `report_type`.type
+          and `report_table`.state = `report_state`.state;
     </select>
 
     <update id="updateReportState">

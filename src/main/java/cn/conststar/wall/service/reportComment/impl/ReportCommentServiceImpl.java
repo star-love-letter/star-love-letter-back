@@ -21,7 +21,7 @@ public class ReportCommentServiceImpl implements ReportCommentService {
     @Override
     public void report(ReportCommentDomain reportComment) throws Exception {
         UserDomain user = userService.getUserBySubject();
-        reportComment.setUserId(user.getId());
+        reportComment.setReportUserId(user.getId());
 
         reportCommentDao.report(reportComment);
     }

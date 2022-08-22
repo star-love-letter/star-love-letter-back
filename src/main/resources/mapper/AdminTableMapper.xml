@@ -5,9 +5,10 @@
 
 <mapper namespace="cn.conststar.wall.dao.AdminTableDao">
     <select id="getTables" resultType="TableDomain">
-        select *
-        from `table`
-        order by ${rankName}
+        select `table`.*,`table_state`.description as state_name
+        from `table`,`table_state`
+        where `table`.state = `table_state`.state
+        order by `table`.${rankName}
         <if test="rankType == false">
             DESC
         </if>
@@ -20,12 +21,13 @@
     </select>
 
     <select id="getSearchTables" resultType="TableDomain">
-        select *
-        from `table`
-        where `table`.sender like '%' || #{keyword} || '%'
+        select `table`.*,`table_state`.description as state_name
+        from `table`,`table_state`
+        where `table`.state = `table_state`.state
+        and (`table`.sender like '%' || #{keyword} || '%'
         or `table`.recipient like '%' || #{keyword} || '%'
-        or `table`.content like '%' || #{keyword} || '%'
-        order by ${rankName}
+        or `table`.content like '%' || #{keyword} || '%')
+        order by `table`.${rankName}
         <if test="rankType == false">
             DESC
         </if>
@@ -41,9 +43,16 @@
     </select>
 
     <select id="getTableById" resultType="TableDomain">
-        select *
+        select `table`.*,`table_state`.description as state_name
+        from `table`,`table_state`
+        where `table`.state = `table_state`.state
+        and `id` = #{id};
+    </select>
+
+    <select id="getExamineCount" resultType="_int">
+        select count(`id`)
         from `table`
-        where `id` = #{id};
+        where state = 1;
     </select>
 
     <update id="updateTable">
@@ -55,7 +64,7 @@
             `content`          = #{content},
             `images`           = #{images},
             `notify_email`     = #{notifyEmail},
-            `state`           = #{state}
+            `state`            = #{state}
         where `id` = #{id};
     </update>
 

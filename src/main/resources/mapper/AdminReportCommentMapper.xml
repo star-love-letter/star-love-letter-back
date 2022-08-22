@@ -5,10 +5,16 @@
 
 <mapper namespace="cn.conststar.wall.dao.AdminReportCommentDao">
     <select id="getReportComments" resultType="CommentDomain">
-        select `comment`.*
+        select `comment`.*, `user`.name as user_name, `comment_state`.description as state_name
         from `comment`,
-             `report_comment`
-        where `comment`.`id` = `report_comment`.`comment_id`
+             `user`,
+             `report_comment`,
+             `report_state`,
+             comment_state
+        where `comment`.`id` = `report_comment`.comment_id
+          and `comment`.user_id = `user`.id
+          and `comment`.state = `comment_state`.state
+          and `report_comment`.state = `report_state`.state
           and `report_comment`.state = #{state}
         group by `report_comment`.comment_id
         order by `report_comment`.id
@@ -19,17 +25,25 @@
         select count(c.id)
         from (select `report_comment`.comment_id as id
               from `comment`,
-                   `report_comment`
-              where `comment`.`id` = `report_comment`.`comment_id`
+                   `report_comment`,
+                   `report_state`
+              where `comment`.`id` = `report_comment`.comment_id
+                and `report_comment`.state = `report_state`.state
                 and `report_comment`.state = #{state}
               group by `report_comment`.comment_id) as c;
     </select>
 
     <select id="getSearchReportComments" resultType="CommentDomain">
-        select `comment`.*
+        select `comment`.*, `user`.name as user_name, `comment_state`.description as state_name
         from `comment`,
-             `report_comment`
-        where `comment`.`id` = `report_comment`.`comment_id`
+             `user`,
+             `report_comment`,
+             `report_state`,
+             `comment_state`
+        where `comment`.`id` = `report_comment`.comment_id
+          and `comment`.user_id = `user`.id
+          and `comment`.state = `comment_state`.state
+          and `report_comment`.state = `report_state`.state
           and `report_comment`.state = #{state}
           and `comment`.content like '%' || #{keyword} || '%'
         group by `report_comment`.comment_id
@@ -41,23 +55,43 @@
         select count(c.id)
         from (select `report_comment`.comment_id as id
               from `comment`,
-                   `report_comment`
-              where `comment`.`id` = `report_comment`.`comment_id`
+                   `report_comment`,
+                   `report_state`
+              where `comment`.`id` = `report_comment`.comment_id
+                and `report_comment`.state = `report_state`.state
                 and `report_comment`.state = #{state}
                 and `comment`.content like '%' || #{keyword} || '%'
               group by `report_comment`.comment_id) as c;
     </select>
 
     <select id="getReportByComment" resultType="ReportCommentDomain">
-        select *
-        from `report_comment`
-        where comment_id = #{commentId};
+        select *,
+               `user`.name as report_user_name,
+               `report_state`.description as state_name,
+               `report_type`.description as type_name
+        from `report_comment`,
+             `user`,
+             `report_state`,
+             `report_type`
+        where `report_comment`.report_user_id = `user`.id
+          and `report_comment`.comment_id = #{commentId}
+          and `report_comment`.type = `report_type`.type
+          and `report_comment`.state = `report_state`.state;
     </select>
 
-    <select id="getReportByUser" resultType="ReportCommentDomain">
-        select *
-        from `report_comment`
-        where user_id = #{userId};
+    <select id="getReportByReportUser" resultType="ReportCommentDomain">
+        select *,
+               `user`.name as report_user_name,
+               `report_state`.description as state_name,
+               `report_type`.description as type_name
+        from `report_comment`,
+             `user`,
+             `report_state`,
+             `report_type`
+        where `report_comment`.report_user_id = `user`.id
+          and `report_comment`.report_user_id = #{reportUserId}
+          and `report_comment`.type = `report_type`.type
+          and `report_comment`.state = `report_state`.state;
     </select>
 
     <update id="updateReportState">

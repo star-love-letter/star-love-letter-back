@@ -52,6 +52,14 @@ public interface AdminUserService {
      */
     UserDomain getUserById(int userId) throws Exception;
 
+
+    /**
+     * 获取待审核用户的数量
+     *
+     * @return 数量
+     */
+    int getExamineCount() throws Exception;
+
     /**
      * 通过用户id删除用户
      *

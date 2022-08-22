@@ -56,8 +56,8 @@ public class AdminReportCommentServiceImpl implements AdminReportCommentService 
     }
 
     @Override
-    public List<ReportCommentDomain> getReportByUser(int userId) {
-        return adminReportCommentDao.getReportByUser(userId);
+    public List<ReportCommentDomain> getReportByReportUser(int reportUserId) {
+        return adminReportCommentDao.getReportByReportUser(reportUserId);
     }
 
     @Override

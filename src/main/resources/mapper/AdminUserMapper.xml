@@ -5,9 +5,11 @@
 
 <mapper namespace="cn.conststar.wall.dao.AdminUserDao">
     <select id="getUsers" resultType="UserDomain">
-        select *
-        from `user`
-        order by ${rankName}
+        select *,`user_state`.description as state_name,`role`.name as role_name
+        from `user`,`user_state`,`role`
+        where `user`.state=`user_state`.state
+        and `user`.role_id = `role`.id
+        order by `user`.${rankName}
         <if test="rankType == false">
             DESC
         </if>
@@ -20,11 +22,13 @@
     </select>
 
     <select id="getSearchUsers" resultType="UserDomain">
-        select *
-        from `user`
-        where `user`.name like '%' || #{keyword} || '%'
-        or `user`.email like '%' || #{keyword} || '%'
-        order by ${rankName}
+        select *,`user_state`.description as state_name,`role`.name as role_name
+        from `user`,`user_state`,`role`
+        where `user`.state=`user_state`.state
+        and `user`.role_id = `role`.id
+        and (`user`.name like '%' || #{keyword} || '%'
+        or `user`.email like '%' || #{keyword} || '%')
+        order by `user`.${rankName}
         <if test="rankType == false">
             DESC
         </if>
@@ -39,9 +43,17 @@
     </select>
 
     <select id="getUserById" resultType="UserDomain">
-        select *
+        select *,`user_state`.description as state_name,`role`.name as role_name
+        from `user`,`user_state`,`role`
+        where `user`.state=`user_state`.state
+          and `user`.role_id = `role`.id
+         and `user`.`id` = #{id};
+    </select>
+
+    <select id="getExamineCount" resultType="_int">
+        select count(`id`)
         from `user`
-        where `id` = #{id};
+        where state = 1;
     </select>
 
     <update id="updateUser">

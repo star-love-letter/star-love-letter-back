@@ -6,8 +6,8 @@
 <mapper namespace="cn.conststar.wall.dao.ReportCommentDao">
 
     <insert id="report">
-        insert into report_comment(comment_id, user_id, type, content, create_time)
-        values (#{commentId}, #{userId}, #{type}, #{content}, datetime(CURRENT_TIMESTAMP, 'localtime'))
+        insert into report_comment(comment_id, report_user_id, type, content, create_time)
+        values (#{commentId}, #{reportUserId}, #{type}, #{content}, datetime(CURRENT_TIMESTAMP, 'localtime'))
     </insert>
 
 </mapper>

@@ -81,19 +81,19 @@ public class AdminReportCommentController {
         return FormatHandler.retParam(ResponseEnumConstant.CODE_200, reportComments);
     }
 
-    @GetMapping("/getReportByUser")
-    @ApiOperation("通过用户获取举报内容")
+    @GetMapping("/getReportByReportUser")
+    @ApiOperation("通过举报者获取举报内容")
     public GenericHandler<List<ReportCommentDomain>> getReportByUser(
-            @ApiParam("用户id") @RequestParam("userId") int userId) throws Exception {
+            @ApiParam("举报者的用户id") @RequestParam("reportUserId") int reportUserId) throws Exception {
 
-        List<ReportCommentDomain> reportComments = adminReportCommentService.getReportByUser(userId);
+        List<ReportCommentDomain> reportComments = adminReportCommentService.getReportByReportUser(reportUserId);
 
         return FormatHandler.retParam(ResponseEnumConstant.CODE_200, reportComments);
     }
 
     @PutMapping("/handleReport")
     @ApiOperation("处理举报评论")
-    public GenericHandler<List<ReportCommentDomain>> handleReport(
+    public GenericHandler<Object> handleReport(
             @ApiParam("评论id") @RequestParam("commentId") int commentId,
             @ApiParam("是否同意举报") @RequestParam("agree") boolean agree) throws Exception {
 

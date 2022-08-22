@@ -16,6 +16,11 @@ public class AdminLogServiceImpl implements AdminLogService {
     @Autowired
     private AdminLogDao adminLogDao;
 
+    @Override
+    public List<LogDomain> all() throws Exception {
+        return adminLogDao.all();
+    }
+
     public void addLog(String action, String data, int userId) {
         LogDomain log = new LogDomain();
         log.setAction(action);

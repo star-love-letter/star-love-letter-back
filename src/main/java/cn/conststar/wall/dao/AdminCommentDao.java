@@ -24,6 +24,8 @@ public interface AdminCommentDao {
 
     CommentDomain getCommentById(@Param("id") int id) throws Exception;
 
+    int getExamineCount() throws Exception;
+
     void updateComment(CommentDomain comment) throws Exception;
 
     void deleteComment(@Param("id") int id) throws Exception;

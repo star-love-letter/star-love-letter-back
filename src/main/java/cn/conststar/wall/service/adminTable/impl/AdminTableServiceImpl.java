@@ -60,6 +60,11 @@ public class AdminTableServiceImpl implements AdminTableService {
         return tableDao.getTableById(tableId);
     }
 
+    @Override
+    public int getExamineCount() throws Exception {
+        return tableDao.getExamineCount();
+    }
+
     // 更新帖子
     public void updateTable(TableDomain table) throws Exception {
         ObjectMapper mapper = new ObjectMapper();

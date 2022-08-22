@@ -6,8 +6,8 @@
 <mapper namespace="cn.conststar.wall.dao.ReportTableDao">
 
     <insert id="report">
-        insert into report_table(table_id, user_id, type, content, create_time)
-        values (#{tableId}, #{userId}, #{type}, #{content}, datetime(CURRENT_TIMESTAMP, 'localtime'))
+        insert into report_table(table_id, report_user_id, type, content, create_time)
+        values (#{tableId}, #{reportUserId}, #{type}, #{content}, datetime(CURRENT_TIMESTAMP, 'localtime'))
     </insert>
 
 </mapper>

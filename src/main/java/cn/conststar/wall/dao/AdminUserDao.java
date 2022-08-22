@@ -24,6 +24,8 @@ public interface AdminUserDao {
 
     UserDomain getUserById(@Param("id") int id) throws Exception;
 
+    int getExamineCount() throws Exception;
+
     void updateUser(UserDomain user) throws Exception;
 
     void deleteUser(@Param("id") int id) throws Exception;

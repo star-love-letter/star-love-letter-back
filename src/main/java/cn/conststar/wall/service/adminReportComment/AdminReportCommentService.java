@@ -53,12 +53,12 @@ public interface AdminReportCommentService {
     List<ReportCommentDomain> getReportByComment(int commentId);
 
     /**
-     * 通过用户id获取举报评论
+     * 通过举报者用户id获取举报评论
      *
-     * @param userId 用户id
+     * @param reportUserId 举报者的用户id
      * @return 举报评论内容列表
      */
-    List<ReportCommentDomain> getReportByUser(int userId);
+    List<ReportCommentDomain> getReportByReportUser(int reportUserId);
 
     /**
      * 处理举报评论

@@ -42,6 +42,12 @@
         where `id` = #{id};
     </select>
 
+    <select id="getExamineCount" resultType="_int">
+        select count(`id`)
+        from `comment`
+        where state = 1;
+    </select>
+
     <update id="updateComment">
         update `comment`
         set `content` = #{content},

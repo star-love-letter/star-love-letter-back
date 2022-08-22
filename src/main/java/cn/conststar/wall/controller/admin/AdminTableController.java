@@ -13,11 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiresRoles("admin")
 @RequestMapping("/api/admin/table")
-@Api(tags ="后台--帖子管理")
+@Api(tags = "后台--帖子管理")
 public class AdminTableController {
 
     @Autowired
@@ -78,53 +79,37 @@ public class AdminTableController {
         return FormatHandler.retParam(ResponseEnumConstant.CODE_200, table);
     }
 
+    @GetMapping("/getExamineCount")
+    @ApiOperation(value = "获取待审核帖子的数量")
+    public GenericHandler<Integer> getExamineCount() throws Exception {
+
+        int count = adminTableService.getExamineCount();
+
+        return FormatHandler.retParam(ResponseEnumConstant.CODE_200, count);
+    }
+
     @PutMapping("/updateTable")
     @ApiOperation(value = "更新帖子")
     public GenericHandler<Object> updateTable(
             @ApiParam("帖子id") @RequestParam("tableId") int tableId,
-            @ApiParam("是否修改表白者名称") @RequestParam("hasSender") boolean hasSender,
-            @ApiParam("表白者名称") @RequestParam(value = "sender", required = false) String sender,
-            @ApiParam("是否修改表白者性别") @RequestParam(value = "hasSenderGender") boolean hasSenderGender,
-            @ApiParam("表白者性别") @RequestParam(value = "senderGender", required = false) Integer senderGender,
-            @ApiParam("是否修改被表白者名称") @RequestParam("hasRecipient") boolean hasRecipient,
-            @ApiParam("被表白者名称") @RequestParam(value = "recipient", required = false) String recipient,
-            @ApiParam("是否修改被表白者性别") @RequestParam("hasRecipientGender") boolean hasRecipientGender,
-            @ApiParam("被表白者性别") @RequestParam(value = "recipientGender", required = false) Integer recipientGender,
-            @ApiParam("是否修改内容") @RequestParam("hasContent") boolean hasContent,
-            @ApiParam("内容") @RequestParam(value = "content", required = false) String content,
-            @ApiParam("是否修改图片列表") @RequestParam("hasImages") boolean hasImages,
-            @ApiParam("图片列表") @RequestParam(value = "images", required = false) String images,
-            @ApiParam("是否修改是否通知邮箱") @RequestParam("hasNotifyEmail") boolean hasNotifyEmail,
-            @ApiParam("是否通知邮箱") @RequestParam(value = "notifyEmail", required = false) Boolean notifyEmail,
-            @ApiParam("是否修改状态") @RequestParam("hasState") boolean hasState,
-            @ApiParam("状态") @RequestParam(value = "state", required = false) Integer state) throws Exception {
+            @ApiParam("表白者名称") @RequestParam("sender") String sender,
+            @ApiParam("表白者性别") @RequestParam("senderGender") Integer senderGender,
+            @ApiParam("被表白者名称") @RequestParam("recipient") String recipient,
+            @ApiParam("被表白者性别") @RequestParam("recipientGender") Integer recipientGender,
+            @ApiParam("内容") @RequestParam("content") String content,
+            @ApiParam("图片列表") @RequestParam("images") String images,
+            @ApiParam("是否通知邮箱") @RequestParam("notifyEmail") Boolean notifyEmail,
+            @ApiParam("状态") @RequestParam("state") Integer state) throws Exception {
 
         TableDomain table = adminTableService.getTableById(tableId);
-        if (hasSender) {
-            table.setSender(sender.isEmpty() ? null : sender);
-        }
-        if (hasSenderGender) {
-            table.setSenderGender(senderGender == null ? 0 : senderGender);
-        }
-        if (hasRecipient) {
-            table.setRecipient(recipient.isEmpty() ? null : recipient);
-        }
-        if (hasRecipientGender) {
-            table.setRecipientGender(recipientGender == null ? 0 : recipientGender);
-        }
-        if (hasContent) {
-            table.setContent(content);
-        }
-        if (hasImages) {
-            table.setImages(images);
-        }
-        if (hasNotifyEmail) {
-            table.setNotifyEmail(notifyEmail == null ? false : notifyEmail);
-        }
-        if (hasState) {
-            table.setState(state == null ? 0 : state);
-        }
-
+        table.setSender(sender);
+        table.setSenderGender(senderGender);
+        table.setRecipient(recipient);
+        table.setRecipientGender(recipientGender);
+        table.setContent(content);
+        table.setImages(images);
+        table.setNotifyEmail(notifyEmail);
+        table.setState(state);
 
         adminTableService.updateTable(table);
 

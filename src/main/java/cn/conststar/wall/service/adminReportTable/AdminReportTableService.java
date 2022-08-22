@@ -54,12 +54,12 @@ public interface AdminReportTableService {
     List<ReportTableDomain> getReportByTable(int tableId) throws Exception;
 
     /**
-     * 通过用户id获取举报帖子
+     * 通过举报者用户id获取举报帖子
      *
-     * @param userId 用户id
+     * @param reportUserId 举报者的用户id
      * @return 举报帖子内容列表
      */
-    List<ReportTableDomain> getReportByUser(int userId) throws Exception;
+    List<ReportTableDomain> getReportByReportUser(int reportUserId) throws Exception;
 
     /**
      * 处理举报帖子

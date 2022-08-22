@@ -27,7 +27,7 @@ public interface AdminReportTableDao {
 
     List<ReportTableDomain> getReportByTable(@Param("tableId") int tableId) throws Exception;
 
-    List<ReportTableDomain> getReportByUser(@Param("userId") int userId) throws Exception;
+    List<ReportTableDomain> getReportByReportUser(@Param("reportUserId") int reportUserId) throws Exception;
 
     void updateReportState(@Param("tableId") int tableId, @Param("state") int state) throws Exception;
 }
