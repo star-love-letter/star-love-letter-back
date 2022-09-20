@@ -8,7 +8,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-// 拦截器
+// 全局拦截器
 public class GlobalInterceptor implements HandlerInterceptor {
 
     @Override

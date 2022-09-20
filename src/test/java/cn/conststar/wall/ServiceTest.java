@@ -45,15 +45,6 @@ public class ServiceTest {
     @Autowired
     private AdminSettingService adminSettingService;
 
-//    @Test
-//    void userTest() throws Exception {
-//        System.out.println("开始测试 用户服务层");
-//        userService.getUserInfoPublic(1);
-//        userService.getUserDomain("1");
-//        userService.getUserInfoPublicByTable(1);
-//        userService.getUserInfoPublicByComment(1);
-//    }
-
     @Test
     void tableTest() throws Exception {
         System.out.println("开始测试 帖子服务层");
@@ -79,7 +70,6 @@ public class ServiceTest {
         adminUserService.getUserById(1);
         adminUserService.getSearchUsers("1", 1, 1, "id", true);
         adminUserService.getSearchUserCount("1");
-        adminUserService.getClass();
     }
 
     @Test

@@ -9,67 +9,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b9c1d948-74e7-464a-90af-6dc08fbfcff2" name="Changes" comment="2.0.0">
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/controller/ReportUserController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/controller/admin/AdminReportUserController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/dao/AdminReportUserDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/dao/ReportUserDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/pojo/model/ReportUserDomain.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/service/adminReportUser/AdminReportUserService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/service/adminReportUser/Impl/AdminReportUserServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/service/reportUser/Impl/ReportUserServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/service/reportUser/ReportUserService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/mapper/AdminReportUserMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/mapper/ReportUserMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/cn/conststar/wall/ServiceTest.java" afterDir="false" />
+    <list default="true" id="b9c1d948-74e7-464a-90af-6dc08fbfcff2" name="Changes" comment="完善">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/config/GlobalConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/config/GlobalConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/controller/admin/AdminClearController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/controller/admin/AdminClearController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/controller/admin/AdminCommentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/controller/admin/AdminCommentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/controller/admin/AdminLogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/controller/admin/AdminLogController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/controller/admin/AdminReportCommentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/controller/admin/AdminReportCommentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/controller/admin/AdminReportTableController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/controller/admin/AdminReportTableController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/controller/admin/AdminSettingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/controller/admin/AdminSettingController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/controller/admin/AdminTableController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/controller/admin/AdminTableController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/controller/admin/AdminUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/controller/admin/AdminUserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/dao/AdminCommentDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/dao/AdminCommentDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/dao/AdminLogDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/dao/AdminLogDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/dao/AdminReportCommentDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/dao/AdminReportCommentDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/dao/AdminReportTableDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/dao/AdminReportTableDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/dao/AdminTableDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/dao/AdminTableDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/dao/AdminUserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/dao/AdminUserDao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/interceptor/GlobalInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/interceptor/GlobalInterceptor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/pojo/dto/UserInfoDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/pojo/dto/UserInfoDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/pojo/model/LogDomain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/pojo/model/LogDomain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/pojo/model/ReportCommentDomain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/pojo/model/ReportCommentDomain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/pojo/model/ReportTableDomain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/pojo/model/ReportTableDomain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/pojo/model/TableDomain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/pojo/model/TableDomain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/pojo/model/UserDomain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/pojo/model/UserDomain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/service/adminComment/AdminCommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/service/adminComment/AdminCommentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/service/adminComment/impl/AdminCommentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/service/adminComment/impl/AdminCommentServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/service/adminLog/AdminLogService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/service/adminLog/AdminLogService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/service/adminLog/impl/AdminLogServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/service/adminLog/impl/AdminLogServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/service/adminReportComment/AdminReportCommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/service/adminReportComment/AdminReportCommentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/service/adminReportComment/Impl/AdminReportCommentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/service/adminReportComment/Impl/AdminReportCommentServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/service/adminReportTable/AdminReportTableService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/service/adminReportTable/AdminReportTableService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/service/adminReportTable/Impl/AdminReportTableServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/service/adminReportTable/Impl/AdminReportTableServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/service/adminTable/AdminTableService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/service/adminTable/AdminTableService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/service/adminTable/impl/AdminTableServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/service/adminTable/impl/AdminTableServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/service/adminUser/AdminUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/service/adminUser/AdminUserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/service/adminUser/impl/AdminUserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/service/adminUser/impl/AdminUserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/service/reportComment/impl/ReportCommentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/service/reportComment/impl/ReportCommentServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/service/reportTable/impl/ReportTableServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/service/reportTable/impl/ReportTableServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/service/table/impl/TableServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/cn/conststar/wall/service/table/impl/TableServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/data/sqlite.db" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/sqlite.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/AdminCommentMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/AdminCommentMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/AdminLogMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/AdminLogMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/AdminReportCommentMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/AdminReportCommentMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/AdminReportTableMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/AdminReportTableMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/AdminTableMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/AdminTableMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/AdminUserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/AdminUserMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/ReportCommentMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/ReportCommentMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/ReportTableMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/ReportTableMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/cn/conststar/wall/StarLoveLetterBackApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/cn/conststar/wall/StarLoveLetterBackApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/admin/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/admin/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/admin/static/css/chunk-2b48daa3.5cfeac37.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/admin/static/css/chunk-4275aa28.ab8aeaee.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/admin/static/js/app.877a0aa3.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/admin/static/js/chunk-2b48daa3.80abd146.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/admin/static/js/chunk-2d0af325.f1f2bbce.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/admin/static/js/chunk-4275aa28.76b56d48.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/app.7706f98e.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/app.1c41f1c8.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/app.1c41f1c8.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/cn/conststar/wall/ServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/cn/conststar/wall/ServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,7 +62,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/code/IdeaProjects/star-love-letter/star-love-letter-back/src/main/java/cn/conststar/wall/service/reportTable/impl&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/code/IdeaProjects/一起看/Server&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -153,7 +109,7 @@
       <command value="`" />
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.ServiceTest.tableTest">
+  <component name="RunManager" selected="Spring Boot.StarLoveLetterBackApplication">
     <configuration name="ServiceTest.tableTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="star-love-letter-back" />
       <extension name="coverage">
@@ -294,7 +250,20 @@
       <workItem from="1660884241488" duration="161000" />
       <workItem from="1661039600907" duration="3897000" />
       <workItem from="1661071398293" duration="1152000" />
-      <workItem from="1661134585940" duration="3545000" />
+      <workItem from="1661134585940" duration="3920000" />
+      <workItem from="1661332270715" duration="592000" />
+      <workItem from="1661433131422" duration="337000" />
+      <workItem from="1661502927740" duration="860000" />
+      <workItem from="1661750526110" duration="1661000" />
+      <workItem from="1662173742927" duration="3585000" />
+      <workItem from="1662215778877" duration="1657000" />
+      <workItem from="1662352120014" duration="145000" />
+      <workItem from="1662354003099" duration="8000" />
+      <workItem from="1663065762352" duration="699000" />
+      <workItem from="1663233055390" duration="298000" />
+      <workItem from="1663480651525" duration="2856000" />
+      <workItem from="1663586744713" duration="1416000" />
+      <workItem from="1663684877212" duration="740000" />
     </task>
     <task id="LOCAL-00001" summary="2.0.0">
       <created>1658675227431</created>
@@ -331,7 +300,14 @@
       <option name="project" value="LOCAL" />
       <updated>1658719009026</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="完善">
+      <created>1661141813238</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1661141813238</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -350,7 +326,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="2.0.0" />
-    <option name="LAST_COMMIT_MESSAGE" value="2.0.0" />
+    <MESSAGE value="完善" />
+    <option name="LAST_COMMIT_MESSAGE" value="完善" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

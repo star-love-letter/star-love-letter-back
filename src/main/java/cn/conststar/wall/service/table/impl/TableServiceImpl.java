@@ -30,7 +30,7 @@ public class TableServiceImpl implements TableService {
     private UserServiceImpl userService;
 
     public List<TableDto> getTables(int pageIndex, int pageSize, String rankName, boolean rankType) throws Exception {
-        if (pageIndex < 1 || pageSize < 0)
+        if (pageIndex < 1 || pageSize <= 0)
             throw new BusinessException("页数有误");
 
         int userId = -1;
